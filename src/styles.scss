@@ -1,1 +1,31 @@
-/* You can add global styles to this file, and also import other style files */
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+:root {
+  --navbar-bg: #f8f9fa;
+  --navbar-text: #34495e;
+  --navbar-hover: #7cbf8a;
+  --btn-accent: #a8d5ba;
+  --search-bg: #f0f0f0;
+  --icon-color: #2c3e50;
+}
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  font-family: 'Poppins', sans-serif;
+}
+

@@ -1,0 +1,116 @@
+<section class="cart-page">
+  <div class="cart-products">
+    <header class="section-header">
+      <h2>Coșul tău</h2>
+      <a routerLink="/shop" class="link" >Continuă cumpărăturile</a>
+    </header>
+
+    <div class="row head">
+      <div class="cell col-item">Produs</div>
+      <div class="cell col-price">Preț</div>
+      <div class="cell col-qty">Cantitate</div>
+      <div class="cell col-subtotal">Subtotal</div>
+      <div class="cell col-actions"></div>
+    </div>
+
+    <div class="row item">
+      <div class="cell col-item item-meta">
+        <img src="assets/images/logoTerraBucovina.png" alt="Produs" class="thumb" />
+        <div class="meta">
+          <div class="name">Miere de salcâm</div>
+          <div class="sku">Cod: TB-ACACIA-500</div>
+        </div>
+      </div>
+      <div class="cell col-price">€15.00</div>
+      <div class="cell col-qty">
+        <div class="qty">
+          <button class="qty-btn" aria-label="Scade">−</button>
+          <input type="number" value="1" min="1" />
+          <button class="qty-btn" aria-label="Crește">＋</button>
+        </div>
+      </div>
+      <div class="cell col-subtotal">€15.00</div>
+      <div class="cell col-actions">
+        <button class="icon-btn remove" aria-label="Șterge">✕</button>
+      </div>
+    </div>
+
+    <div class="row item">
+      <div class="cell col-item item-meta">
+        <img src="assets/images/logoTerraBucovina.png" alt="Produs" class="thumb" />
+        <div class="meta">
+          <div class="name">Ceai de tei</div>
+          <div class="sku">Cod: TB-LINDEN-20</div>
+        </div>
+      </div>
+      <div class="cell col-price">€8.00</div>
+      <div class="cell col-qty">
+        <div class="qty">
+          <button class="qty-btn" aria-label="Scade">−</button>
+          <input type="number" value="2" min="1" />
+          <button class="qty-btn" aria-label="Crește">＋</button>
+        </div>
+      </div>
+      <div class="cell col-subtotal">€16.00</div>
+      <div class="cell col-actions">
+        <button class="icon-btn remove" aria-label="Șterge">✕</button>
+      </div>
+    </div>
+
+    <div class="bulk-actions">
+      <button class="btn ghost">Golește coșul</button>
+      
+    </div>
+  </div>
+
+  <aside class="cart-summary">
+    <div class="card">
+      <h3>Rezumat comandă</h3>
+      <div class="line">
+        <span>Produse (3)</span>
+        <span>€31.00</span>
+      </div>
+      <div class="line">
+        <span>Transport</span>
+        <select class="select">
+          <option>Calculat la checkout</option>
+          <option>Curier standard — €4.99</option>
+          <option>Ridicare personală — €0.00</option>
+        </select>
+      </div>
+      <div class="coupon">
+        <input type="text" placeholder="Cupon reducere" />
+        <button class="btn apply">Aplică</button>
+      </div>
+      <div class="divider"></div>
+      <div class="line">
+        <span>Subtotal</span>
+        <span>€31.00</span>
+      </div>
+      <div class="line muted">
+        <span>TVA (19%)</span>
+        <span>€4.95</span>
+      </div>
+      <div class="total">
+        <span>Total</span>
+        <strong>€35.95</strong>
+      </div>
+      <button class="btn primary wfull" [routerLink]="'/purchase'">Continuă către plată</button>
+      <a routerLink="/shop" class="link small">sau continuă cumpărăturile</a>
+    </div>
+    <div class="info-card">
+      <div class="icn">🔒</div>
+      <div>
+        <strong>Plată sigură</strong>
+        <p>Tranzacții criptate și protejate.</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="icn">🌿</div>
+      <div>
+        <strong>Produse naturale</strong>
+        <p>Direct din Bucovina, certificare BIO.</p>
+      </div>
+    </div>
+  </aside>
+</section>

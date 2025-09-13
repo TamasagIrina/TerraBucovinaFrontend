@@ -1,0 +1,115 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--navbar-bg);
+    padding: 0 1.5rem;
+    color: var(--navbar-text);
+    font-family: 'Poppins', sans-serif;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+
+    &__left {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            height: 50px;
+            margin-right: 12px;
+            border-radius: 50%;
+        }
+
+        .brand {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--navbar-text);
+        }
+    }
+
+    &__links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+
+        li a {
+            text-decoration: none;
+            color: var(--navbar-text);
+            font-weight: 500;
+
+            &:hover {
+                color: var(--navbar-hover);
+            }
+        }
+    }
+
+    &__right {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        .search-box {
+            background-color: var(--search-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            padding: 0.3rem 0.8rem;
+
+            input {
+                border: none;
+                outline: none;
+                background: transparent;
+                font-size: 0.9rem;
+            }
+
+            mat-icon {
+                color: var(--icon-color);
+            }
+        }
+
+        .icon {
+            color: var(--icon-color);
+            font-size: 24px;
+            cursor: pointer;
+
+            &:hover {
+                color: var(--navbar-hover);
+            }
+        }
+
+        .cart-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .cart-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+        .favorite-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        .login-button {
+            background-color: var(--navbar-bg);
+            border: none;
+            border-radius: 20px;
+            padding: 0.4rem 1rem;
+            font-weight: 600;
+            color: #2f2f2f;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #92c6a7;
+            }
+        }
+    }
+}

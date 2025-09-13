@@ -1,0 +1,50 @@
+<!-- HERO -->
+<section class="shop-hero">
+    <div class="hero-bg">
+        <img src="assets/images/naturaImg.jpg" alt="Fundal natural" />
+        <div class="overlay"></div>
+    </div>
+
+    <div class="hero-content">
+        <div class="brand-card">
+            <img class="logo" src="assets/images/logoTerraBucovina.png" alt="Terra Bucovina" />
+            <h1>Terra Bucovina</h1>
+            <p class="motto">Natural. Simplu. Din Bucovina.</p>
+        </div>
+    </div>
+</section>
+
+<section class="products-row">
+    <!-- <div class="row-header">
+        <h2>Produse</h2>
+    </div> -->
+
+    <div class="scroll-container">
+        <button class="arrow left" (click)="scrollRow('left')" aria-label="derulează stânga">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <div class="scroll-wrapper" #scrollArea>
+            <div class="product-card" *ngFor="let p of products">
+                <img [src]="p.image" [alt]="p.name" />
+                <div class="info">
+                    <div class="name">{{ p.name }}</div>
+                    <div class="price">{{ p.price + " RON"}}</div>
+                    <div class="buttons"> 
+                        <button (click)="addToFavorite(p.id)" class="favBtn" >
+                            <mat-icon [style.color]="p.isAddedToFav ? 'red' : '#34495e61'" >favorite</mat-icon>
+                        </button>
+                        <button class="addBtn">
+                            <mat-icon>add_shopping_cart</mat-icon>
+                            Adaugă în coș
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="arrow right" (click)="scrollRow('right')" aria-label="derulează dreapta">
+            <mat-icon>chevron_right</mat-icon>
+        </button>
+    </div>
+</section>

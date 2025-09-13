@@ -1,0 +1,211 @@
+<section class="checkout-page">
+  <div class="checkout-form">
+    <header class="section-header">
+      <h2>Finalizare comandă</h2>
+      <a routerLink="/shop" class="link">Înapoi la magazin</a>
+    </header>
+
+    <div class="card">
+      <h3>Detalii de contact</h3>
+      <div class="grid-2">
+        <label class="field">
+          <span>Nume</span>
+          <input type="text" placeholder="Nume și prenume" />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" placeholder="ex: nume@email.com" />
+        </label>
+      </div>
+      <div class="grid-2">
+        <label class="field">
+          <span>Telefon</span>
+          <input type="tel" placeholder="+40 7xx xxx xxx" />
+        </label>
+        <label class="field">
+          <span>CUI (opțional)</span>
+          <input type="text" placeholder="Pentru factură pe firmă" />
+        </label>
+      </div>
+      <label class="checkbox">
+        <input type="checkbox" />
+        <span>Doresc factură pe firmă</span>
+      </label>
+    </div>
+
+    <div class="card">
+      <h3>Adresă de livrare</h3>
+      <div class="grid-2">
+        <label class="field">
+          <span>Țara</span>
+          <select>
+            <option>România</option>
+            <option>Italia</option>
+            <option>Germania</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Județ</span>
+          <input type="text" placeholder="ex: Suceava" />
+        </label>
+      </div>
+      <div class="grid-2">
+        <label class="field">
+          <span>Oraș</span>
+          <input type="text" placeholder="ex: Rădăuți" />
+        </label>
+        <label class="field">
+          <span>Cod poștal</span>
+          <input type="text" placeholder="ex: 725400" />
+        </label>
+      </div>
+      <label class="field">
+        <span>Adresă</span>
+        <input type="text" placeholder="Strada, număr, bloc, scara, apartament" />
+      </label>
+    </div>
+
+    <div class="card">
+      <h3>Metodă de livrare</h3>
+      <label class="radio">
+        <input type="radio" name="ship"   value="curier" [(ngModel)]="shippingMethod"  checked />
+        <div class="radio-line">
+          <span>Curier standard</span>
+          <strong>€4.99</strong>
+        </div>
+      </label>
+      <label class="radio">
+        <input type="radio" name="ship" value="pickup" [(ngModel)]="shippingMethod" />
+        <div class="radio-line">
+          <span>Ridicare personală</span>
+          <strong>€0.00</strong>
+        </div>
+      </label>
+    </div>
+
+    <!-- PLATĂ cu tab-uri -->
+    <div class="card">
+      <h3>Plată</h3>
+
+      <div class="tabs" role="tablist">
+        <button class="tab" role="tab" [class.active]="tab==='card'" [attr.aria-selected]="tab==='card'"
+          (click)="setTab('card')">Card</button>
+
+        <button class="tab" role="tab" [class.active]="tab==='cod'" [attr.aria-selected]="tab==='cod'"
+          (click)="setTab('cod')">Ramburs</button>
+
+        <button class="tab" role="tab" [class.active]="tab==='bank'" [attr.aria-selected]="tab==='bank'"
+          (click)="setTab('bank')">Transfer bancar</button>
+      </div>
+
+      <!-- CARD -->
+      <div class="pay-card" *ngIf="tab==='card'">
+        <label class="field">
+          <span>Număr card</span>
+          <input type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" />
+        </label>
+        <div class="grid-3">
+          <label class="field">
+            <span>Valabil până la</span>
+            <input type="text" inputmode="numeric" placeholder="MM/AA" />
+          </label>
+          <label class="field">
+            <span>CVV</span>
+            <input type="password" inputmode="numeric" placeholder="***" />
+          </label>
+          <label class="field">
+            <span>Deținător card</span>
+            <input type="text" placeholder="Nume exact ca pe card" />
+          </label>
+        </div>
+        <label class="checkbox">
+          <input type="checkbox" />
+          <span>Salvează datele cardului în siguranță</span>
+        </label>
+      </div>
+
+      <!-- RAMBURS -->
+      <div class="pay-cod" *ngIf="tab==='cod'">
+        <p class="muted">Plătești numerar/pos la curier, la livrare.</p>
+        <ul class="mini-list">
+          <li>Verifică adresa și numărul de telefon.</li>
+          <li>Curierul te contactează înainte de livrare.</li>
+          <li>Taxa de ramburs poate fi inclusă în costul transportului.</li>
+        </ul>
+      </div>
+
+      <!-- TRANSFER BANCAR -->
+      <div class="pay-bank" *ngIf="tab==='bank'">
+        <p class="muted">După plasare, primești pe email factura și detaliile de plată.</p>
+        <div class="bank-box">
+          <div><strong>Beneficiar:</strong> Terra Bucovina SRL</div>
+          <div><strong>IBAN:</strong> RO49 AAAA 1B31 0075 9384 0000</div>
+          <div><strong>Banca:</strong> BCR, Sucursala Suceava</div>
+          <div><strong>Detalii plată:</strong> Nr. comandă #TB-12345</div>
+        </div>
+        <p class="hint">Comanda se procesează după confirmarea plății.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="coupon">
+        <input type="text" placeholder="Cupon reducere" />
+        <button class="btn apply">Aplică</button>
+      </div>
+      <label class="checkbox terms">
+        <input type="checkbox" />
+        <span>Sunt de acord cu termenii și condițiile</span>
+      </label>
+      <button class="btn primary wfull">Plătește acum</button>
+    </div>
+  </div>
+
+  <aside class="order-summary">
+    <div class="card">
+      <h3>Rezumat comandă</h3>
+
+      <div class="summary-items">
+        <div class="s-item">
+          <img src="assets/images/logoTerraBucovina.png" alt="Produs" />
+          <div class="meta">
+            <div class="name">Miere de salcâm</div>
+            <div class="muted">Cantitate: 1</div>
+          </div>
+          <div class="price">€15.00</div>
+        </div>
+        <div class="s-item">
+          <img src="assets/images/logoTerraBucovina.png" alt="Produs" />
+          <div class="meta">
+            <div class="name">Ceai de tei</div>
+            <div class="muted">Cantitate: 2</div>
+          </div>
+          <div class="price">€16.00</div>
+        </div>
+      </div>
+
+      <div class="line"><span>Subtotal</span><span>€31.00</span></div>
+      <div class="line"><span>Transport</span>
+        <span *ngIf="shippingMethod === 'curier'">€4.99</span>
+        <span *ngIf="shippingMethod === 'pickup'">€0</span>
+      </div>
+      <div class="line muted"><span>TVA (19%)</span><span>€6.84</span></div>
+      <div class="total"><span>Total</span><strong>€42.83</strong></div>
+      <a routerLink="/cart" class="link small">Editează coșul</a>
+    </div>
+
+    <div class="info-card">
+      <div class="icn">🔒</div>
+      <div>
+        <strong>Plată sigură</strong>
+        <p>Tranzacții criptate și protejate.</p>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="icn">🚚</div>
+      <div>
+        <strong>Livrare rapidă</strong>
+        <p>24–48h în rețeaua de curierat.</p>
+      </div>
+    </div>
+  </aside>
+</section>

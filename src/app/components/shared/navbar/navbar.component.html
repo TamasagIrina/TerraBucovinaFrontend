@@ -1,0 +1,35 @@
+<nav class="navbar">
+  <div class="navbar__left">
+    <!-- <img src="assets/images/logoTerraBucovina.png" alt="Logo" class="logo" /> -->
+    <span class="brand">Terra Bucovina</span>
+  </div>
+
+  <ul class="navbar__links">
+    <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
+    <li><a routerLink="about">Remediile Florale</a></li>
+    <li><a routerLink="shop">Magazin</a></li>
+    <li><a routerLink="contact">Contact</a></li>
+  </ul>
+
+  <div class="navbar__right">
+    <div class="search-box">
+      <input type="text" placeholder="Caută produse..." />
+      <mat-icon>search</mat-icon>
+    </div>
+
+    <button class="favorite-btn" (click)="toggleFavorite()" matBadge="2" matBadgeColor="accent">
+      <mat-icon class="icon">favorite</mat-icon>
+    </button>
+
+    <app-favorite-dropdown *ngIf="isFavoriteOpen" (closed)="isFavoriteOpen = false"></app-favorite-dropdown>
+
+    <button class="cart-btn" (click)="toggleCart()" matBadge="3" matBadgeColor="primary">
+      <mat-icon class="icon">shopping_cart</mat-icon>
+    </button>
+
+
+    <app-cart-dropdown *ngIf="isCartOpen"></app-cart-dropdown>
+
+    <button class="login-button">Login</button>
+  </div>
+</nav>
