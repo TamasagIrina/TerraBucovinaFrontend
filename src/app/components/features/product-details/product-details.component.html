@@ -1,0 +1,156 @@
+<section class="product-page">
+  <a routerLink="/shop" class="back-link">← Înapoi la magazin</a>
+
+  <div class="grid">
+    <!-- LEFT: Gallery -->
+    <div class="gallery">
+      <div class="main-image">
+        <img [src]="product.imageUrl" alt="{{product.name }}" />
+      
+      </div>
+      <div class="thumbs">
+        <button class="thumb is-active">
+          <img [src]="product.imageUrl" alt="thumb 1" />
+        </button>
+        <button class="thumb">
+          <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="thumb 2" />
+        </button>
+        <button class="thumb">
+          <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="thumb 3" />
+        </button>
+        <button class="thumb">
+          <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="thumb 4" />
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Info -->
+    <div class="info">
+      <h1 class="title">{{ product.name }}</h1>
+
+      <div class="meta">
+        <div class="rating">
+          <span class="stars">★★★★☆</span>
+          <span class="count">(24 recenzii)</span>
+        </div>
+        <div class="sku">
+          <span class="muted">Cod:</span> TB-ACACIA-500
+        </div>
+        <div class="stock in">În stoc</div>
+      </div>
+
+      <div class="price-line">
+        <div class="price">€{{ product.price || 59 }}</div>
+        <div class="vat muted">TVA inclus</div>
+      </div>
+
+      <div class="short-desc">
+        Extract floral natural, obținut responsabil în Bucovina. Ideal pentru ceaiuri, deserturi și ritualuri de relaxare.
+      </div>
+
+      <div class="controls">
+        <div class="qty">
+          <button class="qty-btn">−</button>
+          <input type="number" value="1" min="1" />
+          <button class="qty-btn">＋</button>
+        </div>
+
+        <button class="btn primary">
+          <mat-icon>shopping_cart</mat-icon>
+          Adaugă în coș
+        </button>
+
+        <button class="btn ghost">
+          <mat-icon class="fav">favorite</mat-icon>
+          Favorite
+        </button>
+      </div>
+
+      <div class="extras">
+        <div class="chip">🌿 Produs natural</div>
+        <div class="chip">🇷🇴 Fabricat în România</div>
+        <div class="chip">🚚 Livrare 24–48h</div>
+      </div>
+
+      <div class="share">
+        <span class="muted">Distribuie:</span>
+        <button class="icon-btn" aria-label="Share Facebook">f</button>
+        <button class="icon-btn" aria-label="Share Instagram">ig</button>
+        <button class="icon-btn" aria-label="Share Link">⤴︎</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active">Descriere</button>
+    <button class="tab">Specificații</button>
+    <button class="tab">Recenzii (24)</button>
+  </div>
+
+  <div class="tabs-content">
+    <div class="card">
+      <h3>Descriere</h3>
+      <p>
+        Produs obținut din surse locale din Bucovina, cu respect pentru natură. Note florale delicate,
+        potrivit pentru infuzii calde sau reci. Fără aditivi, fără coloranți.
+      </p>
+      <ul class="bullets">
+        <li>Ingrediente: 100% extract natural</li>
+        <li>Conținut: 500 ml</li>
+        <li>Ambalaj reciclabil</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Specificații</h3>
+      <div class="specs">
+        <div class="row"><span>Origine</span><strong>Bucovina</strong></div>
+        <div class="row"><span>Greutate netă</span><strong>500 ml</strong></div>
+        <div class="row"><span>Certificare</span><strong>BIO</strong></div>
+        <div class="row"><span>Termen de valabilitate</span><strong>18 luni</strong></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Recenzii</h3>
+      <div class="review">
+        <div class="r-head">
+          <strong>Andrei</strong>
+          <span class="stars">★★★★★</span>
+        </div>
+        <p>Aroma este excelentă, se simte naturală. Livrare rapidă.</p>
+      </div>
+      <div class="review">
+        <div class="r-head">
+          <strong>Ioana</strong>
+          <span class="stars">★★★★☆</span>
+        </div>
+        <p>Ambalaj frumos, produs foarte bun. Recomand!</p>
+      </div>
+      <button class="btn outline">Scrie o recenzie</button>
+    </div>
+  </div>
+
+  <!-- Related products -->
+  <div class="related">
+    <h3>Produse similare</h3>
+    <div class="rel-grid">
+      <a class="rel-card" routerLink="/product/2">
+        <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="Produs" />
+        <div class="name">Extract floral II</div>
+        <div class="price">€62</div>
+      </a>
+      <a class="rel-card" routerLink="/product/3">
+        <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="Produs" />
+        <div class="name">Ceai relaxant</div>
+        <div class="price">€28</div>
+      </a>
+      <a class="rel-card" routerLink="/product/4">
+        <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="Produs" />
+        <div class="name">Ulei esențial</div>
+        <div class="price">€79</div>
+      </a>
+    </div>
+  </div>
+</section>

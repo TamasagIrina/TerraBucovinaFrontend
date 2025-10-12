@@ -25,22 +25,10 @@
         </button>
 
         <div class="scroll-wrapper" #scrollArea>
-            <div class="product-card" *ngFor="let p of products">
-                <img [src]="p.image" [alt]="p.name" />
-                <div class="info">
-                    <div class="name">{{ p.name }}</div>
-                    <div class="price">{{ p.price + " RON"}}</div>
-                    <div class="buttons"> 
-                        <button (click)="addToFavorite(p.id)" class="favBtn" >
-                            <mat-icon [style.color]="p.isAddedToFav ? 'red' : '#34495e61'" >favorite</mat-icon>
-                        </button>
-                        <button class="addBtn">
-                            <mat-icon>add_shopping_cart</mat-icon>
-                            Adaugă în coș
-                        </button>
-                    </div>
-                </div>
+            <div *ngFor="let p of products">
+                <app-product-card [product]="p"></app-product-card>
             </div>
+
         </div>
 
         <button class="arrow right" (click)="scrollRow('right')" aria-label="derulează dreapta">
