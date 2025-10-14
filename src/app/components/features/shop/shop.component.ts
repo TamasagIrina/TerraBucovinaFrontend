@@ -5,6 +5,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductCardComponent } from "../../shared/product-card/product-card.component";
 import { Product } from '../../core/interfaces/product.interface';
+import { decodeJwt, getExpDate, isExpired, timeLeftMs } from '../../core/services/authService/jwt.utils';
 
 
 @Component({
@@ -13,7 +14,7 @@ import { Product } from '../../core/interfaces/product.interface';
     MatIconModule,
     CommonModule,
     ProductCardComponent
-],
+  ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
 })
@@ -21,7 +22,16 @@ export class ShopComponent {
 
   @ViewChild('scrollArea', { static: false }) scrollArea!: ElementRef<HTMLDivElement>;
 
+  ngOnInit() {
+    // const token = localStorage.getItem('access_token');
 
+    // if (token) {
+    //   console.log('Payload:', decodeJwt(token));
+    //   console.log('Expiră la:', getExpDate(token)?.toLocaleString());
+    //   console.log('Este expirat?', isExpired(token));
+    //   console.log('Timp rămas (minute):', Math.floor(timeLeftMs(token) / 60000));
+    // }
+  }
 
   products = [
     { id: 1, name: 'Extract floral I', price: 59, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },

@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PlantsActions from './plants.actions';
 
 import { catchError, map, mergeMap, of } from 'rxjs';
-import { ApiService } from '../../services/api.service';
+import { ApiService } from '../../services/api-service/api.service';
 
 @Injectable()
 export class PlantsEffects {

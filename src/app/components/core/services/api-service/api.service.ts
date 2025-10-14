@@ -1,13 +1,16 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContextToken } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { Product } from '../interfaces/product.interface';
-import { Image } from '../interfaces/image.interface';
-import { Plant } from '../interfaces/plant.interfece';
+import { Product } from '../../interfaces/product.interface';
+import { Image } from '../../interfaces/image.interface';
+import { Plant } from '../../interfaces/plant.interfece';
+export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class ApiService {
 
 

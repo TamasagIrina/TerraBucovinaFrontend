@@ -6,4 +6,5 @@ export interface Product {
   shortDescription: string;
   category: string;
   amount: number;
+  isAddedToFav: boolean;
 }
