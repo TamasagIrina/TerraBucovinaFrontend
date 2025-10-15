@@ -50,4 +50,6 @@ export class NavbarComponent {
   closeCart() {
     this.isCartOpen = false;
   }
+
+ 
 }

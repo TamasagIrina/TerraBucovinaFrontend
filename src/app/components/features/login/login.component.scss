@@ -1,0 +1,436 @@
+// /* auth-page.component.scss */
+// $teal: #92c6a7;
+// $teal-dark: rgb(70, 103, 83);
+// $bg: #f8f9fa;
+// $text: #2a2f2f;
+// $muted: #7a8b8b;
+// $white: #fff;
+// $shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+// .auth {
+//   --radius: 14px;
+//   --pad: 28px;
+
+//   position: relative;
+//   width: min(980px, 94vw);
+//   height: 540px;
+//   margin: 32px auto;
+//   border-radius: var(--radius);
+//   background: $white;
+//   box-shadow: $shadow;
+//   overflow: hidden;
+
+//   display: grid;
+//   grid-template-columns: 40% 60%;
+//   background: linear-gradient(140deg, $bg 0%, $bg 60%, #fbe8e8 60%, #f7d0d0 100%);
+
+//   .side {
+//     position: relative;
+//   }
+
+//   .left {
+//     padding: var(--pad);
+//     background: linear-gradient(180deg, $teal 0%, $teal-dark 100%);
+//     color: $white;
+//     border-top-left-radius: var(--radius);
+//     border-bottom-left-radius: var(--radius);
+//     display: grid;
+//     grid-template-rows: auto 1fr;
+//     align-items: start;
+
+//     .brand .logo {
+//       display: inline-flex;
+//       align-items: center;
+//       gap: 10px;
+//       font-weight: 700;
+//       letter-spacing: .5px;
+//       background: rgba(255,255,255,.12);
+//       padding: 8px 14px;
+//       border-radius: 999px;
+//     }
+
+//     .welcome {
+//       align-self: center;
+//       text-align: left;
+//       max-width: 320px;
+
+//       h1 {
+//         font-size: 38px;
+//         line-height: 1.1;
+//         margin: 8px 0 10px;
+//         font-weight: 800;
+//       }
+//       p {
+//         color: rgba(255,255,255,.9);
+//         margin-bottom: 20px;
+//       }
+//     }
+
+//     .btn.outline {
+//       background: transparent;
+//       color: $white;
+//       border: 2px solid rgba(255,255,255,.9);
+//       padding: 10px 22px;
+//       border-radius: 999px;
+//       cursor: pointer;
+//       transition: transform .15s ease, background .2s ease;
+//       &:hover { transform: translateY(-1px); background: rgba(255,255,255,.1); }
+//     }
+
+//     .decor {
+//       position: absolute;
+//       width: 260px; height: 260px;
+//       background: radial-gradient(closest-side, rgba(255,255,255,.18), transparent 70%);
+//       border-radius: 50%;
+//       bottom: -90px; left: -90px;
+//       pointer-events: none;
+//     }
+//   }
+
+//   .right {
+    
+//     .signup-form, .signin-form {
+//       position: absolute;
+//       inset: 0;
+//       padding: 36px 38px;
+      
+//       overflow-y: auto;
+//       transition: transform .55s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
+//       will-change: transform, opacity;
+//     }
+//     .signup-form { z-index: 2; opacity: 1; transform: translateX(0); pointer-events: auto; }
+//     .signin-form { z-index: 1; opacity: 0; transform: translateX(40px); pointer-events: none; }
+//     .card {
+//       position: relative;
+//       width: min(520px, 90%);
+//       min-height: 500px;
+//       background: $white;
+//       box-shadow: $shadow;
+//       padding: 38px 38px;
+//       overflow: hidden;
+
+//       h2 {
+//         color: $teal-dark;
+//         font-size: 28px;
+//         margin: 0 0 8px;
+//         text-align: center;
+//       }
+
+//       .socials {
+//         display: flex;
+//         justify-content: center;
+//         gap: 12px;
+//         margin: 10px 0 6px;
+       
+//         button {
+//           width: 42px; height: 42px;
+//           border-radius: 50%;
+//           border: 1px solid #e8eeee;
+//           background: #fbfbfb;
+//           box-shadow: 0 2px 8px rgba(0,0,0,.04);
+//           cursor: pointer;
+//           font-weight: 700;
+//           transition: transform .15s ease, box-shadow .2s ease;
+//           &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+//         }
+//       }
+
+//       .hint {
+//         text-align: center;
+//         color: $muted;
+//         margin: 8px 0 18px;
+//         font-size: 14px;
+//       }
+
+//       .form {
+//         display: grid;
+//         gap: 12px;
+//         .field {
+//           display: grid;
+//           grid-template-columns: 26px 1fr;
+//           align-items: center;
+//           gap: 10px;
+//           padding: 12px 14px;
+//           border: 1px solid #e8eeee;
+//           border-radius: 12px;
+//           background: #fafcfc;
+
+//           .icon { opacity: .75; }
+//           input {
+//             border: none;
+//             outline: none;
+//             background: transparent;
+//             font-size: 15px;
+//             color: $text;
+//           }
+//         }
+//         .btn.primary {
+//           margin-top: 6px;
+//           height: 44px;
+//           border-radius: 999px;
+//           background: $teal;
+//           color: $white;
+//           border: none;
+//           cursor: pointer;
+//           font-weight: 700;
+//           letter-spacing: .3px;
+//           box-shadow: 0 8px 18px rgba(39,194,163,.3);
+//           transition: transform .15s ease, background .2s ease, box-shadow .2s;
+//           &:hover { transform: translateY(-1px); background: $teal-dark; box-shadow: 0 12px 26px rgba(39,194,163,.36); }
+//         }
+//         .switch {
+//           text-align: center; color: $muted; font-size: 14px; margin-top: 10px;
+//           .link {
+//             background: none; border: none; color: $teal-dark; cursor: pointer; font-weight: 700;
+//           }
+//         }
+//       }
+
+//       /* TRanziție: suprapunem cele două formulare și le animăm */
+//       .signup-form, .signin-form {
+//         position: absolute;
+//         inset: 0;
+//         padding: 36px 38px;
+//         transition: transform .55s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
+//       }
+
+//       .signup-form { z-index: 2; }
+//       .signin-form { z-index: 1; opacity: 0; transform: translateX(40px); }
+//     }
+//   }
+
+//   /* ====== STATE: SIGNUP vs SIGNIN ====== */
+//   /* implicit: Create Account vizibil, Sign In ascuns */
+
+// //   &.signup-mode {
+// //     // nimic special aici; e starea inițială (Create Account)
+// //   }
+
+//   /* când trecem la sign-in (scoați .signup-mode) — în demo butonul "Sign In" o scoate */
+//   &:not(.signup-mode) {
+//     .right .card {
+//       .signup-form { opacity: 0; transform: translateX(-40px); pointer-events: none; }
+//       .signin-form { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 2; }
+//     }
+//   }
+
+//   /* RESPONSIVE */
+//   @media (max-width: 940px) {
+//     grid-template-columns: 1fr;
+//     height: auto;
+
+//     .left {
+//       border-radius: 0;
+//       .welcome { margin: 10px auto; text-align: center; }
+//     }
+
+//     .right {
+//       padding: 18px 12px;
+//       .card { width: 100%; border-radius: 0; box-shadow: none; }
+//     }
+//   }
+// }
+
+
+/* auth-page.component.scss */
+$teal: #92c6a7;
+$teal-dark: rgb(70, 103, 83);
+$bg: #f8f9fa;
+$text: #2a2f2f;
+$muted: #7a8b8b;
+$white: #fff;
+$shadow: 0 10px 30px rgba(0,0,0,0.08);
+
+.auth {
+  --radius: 14px;
+  --pad: 28px;
+
+  position: relative;
+  width: min(980px, 94vw);
+  height: 540px;
+  margin: 32px auto;
+  border-radius: var(--radius);
+  background: $white;
+  box-shadow: $shadow;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: 40% 60%;
+  background: linear-gradient(140deg, $bg 0%, $bg 60%, #fbe8e8 60%, #f7d0d0 100%);
+
+  .side { position: relative; }
+
+  /* LEFT PANEL */
+  .left {
+    padding: var(--pad);
+    background: linear-gradient(180deg, $teal 0%, $teal-dark 100%);
+    color: $white;
+    border-top-left-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
+    display: grid;
+    grid-template-rows: auto 1fr;
+    align-items: start;
+
+    .brand .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      background: rgba(255,255,255,.12);
+      padding: 8px 14px;
+      border-radius: 999px;
+    }
+
+    .welcome {
+      align-self: center;
+      text-align: left;
+      max-width: 320px;
+
+      h1 { font-size: 38px; line-height: 1.1; margin: 8px 0 10px; font-weight: 800; }
+      p  { color: rgba(255,255,255,.9); margin-bottom: 20px; }
+    }
+
+    .btn.outline {
+      background: transparent; color: $white;
+      border: 2px solid rgba(255,255,255,.9);
+      padding: 10px 22px; border-radius: 999px; cursor: pointer;
+      transition: transform .15s ease, background .2s ease;
+      &:hover { transform: translateY(-1px); background: rgba(255,255,255,.1); }
+    }
+
+    .decor {
+      position: absolute; width: 260px; height: 260px; border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(255,255,255,.18), transparent 70%);
+      bottom: -90px; left: -90px; pointer-events: none;
+    }
+  }
+
+  /* RIGHT PANEL */
+  .right {
+    display: grid;
+    place-items: center;
+   
+    // padding: 16px;
+
+    .card {
+      position: relative;
+      width: min(520px, 90%);
+      min-height: 540px;
+      background: $white;
+      box-shadow: $shadow;
+      padding: 38px;
+      overflow: hidden;
+
+      h2 {
+        color: $teal-dark;
+        font-size: 26px;
+        margin: 0 0 8px;
+        text-align: center;
+      }
+
+      .socials {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin: 10px 0 6px;
+
+        button {
+          width: 42px; height: 42px;
+          border-radius: 50%;
+          border: 1px solid #e8eeee;
+          background: #fbfbfb;
+          box-shadow: 0 2px 8px rgba(0,0,0,.04);
+          cursor: pointer; font-weight: 700;
+          transition: transform .15s ease, box-shadow .2s ease;
+          &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,.08); }
+        }
+      }
+
+      .hint { text-align: center; color: $muted; margin: 8px 0 18px; font-size: 14px; }
+
+      /* formele AU ACEEAȘI CONFIG și se suprapun */
+      .signup-form, .signin-form {
+        position: absolute;
+        inset: 0;
+        padding: 38px;
+        overflow-y: auto;
+        display: grid;
+        align-content: center;
+        gap: 12px;
+
+        /* limităm lățimea câmpurilor pt. consistență */
+        // .form { /* dacă folosești .form ca wrapper separată, altfel poți scoate acest selector */ }
+
+        .field {
+          display: grid;
+          grid-template-columns: 26px 1fr;
+          align-items: center;
+          gap: 10px;
+          padding: 10px 14px;
+          border: 1px solid #e8eeee;
+          border-radius: 12px;
+          background: #fafcfc;
+          height: 48px;
+          box-sizing: border-box;
+
+          .icon { opacity: .75; display: flex; align-items: center; justify-content: center; }
+          input {
+            border: none; outline: none; background: transparent;
+            font-size: 15px; color: $text; width: 100%;
+          }
+        }
+
+        .btn.primary {
+          margin-top: 6px;
+          height: 44px;
+          border-radius: 999px;
+          background: $teal;
+          color: $white;
+          border: none; cursor: pointer; font-weight: 700; letter-spacing: .3px;
+          box-shadow: 0 8px 18px rgba(39,194,163,.3);
+          transition: transform .15s ease, background .2s ease, box-shadow .2s;
+          &:hover { transform: translateY(-1px); background: $teal-dark; box-shadow: 0 12px 26px rgba(39,194,163,.36); }
+        }
+
+        .switch {
+          text-align: center; color: $muted; font-size: 14px; margin-top: 10px;
+          .link { background: none; border: none; color: $teal-dark; cursor: pointer; font-weight: 700; }
+        }
+
+        /* centrare și lățime maximă pt. câmpuri */
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      /* Stare inițială: SIGNUP vizibil, SIGNIN ascuns */
+      .signup-form { z-index: 2; opacity: 1; transform: translateX(0); pointer-events: auto; }
+      .signin-form { z-index: 1; opacity: 0; transform: translateX(40px); pointer-events: none; }
+
+      /* TRanziție */
+      transition: height .3s ease;
+    }
+  }
+
+  /* Schimbarea stării: când scoți .signup-mode devine SIGN IN */
+  &:not(.signup-mode) {
+    .right .card {
+      .signup-form { opacity: 0; transform: translateX(-40px); pointer-events: none; }
+      .signin-form { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 2; }
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 940px) {
+    grid-template-columns: 1fr;
+    height: auto;
+
+    .left { border-radius: 0; .welcome { margin: 10px auto; text-align: center; } }
+
+    .right {
+      padding: 18px 12px;
+      .card { width: 100%; border-radius: 0; box-shadow: none; min-height: 520px; }
+      .signup-form, .signin-form { padding: 28px 20px; max-width: 480px; }
+    }
+  }
+}

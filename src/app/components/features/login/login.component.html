@@ -1,0 +1,56 @@
+<div class="auth" [class.signup-mode]="signup">
+  <section class="side left">
+    <div class="brand">
+      <div class="logo">Terra Bucovina</div>
+    </div>
+    <div class="welcome">
+      <h1>Bine ai revenit!</h1>
+      <p>Autentifică-te pentru a continua.</p>
+      <button class="btn outline" (click)="signup = false">Autentificare</button>
+    </div>
+    <div class="decor"></div>
+  </section>
+
+  <section class="side right">
+    <div class="card">
+      <!-- FORMULAR CREARE CONT -->
+      <form class="form signup-form" autocomplete="off">
+        <h2>Creează cont</h2>
+
+
+
+
+        <div class="field">  <mat-icon class="icon">person</mat-icon><input type="text" placeholder="Nume complet" /></div>
+        <div class="field"> <mat-icon class="icon">mail</mat-icon><input type="email" placeholder="Adresă de e-mail" /></div>
+        <div class="field"> <mat-icon class="icon">lock</mat-icon><input type="password" placeholder="Parolă" /></div>
+
+        <p class="hint">sau folosește adresa ta de e-mail pentru înregistrare:</p>
+
+        <div class="socials">
+          <button aria-label="Înregistrare cu Facebook">f</button>
+          <button aria-label="Înregistrare cu Google">G+</button>
+          <button aria-label="Înregistrare cu LinkedIn">in</button>
+        </div>
+
+        <button type="button" class="btn primary">Creează cont</button>
+        <p class="switch">
+          Ai deja un cont?
+          <button type="button" class="link" (click)="signup = false">Autentifică-te aici</button>
+        </p>
+      </form>
+
+      <!-- FORMULAR AUTENTIFICARE -->
+      <form class="form signin-form" autocomplete="off">
+        <h2>Autentificare</h2>
+        <div class="field"> <mat-icon class="icon">person</mat-icon> <input type="text" placeholder="UserName" /></div>
+        <div class="field"> <mat-icon class="icon">lock</mat-icon><input type="password" placeholder="Parolă" /></div>
+
+        <button type="button" class="btn primary">Autentifică-te</button>
+        <p class="switch">
+          Nu ai cont?
+          <button type="button" class="link" (click)="signup = true">Creează unul acum</button>
+        </p>
+      </form>
+    </div>
+  </section>
+</div>

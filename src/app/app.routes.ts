@@ -5,11 +5,13 @@ import { ContactComponent } from './components/features/contact/contact.componen
 import { CartComponent } from './components/features/cart/cart.component';
 import { PurchaseComponent } from './components/features/purchase/purchase.component';
 import { ProductDetailsComponent } from './components/features/product-details/product-details.component';
+import { LoginComponent } from './components/features/login/login.component';
 
 export const routes: Routes = [
     { path: 'shop', component: ShopComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'about', component: AboutComponent },
+    { path: 'login', component: LoginComponent },
     { path: 'cart', component: CartComponent },
     { path: 'purchase', component: PurchaseComponent },
     { path: 'details', component: ProductDetailsComponent },
