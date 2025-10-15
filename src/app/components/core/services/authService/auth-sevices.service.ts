@@ -15,8 +15,8 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
    login(username: string, password: string) {
-    return this.http.post<{ token: string }>(`${this.baseUrl}/api/auth/login`, { username, password })
-      .pipe(tap(res => localStorage.setItem(this.KEY, res.token)));
+    console.log(`${this.baseUrl}/api/auth/login`);
+    return this.http.post<string>(`${this.baseUrl}/api/auth/login`, { username, password }, { responseType: 'text' as 'json' });
   }
 
   getToken(): string | null {
