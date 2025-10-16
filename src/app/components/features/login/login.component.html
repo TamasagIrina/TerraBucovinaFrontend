@@ -12,14 +12,29 @@
   </section>
 
   <section class="side right">
+      <div class="auth-message error" *ngIf="loginError">
+        <mat-icon>error</mat-icon>  Nume de utilizator sau parolă incorectă.
+      </div>
+
+      <div class="auth-message success" *ngIf="loginSuccess">
+         <mat-icon>check_circle</mat-icon> Autentificare reușită! Redirecționare în curs...
+      </div>
+
+      <div class="auth-message warning" *ngIf="missingFields">
+        <mat-icon>warning</mat-icon>  Te rugăm să completezi toate câmpurile.
+      </div>
     <div class="card">
-      <!-- FORMULAR CREARE CONT -->
+    
+
       <form class="form signup-form" autocomplete="off">
         <h2>Creează cont</h2>
 
-        <div class="field">  <mat-icon class="icon">person</mat-icon><input type="text" placeholder="Nume complet" /></div>
-        <div class="field"> <mat-icon class="icon">mail</mat-icon><input type="email" placeholder="Adresă de e-mail" /></div>
-        <div class="field"> <mat-icon class="icon">lock</mat-icon><input type="password" placeholder="Parolă" /></div>
+        <div class="field"> <mat-icon class="icon">person</mat-icon><input #usernameInput1 type="text"
+            placeholder="User name" (input)="resetMessages()" /></div>
+        <div class="field"> <mat-icon class="icon">mail</mat-icon><input #emailInput1 type="email"
+            placeholder="Adresă de e-mail"  (input)="resetMessages()" /></div>
+        <div class="field"> <mat-icon class="icon">lock</mat-icon><input #passwordInput1 type="password"
+            placeholder="Parolă" (input)="resetMessages()" /></div>
 
         <p class="hint">sau folosește adresa ta de e-mail pentru înregistrare:</p>
 
@@ -29,23 +44,27 @@
           <button aria-label="Înregistrare cu LinkedIn">in</button>
         </div>
 
-        <button type="button" class="btn primary">Creează cont</button>
+        <button type="button" class="btn primary"
+          (click)="register(usernameInput1.value , passwordInput1.value , emailInput1.value)">Creează cont</button>
         <p class="switch">
           Ai deja un cont?
-          <button type="button" class="link" (click)="signup = false">Autentifică-te aici</button>
+          <button type="button" class="link" (click)="signup = false; resetMessages()">Autentifică-te aici</button>
         </p>
       </form>
 
       <!-- FORMULAR AUTENTIFICARE -->
       <form class="form signin-form" autocomplete="off">
         <h2>Autentificare</h2>
-        <div class="field"> <mat-icon class="icon">person</mat-icon> <input #usernameInput type="text" placeholder="UserName" /></div>
-        <div class="field"> <mat-icon class="icon">lock</mat-icon><input #passwordInput type="password" placeholder="Parolă" /></div>
+        <div class="field"> <mat-icon class="icon">person</mat-icon> <input #usernameInput type="text"
+            placeholder="UserName" (input)="resetMessages()" /></div>
+        <div class="field"> <mat-icon class="icon">lock</mat-icon><input #passwordInput type="password"
+            placeholder="Parolă" (input)="resetMessages()" /></div>
 
-        <button type="button" class="btn primary" (click)="login(usernameInput.value, passwordInput.value)">Autentifică-te</button>
+        <button type="button" class="btn primary"
+          (click)="login(usernameInput.value, passwordInput.value)">Autentifică-te</button>
         <p class="switch">
           Nu ai cont?
-          <button type="button" class="link" (click)="signup = true">Creează unul acum</button>
+          <button type="button" class="link" (click)="signup = true; resetMessages()">Creează unul acum</button>
         </p>
       </form>
     </div>

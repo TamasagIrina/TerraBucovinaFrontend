@@ -16,6 +16,9 @@ export class LoginComponent {
 
   signupForm: FormGroup;
   signinForm: FormGroup;
+  loginError = false;
+  loginSuccess = false;
+  missingFields = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {
     // initializezi ambele formulare
@@ -31,19 +34,70 @@ export class LoginComponent {
     });
   }
 
+  resetMessages(): void {
+    this.loginError = false;
+    this.loginSuccess = false;
+    this.missingFields = false;
+  }
+
   login(username: string, password: string) {
 
     console.log(username, password);
 
+    this.loginError = false;
+    this.loginSuccess = false;
+    this.missingFields = false;
+
+    if (!username || !password) {
+      this.missingFields = true;
+      return;
+    }
+
     this.authService.login(username, password).subscribe({
       next: (res) => {
+        if (res == "Invalid username or password") {
+          this.loginError = true;
+        } else {
+          localStorage.setItem('access_token', res);
+          this.loginSuccess = true;
+        }
         console.log('OK', res);
-        localStorage.setItem('access_token', res);
+
       },
-      error: (err) => console.error('Eroare login', err)
+      error: (err) => {
+        console.error('Eroare login', err);
+        this.loginError = true;
+      }
+
     });
 
-  
+
+  }
+
+  register(username: string, password: string, email: string) {
+
+    console.log(username, password, email);
+
+    this.loginError = false;
+    this.loginSuccess = false;
+    this.missingFields = false;
+
+    if (!username || !password || !email) {
+      this.missingFields = true;
+      return;
+    }
+
+    this.authService.register(username, password, email).subscribe({
+      next: (res) => {
+        console.log('OK', res);
+        this.loginSuccess = true;
+      }, error: (err) => {
+        console.error('Eroare login', err);
+        this.loginError = true;
+      }
+    });
+
+
   }
 
 }
