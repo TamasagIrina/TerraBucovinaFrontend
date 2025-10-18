@@ -1,4 +1,4 @@
-import { HttpClient, HttpContextToken } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpContextToken } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -19,19 +19,21 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   getProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/products/getAll`);
+    return this.http.get<any[]>(`${this.baseUrl}/products/get/all`);
   }
 
   createProducts(product: Omit<Product, 'id'>): Observable<Product> {
-    return this.http.post<Product>(`${this.baseUrl}/products/add`, product);
-  }
+  const context = new HttpContext().set(REQUIRES_AUTH, true);
+  return this.http.post<Product>(`${this.baseUrl}/products/admin/add`, product, { context });
+}
+
 
   updateProducts(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}/products/updata`, product);
+    return this.http.put<Product>(`${this.baseUrl}/products/admin/updata`, product);
   }
 
   deleteProducts(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}products/admin/delete/${id}`);
   }
 
   getImageByProductId(productId: number) {

@@ -1,12 +1,12 @@
  <div class="product-card">
-                <img [src]="product.imageUrl" [alt]="product.name" />
+                <img [src]="product.mainImageUrl" [alt]="product.name" />
                 <div class="info">
                     <div class="name" (click)="goToDetail()">{{ product.name }} </div>
                     <div class="price">{{ product.price + " RON"}}</div>
                     <div class="buttons"> 
-                        <button (click)="addToFavorite()" class="favBtn" >
+                        <!-- <button (click)="addToFavorite()" class="favBtn" >
                             <mat-icon [style.color]="product.isAddedToFav ? 'red' : '#34495e61'" >favorite</mat-icon>
-                        </button>
+                        </button> -->
                         <button class="addBtn">
                             <mat-icon>add_shopping_cart</mat-icon>
                             Adaugă în coș

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as PlantsActions from './plants.actions';
 
@@ -7,6 +7,10 @@ import { ApiService } from '../../services/api-service/api.service';
 
 @Injectable()
 export class PlantsEffects {
+
+  private actions$ = inject(Actions);
+  private service = inject(ApiService)
+
   loadAll$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlantsActions.loadPlants),
@@ -79,5 +83,5 @@ export class PlantsEffects {
     )
   );
 
-  constructor(private actions$: Actions, private service: ApiService) {}
+
 }

@@ -14,7 +14,9 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
   const token = auth.getToken();
   if (!token) return next(req);
+  console.log(token);
 
   const authReq = req.clone({ setHeaders: { Authorization: `Bearer ${token}` } });
+    console.log(authReq);
   return next(authReq);
 };

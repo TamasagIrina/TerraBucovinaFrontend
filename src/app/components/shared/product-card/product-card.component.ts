@@ -15,9 +15,9 @@ export class ProductCardComponent {
   constructor(private router: Router){
     
   }
-  addToFavorite(){
-    this.product.isAddedToFav=!this.product.isAddedToFav;
-  }
+  // addToFavorite(){
+  //   this.product.isAddedToFav=!this.product.isAddedToFav;
+  // }
 
   goToDetail(){
     this.router.navigate(['/details'], { state: { product: this.product } });
