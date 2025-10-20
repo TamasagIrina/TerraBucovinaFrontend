@@ -1,26 +1,21 @@
-<section class="product-page">
+<section class="product-page" *ngIf="product$ | async as product">
   <a routerLink="/shop" class="back-link">← Înapoi la magazin</a>
 
   <div class="grid">
     <!-- LEFT: Gallery -->
     <div class="gallery">
-      <div class="main-image">
-        <img [src]="product.main_image_url" alt="{{product.name }}" />
+      <div class="main-image"  *ngFor="let img of images$  | async" >
+        <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
       
       </div>
-      <div class="thumbs">
+      <div class="thumbs"  *ngFor="let img of images$  | async">
         <button class="thumb is-active">
-          <img [src]="product.main_image_url" alt="thumb 1" />
+           <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
         </button>
         <button class="thumb">
-          <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="thumb 2" />
+          <img *ngIf="!img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
         </button>
-        <button class="thumb">
-          <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="thumb 3" />
-        </button>
-        <button class="thumb">
-          <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="thumb 4" />
-        </button>
+       
       </div>
     </div>
 
@@ -45,7 +40,7 @@
       </div>
 
       <div class="short-desc">
-        Extract floral natural, obținut responsabil în Bucovina. Ideal pentru ceaiuri, deserturi și ritualuri de relaxare.
+        {{product.shortDesc}}
       </div>
 
       <div class="controls">
@@ -92,8 +87,7 @@
     <div class="card">
       <h3>Descriere</h3>
       <p>
-        Produs obținut din surse locale din Bucovina, cu respect pentru natură. Note florale delicate,
-        potrivit pentru infuzii calde sau reci. Fără aditivi, fără coloranți.
+       {{product.longDesc}}
       </p>
       <ul class="bullets">
         <li>Ingrediente: 100% extract natural</li>

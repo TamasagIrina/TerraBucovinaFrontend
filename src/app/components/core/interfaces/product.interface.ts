@@ -3,10 +3,10 @@ export interface Product {
   name: string;
   price: number;
   main_image_url: any;
-  short_desc: string;
-  long_desc: string;
+  shortDesc: string;
+  longDesc: string;
   category: string;
-  stock_qty: number;
+  stockQty: number;
   createdAt: string;
   updatedAt: string;
 }

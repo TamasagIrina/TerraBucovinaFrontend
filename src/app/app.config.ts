@@ -21,7 +21,7 @@ export const appConfig: ApplicationConfig = {
    provideEffects([
       ProductsEffects,
       PlantsEffects,
-      //ImagesEffects
+      ImagesEffects
     ]),
   provideState(fromProducts.productFeatureKey, fromProducts.productsReducer),
   provideState(fromPlants.plantsFeatureKey, fromPlants.plantsReducer),

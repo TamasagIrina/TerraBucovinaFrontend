@@ -1,16 +1,19 @@
- <div class="product-card">
-                <img [src]="product.mainImageUrl" [alt]="product.name" />
-                <div class="info">
-                    <div class="name" (click)="goToDetail()">{{ product.name }} </div>
-                    <div class="price">{{ product.price + " RON"}}</div>
-                    <div class="buttons"> 
-                        <!-- <button (click)="addToFavorite()" class="favBtn" >
+<div class="product-card">
+    <div *ngFor="let img of images$  | async">
+        <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
+    </div>
+
+    <div class="info">
+        <div class="name" (click)="goToDetail()">{{ product.name }} </div>
+        <div class="price">{{ product.price + " RON"}}</div>
+        <div class="buttons">
+            <!-- <button (click)="addToFavorite()" class="favBtn" >
                             <mat-icon [style.color]="product.isAddedToFav ? 'red' : '#34495e61'" >favorite</mat-icon>
                         </button> -->
-                        <button class="addBtn">
-                            <mat-icon>add_shopping_cart</mat-icon>
-                            Adaugă în coș
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <button class="addBtn">
+                <mat-icon>add_shopping_cart</mat-icon>
+                Adaugă în coș
+            </button>
+        </div>
+    </div>
+</div>

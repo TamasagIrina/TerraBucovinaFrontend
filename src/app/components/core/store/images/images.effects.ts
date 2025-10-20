@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import * as ImagesActions from './images.actions';
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 import { ApiService } from '../../services/api-service/api.service';
 
 @Injectable()
@@ -15,6 +15,8 @@ export class ImagesEffects {
       ofType(ImagesActions.loadImagesByProduct),
       mergeMap(({ productId }) =>
         this.apiService.getImageByProductId(productId).pipe(
+          map(images => images.map(img => ({ ...img, productId }))),
+          // tap(images => console.log('Loaded images with productId:', images)),
           map(images => ImagesActions.loadImagesByProductSuccess({ productId, images })),
           catchError(error => of(ImagesActions.loadImagesByProductFailure({ productId, error })))
         )

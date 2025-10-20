@@ -54,3 +54,15 @@ export const deleteImageFailure = createAction(
   '[Images] Delete Image Failure',
   props<{ error: any }>()
 );
+
+export const ImagesActions = {
+  loadImagesByProduct,
+  loadImagesByProductSuccess,
+  loadImagesByProductFailure,
+  uploadImage,
+  uploadImageSuccess,
+  uploadImageFailure,
+  deleteImage,
+  deleteImageSuccess,
+  deleteImageFailure
+};

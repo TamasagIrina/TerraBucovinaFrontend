@@ -37,7 +37,7 @@ export class ApiService {
   }
 
   getImageByProductId(productId: number) {
-    return this.http.get<Image[]>(`${this.baseUrl}/products/images/getByProductId`);
+    return this.http.get<Image[]>(`${this.baseUrl}/products/images/get/ByProductId/${productId}`);
   }
 
   deleteImage(imageId: number) {
@@ -47,14 +47,17 @@ export class ApiService {
     productId: number; file: File;
     altText?: string | null; sortOrder?: number | null; isPrimary?: boolean | null;
   }) {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+
     const form = new FormData();
     form.append('productId', String(productId));
     form.append('file', file);
+   
     if (altText != null) form.append('altText', altText);
     if (sortOrder != null) form.append('sortOrder', String(sortOrder));
     if (isPrimary != null) form.append('isPrimary', String(isPrimary));
 
-    return this.http.post<Image>(`${this.baseUrl}/products/images/upload`, form);
+    return this.http.post<Image>(`${this.baseUrl}/products/images/auth/upload`, form, { context });
   }
 
   getAllPlants(): Observable<Plant[]> {

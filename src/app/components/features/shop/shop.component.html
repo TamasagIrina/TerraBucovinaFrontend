@@ -25,7 +25,8 @@
         </button>
 
         <div class="scroll-wrapper" #scrollArea>
-            <div *ngFor="let p of products">
+            
+            <div *ngFor="let p of products$  | async">
                 <app-product-card [product]="p"></app-product-card>
             </div>
 

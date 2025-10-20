@@ -16,7 +16,7 @@ export const routes: Routes = [
     { path: 'add-pr', component: AddProductComponent },
     { path: 'cart', component: CartComponent },
     { path: 'purchase', component: PurchaseComponent },
-    { path: 'details', component: ProductDetailsComponent },
+    { path: 'details/:id', component: ProductDetailsComponent },
     { path: '', redirectTo: 'shop', pathMatch: 'full' },
     { path: '**', redirectTo: 'shop' }
 ];

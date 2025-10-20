@@ -27,11 +27,11 @@ export const imagesReducer = createReducer(
   })),
   on(ImagesActions.loadImagesByProductSuccess, (state, { productId, images }) => {
    
-    const rest = state.images.filter(img => img.product_id !== productId);
+    const rest = state.images.filter(img => img.productId !== productId);
     return {
       ...state,
       loading: false,
-      images: [...rest, ...images]
+      images: Array.isArray(images) ? images : []
     };
   }),
   on(ImagesActions.loadImagesByProductFailure, (state, { error }) => ({

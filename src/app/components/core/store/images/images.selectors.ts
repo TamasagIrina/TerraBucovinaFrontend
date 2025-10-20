@@ -20,7 +20,8 @@ export const selectAllImages = createSelector(
 );
 
 export const selectImagesByProduct = (productId: number) =>
-  createSelector(selectAllImages, imgs => imgs.filter(i => i.product_id === productId));
+  createSelector(selectAllImages, imgs => imgs.filter(i => i.productId === productId));
+
 
 export const selectPrimaryImageByProduct = (productId: number) =>
-  createSelector(selectImagesByProduct(productId), imgs => imgs.find(i => i.is_primary));
+  createSelector(selectImagesByProduct(productId), imgs => imgs.find(i => i.isPrimary));
