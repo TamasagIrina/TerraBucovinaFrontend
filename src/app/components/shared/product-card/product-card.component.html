@@ -1,6 +1,6 @@
 <div class="product-card">
-    <div *ngFor="let img of images$  | async">
-        <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
+    <div>
+        <img *ngIf="images$ | async as image" [src]="environment+image.imageUrl" [alt]="product.name" />
     </div>
 
     <div class="info">
@@ -10,7 +10,7 @@
             <!-- <button (click)="addToFavorite()" class="favBtn" >
                             <mat-icon [style.color]="product.isAddedToFav ? 'red' : '#34495e61'" >favorite</mat-icon>
                         </button> -->
-            <button class="addBtn">
+            <button class="addBtn" (click)="addToCart()">
                 <mat-icon>add_shopping_cart</mat-icon>
                 Adaugă în coș
             </button>

@@ -23,7 +23,7 @@
 
     <app-favorite-dropdown *ngIf="isFavoriteOpen" (closed)="isFavoriteOpen = false"></app-favorite-dropdown>
 
-    <button class="cart-btn" (click)="toggleCart()" matBadge="3" matBadgeColor="primary">
+    <button class="cart-btn" (click)="toggleCart()" matBadge="{{totalCartItems$ | async }}" matBadgeColor="primary">
       <mat-icon class="icon">shopping_cart</mat-icon>
     </button>
 

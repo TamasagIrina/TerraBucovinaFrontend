@@ -42,16 +42,6 @@ export class ShopComponent {
 
   }
 
-  // products = [
-  //   { id: 1, name: 'Extract floral I', price: 59, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  //   { id: 2, name: 'Extract floral II', price: 62, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  //   { id: 3, name: 'Ceai relaxant', price: 28, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  //   { id: 4, name: 'Ulei esențial', price: 79, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  //   { id: 5, name: 'Balsam natural', price: 44, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  //   { id: 6, name: 'Ceai relaxant', price: 28, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  //   { id: 7, name: 'Ulei esențial', price: 79, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  //   { id: 8, name: 'Balsam natural', price: 44, imageUrl: 'assets/images/stejar-copac-terrabucovina.jpg', isAddedToFav: false },
-  // ] as unknown as Product[];
 
   scrollRow(dir: 'left' | 'right') {
     const el = this.scrollArea.nativeElement;

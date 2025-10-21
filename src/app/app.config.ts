@@ -8,24 +8,45 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './components/core/services/token-interceptor/token-interceptor';
 import { ProductsEffects } from './components/core/store/products/products.effects';
 import { provideEffects } from '@ngrx/effects';
-import { provideState, provideStore } from '@ngrx/store';
+import { ActionReducer, provideState, provideStore } from '@ngrx/store';
 import { PlantsEffects } from './components/core/store/plants/plants.effects';
 import { ImagesEffects } from './components/core/store/images/images.effects';
+import * as fromCart from '../app/components/core/store/cart/cart.reducer';
+import { localStorageSync } from 'ngrx-store-localstorage';
+import { productsReducer } from '../app/components/core/store/products/products.reducer';
+
+const keysToSync = [
+  fromCart.cartFeatureKey,
+
+];
+
+function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
+  return localStorageSync({
+    keys: keysToSync,
+    rehydrate: true,
+    storage: window.localStorage,
+    removeOnUndefined: true
+  })(reducer)
+}
+
+const metaReducers = [localStorageSyncReducer]
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
   provideRouter(routes),
   provideStore(),
   provideHttpClient(withInterceptors([tokenInterceptor])),
+  provideStore({ products: productsReducer }, { metaReducers }),
   // provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-   provideEffects([
-      ProductsEffects,
-      PlantsEffects,
-      ImagesEffects
-    ]),
+  provideEffects([
+    ProductsEffects,
+    PlantsEffects,
+    ImagesEffects
+  ]),
   provideState(fromProducts.productFeatureKey, fromProducts.productsReducer),
   provideState(fromPlants.plantsFeatureKey, fromPlants.plantsReducer),
   provideState(fromImages.imagesFeatureKey, fromImages.imagesReducer),
+  provideState(fromCart.cartFeatureKey, fromCart.cartReducer),
   ]
 };
 

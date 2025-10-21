@@ -9,7 +9,9 @@ import { CartDropdownComponent } from "../cart-dropdown/cart-dropdown.component"
 import { CommonModule } from '@angular/common';
 import { MatBadge } from '@angular/material/badge';
 import { FavoriteDropdownComponent } from "../favorite-dropdown/favorite-dropdown.component";
-
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import * as CartSelectors from '../../core/store/cart/cart.selectors';
 
 @Component({
   selector: 'app-navbar',
@@ -31,6 +33,11 @@ import { FavoriteDropdownComponent } from "../favorite-dropdown/favorite-dropdow
 export class NavbarComponent {
     public isCartOpen = false;
     public isFavoriteOpen = false;
+     totalCartItems$: Observable<number> | undefined;
+
+     constructor(private store: Store){
+      this.totalCartItems$=this.store.select(CartSelectors.selectCartTotalItems);
+     }
 
   toggleCart() {
     this.isCartOpen = !this.isCartOpen;

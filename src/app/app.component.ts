@@ -11,4 +11,6 @@ import { FooterComponent } from "./components/shared/footer/footer.component";
 })
 export class AppComponent {
   title = 'terraBucovinaSite';
+
+
 }
