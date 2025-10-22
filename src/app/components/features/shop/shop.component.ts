@@ -10,7 +10,9 @@ import { Store } from '@ngrx/store';
 
 import { ProductsActions } from '../../core/store/products/products.actions';
 import { Observable } from 'rxjs';
-import { selectAllProducts } from '../../core/store/products/products.selectors';
+import { selectAllProducts, selectAllProductsWithPrimaryImage } from '../../core/store/products/products.selectors';
+import { selectAllImages } from '../../core/store/images/images.selectors';
+import { ImagesActions } from '../../core/store/images/images.actions';
 
 
 @Component({
@@ -26,9 +28,7 @@ import { selectAllProducts } from '../../core/store/products/products.selectors'
 })
 export class ShopComponent {
 
-  @ViewChild('scrollArea', { static: false }) scrollArea!: ElementRef<HTMLDivElement>;
-
-  products$!: Observable<Product[]> ;
+  products$!: Observable<Product[]>;
   loading$: any;
   error$: any;
 
@@ -37,16 +37,11 @@ export class ShopComponent {
   }
 
   ngOnInit() {
-     this.store.dispatch(ProductsActions.loadProducts());
-    this.products$= this.store.select(selectAllProducts);
+ 
+    this.products$ = this.store.select(selectAllProductsWithPrimaryImage);
 
-  }
+   
 
-
-  scrollRow(dir: 'left' | 'right') {
-    const el = this.scrollArea.nativeElement;
-    const step = 260;
-    el.scrollBy({ left: dir === 'left' ? -step : step, behavior: 'smooth' });
   }
 
 

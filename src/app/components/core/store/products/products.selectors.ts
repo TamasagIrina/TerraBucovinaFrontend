@@ -1,5 +1,7 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { productFeatureKey, ProductsState } from './products.reducer';
+import { selectAllImages, selectPrimaryImageByProduct } from '../images/images.selectors';
+import { environment } from '../../../../../environments/environment';
 
 export const selectProductsState =
   createFeatureSelector<ProductsState>(productFeatureKey);
@@ -21,3 +23,29 @@ export const selectProductsError = createSelector(
 
 export const selectProductById = (id: number) =>
   createSelector(selectAllProducts, products => products.find(p => p.id === id));
+
+
+
+
+export const selectAllProductsWithPrimaryImage = createSelector(
+  selectAllProducts,
+  selectAllImages,
+  (products, images) => {
+    if (!products || products.length === 0) {
+      return [];
+    }
+
+    return products.map(product => {
+      const primaryImage = images.find(img => {
+
+        return img.productId === product.id && img.isPrimary;
+      });
+
+
+      return {
+        ...product,
+        main_image_url: primaryImage?.imageUrl ?  `${environment.apiUrl}${primaryImage?.imageUrl}` : 'https://placehold.co/60x40/cccccc/ffffff?text=Img'
+      };
+    });
+  }
+);

@@ -5,20 +5,24 @@ import { CartItemDetailed } from '../../core/interfaces/cart.interface';
 import { Store } from '@ngrx/store';
 import * as CartSelectors from '../../core/store/cart/cart.selectors';
 import * as CartActions from '../../core/store/cart/cart.actions';
+import { AsyncPipe, CommonModule } from '@angular/common';
 @Component({
   selector: 'app-cart',
-  imports: [ RouterModule],
+  imports: [ RouterModule, 
+    CommonModule, 
+    AsyncPipe
+  ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
 export class CartComponent {
-  cartItem$!: Observable<CartItemDetailed[]>;
+  cartItems$!: Observable<CartItemDetailed[]>;
   totalPrice$!: Observable<number>;
 
   constructor(private store : Store){}
 
-  ogOnInif(){
-     this.cartItem$ = this.store.select(CartSelectors.selectCartItemsWithDetails);
+  ngOnInit(){
+     this.cartItems$ = this.store.select(CartSelectors.selectCartItemsWithDetails);
     this.totalPrice$ = this.store.select(CartSelectors.selectCartTotalPrice);
   }
 

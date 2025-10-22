@@ -3,51 +3,60 @@ import { MatIconModule } from "@angular/material/icon";
 import { Product } from '../../core/interfaces/product.interface';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, take } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { ImagesActions } from '../../core/store/images/images.actions';
 import { selectAllImages, selectImagesByProduct, selectPrimaryImageByProduct } from '../../core/store/images/images.selectors';
 import { Image } from '../../core/interfaces/image.interface';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import * as CartActions from "../../core/store/cart/cart.actions"
+import * as FavoriteActions from "../../core/store/favorite/favorite.actions"
+import { tick } from '@angular/core/testing';
+import * as FavoriteSelectors from '../../core/store/favorite/favorite.selectors';
 @Component({
   selector: 'app-product-card',
   imports: [MatIconModule,
-    CommonModule,
-    AsyncPipe
+    CommonModule
   ],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss'
 })
 export class ProductCardComponent {
+
   @Input() product!: Product;
   images$!: Observable<Image | undefined>;
-
-  constructor(private router: Router, public store: Store) {
-
-  }
-
+  isFavorite$!: Observable<boolean>;
   public environment = environment.apiUrl;
 
+  constructor(private router: Router, public store: Store) {
+  }
+
   ngOnInit() {
-
-    if (this.product?.id) {
-      this.store.dispatch(ImagesActions.loadImagesByProduct({ productId: this.product.id }));
-      this.images$ = this.store.select(selectPrimaryImageByProduct(this.product.id));
-    }
-
+    this.isFavorite$ = this.store.select(
+      FavoriteSelectors.selectIsFavorite(this.product.id)
+    );
   }
-  // addToFavorite(){
-  //   this.product.isAddedToFav=!this.product.isAddedToFav;
-  // }
 
-   async addToCart() {
+
+  async addToCart() {
     this.store.dispatch(CartActions.addItem({ productId: this.product.id, quantity: 1 }));
+    this.store.dispatch(FavoriteActions.removeItem({ productId: this.product.id }));
 
-  
-    // this.notificationService.show(`Ați adăugat în coș ${this.quantity} porții ${this.product.name}`);
   }
+  addToFavorite() {
+    this.store.dispatch(FavoriteActions.addItem({ productId: this.product.id }));
+  }
+
+toggleFavorite(productId: number) {
+  this.isFavorite$.pipe(take(1)).subscribe(isFav => {
+    if (isFav) {
+      this.store.dispatch(FavoriteActions.removeItem({ productId }));
+    } else {
+      this.store.dispatch(FavoriteActions.addItem({ productId }));
+    }
+  });
+}
   goToDetail() {
-   this.router.navigateByUrl("details/"+ this.product.id)
+    this.router.navigateByUrl("details/" + this.product.id)
   }
 }

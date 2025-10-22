@@ -1,103 +1,117 @@
 <section class="cart-page">
-  <div class="cart-products">
+  <!-- Lista de produse din coș -->
+  <div class="cart-products" *ngIf="(cartItems$ | async) as items">
     <header class="section-header">
       <h2>Coșul tău</h2>
-      <a routerLink="/shop" class="link" >Continuă cumpărăturile</a>
+      <a routerLink="/shop" class="link">Continuă cumpărăturile</a>
     </header>
 
-    <div class="row head">
-      <div class="cell col-item">Produs</div>
-      <div class="cell col-price">Preț</div>
-      <div class="cell col-qty">Cantitate</div>
-      <div class="cell col-subtotal">Subtotal</div>
-      <div class="cell col-actions"></div>
+    <div class="row head" >
+      <ng-container *ngIf="items.length > 0">
+        <div class="cell col-item">Produs</div>
+        <div class="cell col-price">Preț</div>
+        <div class="cell col-qty">Cantitate</div>
+        <div class="cell col-subtotal">Subtotal</div>
+        <div class="cell col-actions"></div>
+      </ng-container>
+    </div>
+    <!-- EMPTY CART -->
+    <div class="empty-cart" *ngIf="(cartItems$ | async)?.length === 0">
+      Coșul tău este gol. Adaugă câteva produse!
     </div>
 
-    <div class="row item">
+    <!-- ITEMS -->
+    <div class="row item" *ngFor="let item of (cartItems$ | async)">
       <div class="cell col-item item-meta">
-        <img src="assets/images/logoTerraBucovina.png" alt="Produs" class="thumb" />
+        <img [src]="item.imageUrl" [alt]="item.name"
+          class="thumb" />
         <div class="meta">
-          <div class="name">Miere de salcâm</div>
-          <div class="sku">Cod: TB-ACACIA-500</div>
+          <a href="/details/{{item.productId}}"> {{ item.name }} </a>
+          <div class="sku">Cod: {{ item.productId }}</div>
         </div>
       </div>
-      <div class="cell col-price">€15.00</div>
+
+      <div class="cell col-price">
+        {{ item.price | number:'1.2-2' }} RON
+      </div>
+
       <div class="cell col-qty">
         <div class="qty">
-          <button class="qty-btn" aria-label="Scade">−</button>
-          <input type="number" value="1" min="1" />
-          <button class="qty-btn" aria-label="Crește">＋</button>
+          <button class="qty-btn" (click)="decrease(item.productId)" aria-label="Scade">
+            −
+          </button>
+          <input type="number" [value]="item.quantity" readonly />
+          <button class="qty-btn" (click)="increase(item.productId)" aria-label="Crește">
+            ＋
+          </button>
         </div>
       </div>
-      <div class="cell col-subtotal">€15.00</div>
+
+      <div class="cell col-subtotal">
+        {{ item.lineTotal| number:'1.2-2' }} RON
+      </div>
+
       <div class="cell col-actions">
-        <button class="icon-btn remove" aria-label="Șterge">✕</button>
+        <button class="icon-btn remove" (click)="remove(item.productId)" aria-label="Șterge">
+          ✕
+        </button>
       </div>
     </div>
 
-    <div class="row item">
-      <div class="cell col-item item-meta">
-        <img src="assets/images/logoTerraBucovina.png" alt="Produs" class="thumb" />
-        <div class="meta">
-          <div class="name">Ceai de tei</div>
-          <div class="sku">Cod: TB-LINDEN-20</div>
-        </div>
-      </div>
-      <div class="cell col-price">€8.00</div>
-      <div class="cell col-qty">
-        <div class="qty">
-          <button class="qty-btn" aria-label="Scade">−</button>
-          <input type="number" value="2" min="1" />
-          <button class="qty-btn" aria-label="Crește">＋</button>
-        </div>
-      </div>
-      <div class="cell col-subtotal">€16.00</div>
-      <div class="cell col-actions">
-        <button class="icon-btn remove" aria-label="Șterge">✕</button>
-      </div>
-    </div>
-
-    <div class="bulk-actions">
-      <button class="btn ghost">Golește coșul</button>
-      
+    <div class="bulk-actions" *ngIf="items.length > 0">
+      <button class="btn ghost" (click)="clearCart()">Golește coșul</button>
     </div>
   </div>
 
-  <aside class="cart-summary">
-    <div class="card">
+  <!-- Rezumat coș -->
+  <aside class="cart-summary" *ngIf="(cartItems$ | async) as items">
+    <div class="card" *ngIf="items.length > 0">
       <h3>Rezumat comandă</h3>
+
       <div class="line">
-        <span>Produse (3)</span>
-        <span>€31.00</span>
+        <span>Produse ({{ (cartItems$ | async)?.length }})</span>
+        <span>{{ totalPrice$ | async |  number:'1.2-2' }} RON</span>
       </div>
-      <div class="line">
+
+      <!-- <div class="line">
         <span>Transport</span>
         <select class="select">
           <option>Calculat la checkout</option>
-          <option>Curier standard — €4.99</option>
-          <option>Ridicare personală — €0.00</option>
+          <option>Curier standard — 24.99 RON</option>
+          <option>Ridicare personală — 0.00 RON</option>
         </select>
-      </div>
+      </div> -->
+
       <div class="coupon">
         <input type="text" placeholder="Cupon reducere" />
         <button class="btn apply">Aplică</button>
       </div>
+
       <div class="divider"></div>
+
       <div class="line">
         <span>Subtotal</span>
-        <span>€31.00</span>
+        <span>{{ totalPrice$ | async | number:'1.2-2'}} RON</span>
       </div>
+
       <div class="line muted">
         <span>TVA (19%)</span>
-        <span>€4.95</span>
+        <span>{{ ((totalPrice$ | async)! * 0.19) | number:'1.2-2' }} RON</span>
       </div>
+
       <div class="total">
         <span>Total</span>
-        <strong>€35.95</strong>
+        <strong>{{
+          ((totalPrice$ | async)! * 1.19) | number:'1.2-2' }} RON</strong>
       </div>
-      <button class="btn primary wfull" [routerLink]="'/purchase'">Continuă către plată</button>
+
+      <button class="btn primary wfull" [routerLink]="'/purchase'">
+        Continuă către plată
+      </button>
+
       <a routerLink="/shop" class="link small">sau continuă cumpărăturile</a>
     </div>
+
     <div class="info-card">
       <div class="icn">🔒</div>
       <div>
@@ -105,6 +119,7 @@
         <p>Tranzacții criptate și protejate.</p>
       </div>
     </div>
+
     <div class="info-card">
       <div class="icn">🌿</div>
       <div>

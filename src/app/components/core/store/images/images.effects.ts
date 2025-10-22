@@ -10,7 +10,21 @@ export class ImagesEffects {
   private actions$ = inject(Actions);
   private apiService = inject(ApiService)
 
-  load$ = createEffect(() =>
+   loadAllImages$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ImagesActions.loadAllImages),
+      mergeMap(() =>
+        this.apiService.getAllImages().pipe(
+          map(images => ImagesActions.loadAllImagesSuccess({ images })),
+          catchError(error =>
+            of(ImagesActions.loadAllImagesFailure({ error }))
+          )
+        )
+      )
+    )
+  );
+
+  loadByProduct$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ImagesActions.loadImagesByProduct),
       mergeMap(({ productId }) =>

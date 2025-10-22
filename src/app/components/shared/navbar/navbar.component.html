@@ -17,7 +17,7 @@
       <mat-icon>search</mat-icon>
     </div>
 
-    <button class="favorite-btn" (click)="toggleFavorite()" matBadge="2" matBadgeColor="accent">
+    <button class="favorite-btn" (click)="toggleFavorite()" matBadge="{{totalFavoriteItems$ | async }}" matBadgeColor="accent">
       <mat-icon class="icon">favorite</mat-icon>
     </button>
 

@@ -79,83 +79,41 @@
     }
 }
 
-.products-row {
-    padding: 1.5rem 1rem 0;
+.products-grid {
+  padding: 2rem 2rem 2rem;
 
-    .row-header {
-        padding: 0 0.5rem 0.5rem;
 
-        h2 {
-            margin: 0;
-            font-size: 1.25rem;
-            color: #2c3e50;
-            font-weight: 600;
-        }
-    }
-
-    .scroll-container {
-        position: relative;
-        /* pentru poziționarea absolută a săgeților */
-    }
-
-    .arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 2;
-        width: 40px;
-        height: 40px;
-        border: none;
-        border-radius: 50%;
-        background: #ffffff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-        display: grid;
-        place-items: center;
-        cursor: pointer;
-        transition: background 0.2s;
-
-        mat-icon {
-            font-size: 22px;
-            color: #2c3e50;
-        }
-
-        &:hover {
-            background: #f0f0f0;
-        }
-    }
-
-    .arrow.left {
-        left: -20px;
-    }
-
-    .arrow.right {
-        right: -20px;
-    }
-
-    .scroll-wrapper {
-        display: flex;
-        gap: 2rem;
-        margin: 1.5rem;
-        padding: 1rem 1rem 1rem;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        -webkit-overflow-scrolling: touch;
-        direction: rtl;
-        scrollbar-width: thin;
-        scrollbar-color: #cfcfcf transparent;
-
-        &::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: #cfcfcf;
-            border-radius: 10px;
-        }
-    }
-
+.grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 2fr));
+ gap: 0.65rem;
+  justify-items: center;
 }
 
-main {
-    padding-top: 70px;
+  .grid-item {
+    width: 340px;
+    max-width: 340px;
+    display: flex;
+  
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translateY(-4px);
+    }
+  }
+
+  @media (max-width: 992px) {
+    .grid-wrapper {
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .grid-wrapper {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
 }

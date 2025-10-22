@@ -12,11 +12,13 @@ import { ActionReducer, provideState, provideStore } from '@ngrx/store';
 import { PlantsEffects } from './components/core/store/plants/plants.effects';
 import { ImagesEffects } from './components/core/store/images/images.effects';
 import * as fromCart from '../app/components/core/store/cart/cart.reducer';
+import * as fromFavorite from '../app/components/core/store/favorite/favorite.reducer';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { productsReducer } from '../app/components/core/store/products/products.reducer';
 
 const keysToSync = [
   fromCart.cartFeatureKey,
+  fromFavorite.favoriteFeatureKey
 
 ];
 
@@ -47,6 +49,7 @@ export const appConfig: ApplicationConfig = {
   provideState(fromPlants.plantsFeatureKey, fromPlants.plantsReducer),
   provideState(fromImages.imagesFeatureKey, fromImages.imagesReducer),
   provideState(fromCart.cartFeatureKey, fromCart.cartReducer),
+   provideState(fromFavorite.favoriteFeatureKey, fromFavorite.favoriteReducer)
   ]
 };
 

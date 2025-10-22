@@ -12,6 +12,7 @@ export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
 })
 
 export class ApiService {
+ 
 
 
   private readonly baseUrl = `${environment.apiUrl}/api`;
@@ -36,6 +37,10 @@ export class ApiService {
     return this.http.delete<void>(`${this.baseUrl}products/admin/delete/${id}`);
   }
 
+
+   getAllImages(): Observable<any[]> {
+     return this.http.get<any[]>(`${this.baseUrl}/products/images/get/all`);
+  }
   getImageByProductId(productId: number) {
     return this.http.get<Image[]>(`${this.baseUrl}/products/images/get/ByProductId/${productId}`);
   }

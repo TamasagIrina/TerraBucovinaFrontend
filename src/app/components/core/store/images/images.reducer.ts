@@ -18,7 +18,21 @@ export const initialState: ImagesState = {
 
 export const imagesReducer = createReducer(
   initialState,
-
+on(ImagesActions.loadAllImages, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(ImagesActions.loadAllImagesSuccess, (state, { images }) => ({
+    ...state,
+    loading: false,
+    images
+  })),
+  on(ImagesActions.loadAllImagesFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
  
   on(ImagesActions.loadImagesByProduct, (state) => ({
     ...state,
@@ -31,7 +45,7 @@ export const imagesReducer = createReducer(
     return {
       ...state,
       loading: false,
-      images: Array.isArray(images) ? images : []
+      images:[...rest, ...images]
     };
   }),
   on(ImagesActions.loadImagesByProductFailure, (state, { error }) => ({

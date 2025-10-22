@@ -23,6 +23,7 @@ export class CartDropdownComponent {
 
   cartItem$!: Observable<CartItemDetailed[]>;
   totalPrice$!: Observable<number>;
+  image$!: Observable<unknown>;
 
   constructor(private close: NavbarComponent, private store: Store) { }
 
@@ -30,6 +31,8 @@ export class CartDropdownComponent {
   ngOnInit() {
     this.cartItem$ = this.store.select(CartSelectors.selectCartItemsWithDetails);
     this.totalPrice$ = this.store.select(CartSelectors.selectCartTotalPrice);
+
+  
   }
 
   increase(productId: number) {

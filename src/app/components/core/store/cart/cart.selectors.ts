@@ -12,9 +12,6 @@ export const selectCartItems = createSelector(
   (state : fromCart.CartState) => state.items
 );
 
-
-
-
 export const selectCartTotalItems = createSelector(
   selectCartItems,
   (items) => items.reduce((total, item) => total + item.quantity, 0)
@@ -23,7 +20,7 @@ export const selectCartTotalItems = createSelector(
 
 export const selectCartItemsWithDetails = createSelector(
   selectCartItems,
-  fromProducts.selectAllProducts,
+  fromProducts.selectAllProductsWithPrimaryImage,
   (items, products) : CartItemDetailed[] => {
     if(!products || products.length == 0 ){
       return [];
@@ -46,4 +43,11 @@ export const selectCartItemsWithDetails = createSelector(
 export const selectCartTotalPrice = createSelector(
 selectCartItemsWithDetails,
 (detailedItem) => detailedItem.reduce((total, item) => total + item.lineTotal, 0)
-)
+);
+
+
+
+
+
+
+

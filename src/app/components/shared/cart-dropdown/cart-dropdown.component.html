@@ -4,52 +4,52 @@
     <button class="close-btn" (click)="closeCart()" aria-label="Închide">✕</button>
   </header>
 
-  <div class="cart-items" >
-  
+ <div class="cart-items">
     <ng-container *ngIf="cartItem$ | async as items">
-        <div *ngIf="!items || items.length === 0" class="empty-cart">
-            Coșul tău de cumpărături este gol. Adaugă câteva produse!
-        </div>
+      <!-- Empty -->
+      <div *ngIf="!items || items.length === 0" class="empty-cart">
+        Coșul tău este gol. Adaugă produse pentru a continua!
+      </div>
 
-        <div *ngIf="items && items.length > 0" class="cart-item">
-            <ul class="cart-items-list">
-                <li class="header">
-                    <span class="item-details">Produs</span>
-                    <span class="item-quantity">Cantitate</span>
-                    <span class="item-price">Preț</span>
-                    <span class="item-total">Total</span>
-                    <span class="item-actions">Stergere</span>
-                </li>
-                <li *ngFor="let item of items;" class="cart-item">
-                    <div class="item-details">
-                        <img [src]="item.imageUrl" [alt]="item.name" class="item-image"
-                            onerror="this.src='https://placehold.co/60x40/cccccc/ffffff?text=Img'">
-                        <span>{{ item.name }}</span>
-                    </div>
-                    <div class="item-quantity">
-                        <button (click)="decrease(item.productId)" class="quantity-btn"
-                            aria-label="Scade cantitatea">-</button>
-                        <span>{{ item.quantity }}</span>
-                        <button (click)="increase(item.productId)" class="quantity-btn"
-                            aria-label="Crește cantitatea">+</button>
-                    </div>
-                    <span class="item-price">{{ item.price.toFixed(1)  }}</span>
-                    <span class="item-total">{{ item.lineTotal.toFixed(1)  }}</span>
-                    <div class="item-actions">
-                        <button (click)="remove(item.productId)" class="remove-btn"
-                            aria-label="Șterge produsul"><mat-icon>delete</mat-icon></button>
-                    </div>
-                </li>
-            </ul>
+      <!-- List -->
+      <div *ngIf="items && items.length > 0">
+        <div
+          class="cart-item"
+          *ngFor="let item of items"
+        >
+          <!-- Imagine produs -->
+          <img [src]="item.imageUrl" [alt]="item.name" class="thumb" />
 
-            
+          <!-- Informații produs -->
+          <div class="info">
+             <a href="/details/{{item.productId}}"> {{ item.name }} </a>
+            <span class="price">{{ item.price.toFixed(1) }} RON</span>
+          </div>
+
+          <!-- Cantitate -->
+          <div class="qty">
+            <button class="qty-btn" (click)="decrease(item.productId)">-</button>
+            <input type="text" [value]="item.quantity" readonly />
+            <button class="qty-btn" (click)="increase(item.productId)">+</button>
+          </div>
+
+          <!-- Ștergere -->
+          <button
+            class="remove-btn"
+            (click)="remove(item.productId)"
+            aria-label="Șterge produsul"
+          >
+            <mat-icon>delete</mat-icon>
+          </button>
         </div>
+      </div>
     </ng-container>
+  </div>
 
 
   <footer class="cart-footer">
     <div class="total">
-     <strong>Total:  {{ totalPrice$ | async | currency:'RON':'symbol' }}</strong>
+     <strong>Total:  {{ totalPrice$ | async | currency:'RON    '  :'symbol' }}</strong>
     </div>
     <div class="actions">
       <button class="btn ghost"  [routerLink]="'/cart'" (click)="closeCart()">Vezi coșul</button>

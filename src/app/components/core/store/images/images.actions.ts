@@ -1,5 +1,18 @@
 import { createAction, props } from '@ngrx/store';
-import {Image} from '../../interfaces/image.interface'
+import { Image } from '../../interfaces/image.interface'
+
+export const loadAllImages = createAction('[Images] Load Products');
+
+export const loadAllImagesSuccess = createAction(
+  '[Images] Load Images Success',
+  props<{ images: Image[] }>()
+);
+
+export const loadAllImagesFailure = createAction(
+  '[Images] Load Images Failure',
+  props<{ error: any }>()
+);
+
 
 
 export const loadImagesByProduct = createAction(
@@ -56,6 +69,9 @@ export const deleteImageFailure = createAction(
 );
 
 export const ImagesActions = {
+  loadAllImages,
+  loadAllImagesSuccess,
+  loadAllImagesFailure,
   loadImagesByProduct,
   loadImagesByProductSuccess,
   loadImagesByProductFailure,

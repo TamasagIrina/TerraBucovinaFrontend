@@ -4,43 +4,49 @@
     <button class="close-btn" (click)="closeFavorite()" aria-label="Închide">✕</button>
   </header>
 
-  <div class="favorite-items">
-    <!-- Exemplu item -->
-    <div class="favorite-item">
-      <img src="assets/images/logoTerraBucovina.png" alt="Produs" class="thumb" />
-      <div class="info">
-        <span class="name">Borcan cu miere</span>
-        <span class="price">€15.00</span>
+ <div class="favorite-items" *ngIf="favoriteItems$ | async as items">
+  
+ <div *ngIf="!items || items.length === 0" class="empty-cart">
+        Favorite este gol. Adaugă produse!
       </div>
 
-      <div class="actions">
-        <button class="icon-btn add-btn" aria-label="Adaugă în coș">
-          <mat-icon>add_shopping_cart</mat-icon>
-        </button>
-        <button class="icon-btn remove-btn" aria-label="Șterge">
-          ✕
-        </button>
-      </div>
+  <!-- Lista de produse favorite -->
+  <div *ngFor="let item of items" class="favorite-item">
+    <img 
+      [src]="item.imageUrl" 
+      [alt]="item.name" 
+      class="thumb" 
+      (click)="closeFavorite()" 
+    
+    />
+
+    <div class="info">
+       <a href="/details/{{item.productId}}"> {{ item.name }} </a>
+      <span class="price">{{ item.price | currency:'RON':'symbol':'1.0-2' }}</span>
     </div>
 
-    <div class="favorite-item">
-      <img src="assets/images/logoTerraBucovina.png" alt="Produs" class="thumb" />
-      <div class="info">
-        <span class="name">Pachet de ceai</span>
-        <span class="price">€8.00</span>
-      </div>
+    <div class="actions">
+      <button 
+        class="icon-btn add-btn" 
+        aria-label="Adaugă în coș"
+        (click)="addToCart(item.productId)"
+       
+      >
+        <mat-icon>add_shopping_cart</mat-icon>
+      </button>
 
-      <div class="actions">
-        <button class="icon-btn add-btn" aria-label="Adaugă în coș">
-          <mat-icon>add_shopping_cart</mat-icon>
-        </button>
-        <button class="icon-btn remove-btn" aria-label="Șterge">
-          ✕
-        </button>
-      </div>
+      <button 
+        class="icon-btn remove-btn" 
+        aria-label="Șterge din favorite"
+        (click)="remove(item.productId)"
+      >
+        ✕
+      </button>
     </div>
   </div>
+</div>
+
 
 
  
-</div>
+
