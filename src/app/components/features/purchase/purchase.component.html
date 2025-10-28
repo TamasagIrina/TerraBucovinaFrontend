@@ -10,25 +10,25 @@
       <div class="grid-2">
         <label class="field">
           <span>Nume</span>
-          <input type="text" placeholder="Nume și prenume" />
+          <input type="text"  [(ngModel)]="fullName"  placeholder="Nume și prenume" />
         </label>
         <label class="field">
           <span>Email</span>
-          <input type="email" placeholder="ex: nume@email.com" />
+          <input type="email"  [(ngModel)]="email"  placeholder="ex: nume@email.com" />
         </label>
       </div>
       <div class="grid-2">
         <label class="field">
           <span>Telefon</span>
-          <input type="tel" placeholder="+40 7xx xxx xxx" />
+          <input type="tel"  [(ngModel)]="phone" placeholder="+40 7xx xxx xxx" />
         </label>
         <label class="field">
           <span>CUI (opțional)</span>
-          <input type="text" placeholder="Pentru factură pe firmă" />
+          <input type="text" [(ngModel)]="cui" placeholder="Pentru factură pe firmă" />
         </label>
       </div>
       <label class="checkbox">
-        <input type="checkbox" />
+        <input type="checkbox" [(ngModel)]="isCompanyInvoice" />
         <span>Doresc factură pe firmă</span>
       </label>
     </div>
@@ -46,22 +46,22 @@
         </label>
         <label class="field">
           <span>Județ</span>
-          <input type="text" placeholder="ex: Suceava" />
+          <input type="text"  [(ngModel)]="county"  placeholder="ex: Suceava" />
         </label>
       </div>
       <div class="grid-2">
         <label class="field">
           <span>Oraș</span>
-          <input type="text" placeholder="ex: Rădăuți" />
+          <input type="text"  [(ngModel)]="city" placeholder="ex: Rădăuți" />
         </label>
         <label class="field">
           <span>Cod poștal</span>
-          <input type="text" placeholder="ex: 725400" />
+          <input type="text"  [(ngModel)]="postalCode"  placeholder="ex: 725400" />
         </label>
       </div>
       <label class="field">
         <span>Adresă</span>
-        <input type="text" placeholder="Strada, număr, bloc, scara, apartament" />
+        <input type="text"  [(ngModel)]="address" placeholder="Strada, număr, bloc, scara, apartament" />
       </label>
     </div>
 
@@ -147,7 +147,7 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card"*ngIf="cartItems$ | async as items" >
       <div class="coupon">
         <input type="text" placeholder="Cupon reducere" />
         <button class="btn apply">Aplică</button>
@@ -156,7 +156,7 @@
         <input type="checkbox" />
         <span>Sunt de acord cu termenii și condițiile</span>
       </label>
-      <button class="btn primary wfull">Plătește acum</button>
+      <button class="btn primary wfull"  (click)="submitOrder(items)" *ngIf="cartItems$ | async as items">Plătește acum</button>
     </div>
   </div>
 

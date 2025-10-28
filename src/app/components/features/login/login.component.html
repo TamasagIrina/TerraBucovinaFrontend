@@ -30,7 +30,7 @@
         <h2>Creează cont</h2>
 
         <div class="field"> <mat-icon class="icon">person</mat-icon><input #usernameInput1 type="text"
-            placeholder="User name" (input)="resetMessages()" /></div>
+            placeholder="Nume" (input)="resetMessages()" /></div>
         <div class="field"> <mat-icon class="icon">mail</mat-icon><input #emailInput1 type="email"
             placeholder="Adresă de e-mail"  (input)="resetMessages()" /></div>
         <div class="field"> <mat-icon class="icon">lock</mat-icon><input #passwordInput1 type="password"
@@ -55,13 +55,13 @@
       <!-- FORMULAR AUTENTIFICARE -->
       <form class="form signin-form" autocomplete="off">
         <h2>Autentificare</h2>
-        <div class="field"> <mat-icon class="icon">person</mat-icon> <input #usernameInput type="text"
-            placeholder="UserName" (input)="resetMessages()" /></div>
+        <div class="field"> <mat-icon class="icon">mail</mat-icon><input #emailInput type="email"
+            placeholder="Adresă de e-mail"  (input)="resetMessages()" /></div>
         <div class="field"> <mat-icon class="icon">lock</mat-icon><input #passwordInput type="password"
             placeholder="Parolă" (input)="resetMessages()" /></div>
 
         <button type="button" class="btn primary"
-          (click)="login(usernameInput.value, passwordInput.value)">Autentifică-te</button>
+          (click)="login(emailInput.value, passwordInput.value)">Autentifică-te</button>
         <p class="switch">
           Nu ai cont?
           <button type="button" class="link" (click)="signup = true; resetMessages()">Creează unul acum</button>

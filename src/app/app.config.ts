@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import * as fromProducts from '../app/components/core/store/products/products.reducer';
 import * as fromPlants from '../app/components/core/store/plants/plants.reducer';
 import * as fromImages from '../app/components/core/store/images/images.reducer';
+import * as fromOrders from '../app/components/core/store/order/order.reducer';
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { tokenInterceptor } from './components/core/services/token-interceptor/token-interceptor';
@@ -15,6 +16,7 @@ import * as fromCart from '../app/components/core/store/cart/cart.reducer';
 import * as fromFavorite from '../app/components/core/store/favorite/favorite.reducer';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { productsReducer } from '../app/components/core/store/products/products.reducer';
+import { OrderEffects } from './components/core/store/order/order.effects';
 
 const keysToSync = [
   fromCart.cartFeatureKey,
@@ -43,13 +45,15 @@ export const appConfig: ApplicationConfig = {
   provideEffects([
     ProductsEffects,
     PlantsEffects,
-    ImagesEffects
+    ImagesEffects,
+    OrderEffects
   ]),
   provideState(fromProducts.productFeatureKey, fromProducts.productsReducer),
   provideState(fromPlants.plantsFeatureKey, fromPlants.plantsReducer),
   provideState(fromImages.imagesFeatureKey, fromImages.imagesReducer),
+  provideState(fromOrders.orderFeatureKey, fromOrders.orderReducer),
   provideState(fromCart.cartFeatureKey, fromCart.cartReducer),
-   provideState(fromFavorite.favoriteFeatureKey, fromFavorite.favoriteReducer)
+  provideState(fromFavorite.favoriteFeatureKey, fromFavorite.favoriteReducer)
   ]
 };
 

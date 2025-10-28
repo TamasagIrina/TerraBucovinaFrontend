@@ -14,9 +14,8 @@ export class AuthService {
  
   constructor(private http: HttpClient) { }
 
-   login(username: string, password: string) {
-    
-    return this.http.post<string>(`${this.baseUrl}/api/auth/login`, { username, password }, { responseType: 'text' as 'json' });
+   login(email: string, password: string) {
+    return this.http.post<string>(`${this.baseUrl}/api/auth/login`, { email, password }, { responseType: 'text' as 'json' });
   }
 
    register(username: string, password: string, email: string) {

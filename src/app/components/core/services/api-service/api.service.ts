@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Product } from '../../interfaces/product.interface';
 import { Image } from '../../interfaces/image.interface';
 import { Plant } from '../../interfaces/plant.interfece';
+import { Order } from '../../interfaces/order.interface';
 export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
 
 @Injectable({
@@ -12,7 +13,7 @@ export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
 })
 
 export class ApiService {
- 
+
 
 
   private readonly baseUrl = `${environment.apiUrl}/api`;
@@ -24,9 +25,9 @@ export class ApiService {
   }
 
   createProducts(product: Omit<Product, 'id'>): Observable<Product> {
-  const context = new HttpContext().set(REQUIRES_AUTH, true);
-  return this.http.post<Product>(`${this.baseUrl}/products/admin/add`, product, { context });
-}
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.post<Product>(`${this.baseUrl}/products/admin/add`, product, { context });
+  }
 
 
   updateProducts(id: number, product: Product): Observable<Product> {
@@ -38,8 +39,8 @@ export class ApiService {
   }
 
 
-   getAllImages(): Observable<any[]> {
-     return this.http.get<any[]>(`${this.baseUrl}/products/images/get/all`);
+  getAllImages(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/products/images/get/all`);
   }
   getImageByProductId(productId: number) {
     return this.http.get<Image[]>(`${this.baseUrl}/products/images/get/ByProductId/${productId}`);
@@ -57,7 +58,7 @@ export class ApiService {
     const form = new FormData();
     form.append('productId', String(productId));
     form.append('file', file);
-   
+
     if (altText != null) form.append('altText', altText);
     if (sortOrder != null) form.append('sortOrder', String(sortOrder));
     if (isPrimary != null) form.append('isPrimary', String(isPrimary));
@@ -87,5 +88,9 @@ export class ApiService {
 
   deletePlant(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+  }
+
+  addOrder(order: Order): Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/orders/add`, order);
   }
 }

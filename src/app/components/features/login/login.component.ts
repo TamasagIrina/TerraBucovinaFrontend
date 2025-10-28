@@ -40,20 +40,20 @@ export class LoginComponent {
     this.missingFields = false;
   }
 
-  login(username: string, password: string) {
+  login(email: string, password: string) {
 
-    console.log(username, password);
+    console.log(email, password);
 
     this.loginError = false;
     this.loginSuccess = false;
     this.missingFields = false;
 
-    if (!username || !password) {
+    if (!email || !password) {
       this.missingFields = true;
       return;
     }
 
-    this.authService.login(username, password).subscribe({
+    this.authService.login(email, password).subscribe({
       next: (res) => {
         if (res == "Invalid username or password") {
           this.loginError = true;
