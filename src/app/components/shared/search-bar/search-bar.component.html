@@ -1,0 +1,27 @@
+<div class="relative w-full max-w-md mx-auto">
+    <input type="text"
+        class="search-box w-full p-2 border rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        placeholder="Cauta produs..." [(ngModel)]="query" (input)="onSearch()" />
+
+    <div *ngIf="query" class="search-dropdown">
+        <!-- Show results -->
+        <ng-container *ngIf="filteredProducts.length > 0; else noResults">
+            <div  *ngFor="let item of filteredProducts" class="search-item" (click)="selectProduct(item)">
+                <img [src]="item.main_image_url || 'assets/no-image.png'" [alt]="item.name" class="thumb" />
+
+                <div class="info">
+                    <a >{{ item.name }}</a>
+                    <span class="price">{{ item.price.toFixed(2) }} RON</span>
+                </div>
+            </div>
+        </ng-container>
+
+        <!-- No results template -->
+        <ng-template #noResults>
+            <div class="no-results">
+                <p>Nici un rezultat pentru "<strong>{{ query }}</strong>"</p>
+            </div>
+        </ng-template>
+    </div>
+
+</div>

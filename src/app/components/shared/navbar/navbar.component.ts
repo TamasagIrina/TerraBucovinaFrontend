@@ -9,10 +9,15 @@ import { CartDropdownComponent } from "../cart-dropdown/cart-dropdown.component"
 import { CommonModule } from '@angular/common';
 import { MatBadge } from '@angular/material/badge';
 import { FavoriteDropdownComponent } from "../favorite-dropdown/favorite-dropdown.component";
-import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Observable, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as CartSelectors from '../../core/store/cart/cart.selectors';
 import * as FavoriteSelectors from '../../core/store/favorite/favorite.selectors';
+import { Product } from '../../core/interfaces/product.interface';
+import { selectAllProducts, selectAllProductsWithPrimaryImage } from '../../core/store/products/products.selectors';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
+import { SearchBarComponent } from "../search-bar/search-bar.component";
 
 
 @Component({
@@ -27,21 +32,28 @@ import * as FavoriteSelectors from '../../core/store/favorite/favorite.selectors
     CartDropdownComponent,
     CommonModule,
     MatBadge,
-    FavoriteDropdownComponent
+    FavoriteDropdownComponent,
+    FormsModule,
+    SearchBarComponent
 ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-    public isCartOpen = false;
-    public isFavoriteOpen = false;
-     totalCartItems$: Observable<number> | undefined;
-       totalFavoriteItems$: Observable<number> | undefined;
+  public isCartOpen = false;
+  public isFavoriteOpen = false;
+  totalCartItems$: Observable<number> | undefined;
+  totalFavoriteItems$: Observable<number> | undefined;
 
-     constructor(private store: Store){
-      this.totalCartItems$=this.store.select(CartSelectors.selectCartTotalItems);
-      this.totalFavoriteItems$=this.store.select(FavoriteSelectors.selectCartTotalItems);
-     }
+  
+
+  constructor(private store: Store) {
+    this.totalCartItems$ = this.store.select(CartSelectors.selectCartTotalItems);
+    this.totalFavoriteItems$ = this.store.select(FavoriteSelectors.selectCartTotalItems);
+  }
+
+ 
+
 
   toggleCart() {
     this.isCartOpen = !this.isCartOpen;
@@ -49,12 +61,12 @@ export class NavbarComponent {
 
   }
 
-   toggleFavorite() {
+  toggleFavorite() {
     this.isFavoriteOpen = !this.isFavoriteOpen;
     this.closeCart();
-  
+
   }
-   closeFavorite() {
+  closeFavorite() {
     this.isFavoriteOpen = false;
   }
 
@@ -62,5 +74,5 @@ export class NavbarComponent {
     this.isCartOpen = false;
   }
 
- 
+
 }

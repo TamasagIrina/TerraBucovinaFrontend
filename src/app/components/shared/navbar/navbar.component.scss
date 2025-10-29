@@ -13,6 +13,8 @@
     right: 0;
     z-index: 9999;
 
+    overflow: visible !important;
+
     &__left {
         display: flex;
         align-items: center;
@@ -51,34 +53,10 @@
         align-items: center;
         gap: 1rem;
 
-        .search-box {
-            background-color: var(--search-bg);
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            padding: 0.3rem 0.8rem;
 
-            input {
-                border: none;
-                outline: none;
-                background: transparent;
-                font-size: 0.9rem;
-            }
 
-            mat-icon {
-                color: var(--icon-color);
-            }
-        }
 
-        .icon {
-            color: var(--icon-color);
-            font-size: 24px;
-            cursor: pointer;
 
-            &:hover {
-                color: var(--navbar-hover);
-            }
-        }
 
         .cart-wrapper {
             position: relative;

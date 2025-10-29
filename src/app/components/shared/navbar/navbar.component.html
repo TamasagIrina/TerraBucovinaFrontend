@@ -12,12 +12,13 @@
   </ul>
 
   <div class="navbar__right">
-    <div class="search-box">
-      <input type="text" placeholder="Caută produse..." />
-      <mat-icon>search</mat-icon>
+    <div class="navbar__right">
+      <app-search-bar></app-search-bar>
     </div>
 
-    <button class="favorite-btn" (click)="toggleFavorite()" matBadge="{{totalFavoriteItems$ | async }}" matBadgeColor="accent">
+
+    <button class="favorite-btn" (click)="toggleFavorite()" matBadge="{{totalFavoriteItems$ | async }}"
+      matBadgeColor="accent">
       <mat-icon class="icon">favorite</mat-icon>
     </button>
 
@@ -30,6 +31,6 @@
 
     <app-cart-dropdown *ngIf="isCartOpen"></app-cart-dropdown>
 
-    <button class="login-button" [routerLink]="'/login'" >Login</button>
+    <button class="login-button" [routerLink]="'/login'">Login</button>
   </div>
 </nav>

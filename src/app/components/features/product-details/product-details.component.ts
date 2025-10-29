@@ -35,14 +35,20 @@ export class ProductDetailsComponent {
   id: number | undefined;
 
 
-  ngOnInit() {
-    const idFromRoute = this.router.snapshot.paramMap.get("id");
+ ngOnInit(): void {
+  this.router.paramMap.subscribe(params => {
+    const idFromRoute = params.get('id');
     this.id = idFromRoute ? parseInt(idFromRoute, 10) : 0;
-  
+
+   
     this.product$ = this.store.select(selectProductById(this.id));
 
+    
     this.store.dispatch(ImagesActions.loadImagesByProduct({ productId: this.id }));
     this.images$ = this.store.select(selectImagesByProduct(this.id));
-  }
+  });
+}
+
+
 
 }
