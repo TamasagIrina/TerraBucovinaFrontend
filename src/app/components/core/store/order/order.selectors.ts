@@ -1,9 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { OrderState } from './order.reducer';
+import { orderFeatureKey } from './order.reducer';
 
 
+export const selectOrderState = createFeatureSelector<OrderState>(orderFeatureKey);
 
-export const selectOrderState = createFeatureSelector<OrderState>('order');
 
 export const selectAllOrders = createSelector(
   selectOrderState,
@@ -18,4 +19,9 @@ export const selectOrderLoading = createSelector(
 export const selectOrderError = createSelector(
   selectOrderState,
   (state) => state.error
+);
+
+export const selectOrderMessage = createSelector(
+  selectOrderState,
+  (state) => state?.message
 );

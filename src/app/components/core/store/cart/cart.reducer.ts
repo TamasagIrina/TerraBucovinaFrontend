@@ -34,9 +34,32 @@ export const cartReducer = createReducer(
 
   }),
 
+   on(CartActions.addToCartSuccess, (state, { productId, quantity }) => {
+    const existingItemIndex = state.items.findIndex(item => item.productId === productId);
+
+    let updatedItems: CartItem[];
+
+    if (existingItemIndex > -1) {
+      updatedItems = state.items.map((item, index) =>
+        index === existingItemIndex
+          ? { ...item, quantity: item.quantity + quantity }
+          : item
+      );
+    } else {
+      updatedItems = [...state.items, { productId, quantity }];
+    }
+
+    return { ...state, items: updatedItems };
+  }),
+
   on(CartActions.removeItem, (state, {productId}) => ({
     ...state,
     items : state.items.filter(item => item.productId !== productId)
+  })),
+
+   on(CartActions.removeFromCartSuccess, (state, { productId }) => ({
+    ...state,
+    items: state.items.filter(item => item.productId !== productId),
   })),
 
   on(CartActions.increaseQuanity, (state, {productId}) => ({

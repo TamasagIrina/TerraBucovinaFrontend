@@ -1,27 +1,28 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Router, RouterModule } from '@angular/router';
+import { filter, Observable } from 'rxjs';
 import { CartItemDetailed } from '../../core/interfaces/cart.interface';
 import { Store } from '@ngrx/store';
 import * as CartSelectors from '../../core/store/cart/cart.selectors';
+
 import * as OrderActions from '../../core/store/order/order.actions';
 import { OrderProduct } from '../../core/interfaces/orederProduct.interface';
 import { Order } from '../../core/interfaces/order.interface';
+
 @Component({
   selector: 'app-purchase',
   imports: [RouterModule,
     CommonModule,
-    FormsModule
-  ],
+    FormsModule],
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.scss'
 })
 export class PurchaseComponent {
   cartItems$!: Observable<CartItemDetailed[]>;
   totalPrice$!: Observable<number>;
-
+ 
   fullName = '';
   email = '';
   phone = '';
@@ -33,18 +34,25 @@ export class PurchaseComponent {
   postalCode = '';
   address = '';
   userId: number | null = null;
-  constructor(private store: Store) { }
+
+
+
+  constructor(private store: Store, protected router:Router) { }
+
+
 
   ngOnInit() {
     this.cartItems$ = this.store.select(CartSelectors.selectCartItemsWithDetails);
     this.totalPrice$ = this.store.select(CartSelectors.selectCartTotalPrice);
+  
+
   }
 
   tab: 'card' | 'cod' | 'bank' = 'card';
 
   shippingMethod: 'curier' | 'pickup' = 'curier';
 
- submitOrder(items: CartItemDetailed[]) {
+  submitOrder(items: CartItemDetailed[]) {
     const products: OrderProduct[] = items.map(item => ({
       productId: item.productId,
       quantity: item.quantity
@@ -68,6 +76,7 @@ export class PurchaseComponent {
     };
 
     this.store.dispatch(OrderActions.addOrder({ order }));
+
   }
 
   setTab(next: 'card' | 'cod' | 'bank') {

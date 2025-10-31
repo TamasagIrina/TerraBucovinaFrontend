@@ -6,10 +6,22 @@ export const addItem = createAction(
   props<{productId : number, quantity : number}>()
 );
 
+export const  addToCartSuccess = createAction(
+  '[cart Page] Add Item Success ',
+  props<{productId : number, quantity : number}>()
+);
 export const removeItem = createAction(
   '[cart Page] remove Item ',
   props<{productId : number}>()
 );
+
+
+
+export const removeFromCartSuccess = createAction(
+  '[cart Page] remove Item Success',
+  props<{productId : number}>()
+);
+
 
 export const increaseQuanity = createAction(
   '[cart Page] increase Item ',
@@ -24,4 +36,5 @@ export const descreaseQuanity = createAction(
 export const clearCart = createAction(
   '[cart Page] remove all Items'
 );
+
 

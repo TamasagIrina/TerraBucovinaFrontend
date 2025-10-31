@@ -3,15 +3,17 @@ import { Order } from '../../interfaces/order.interface';
 
 export const addOrder = createAction(
   '[Order] Add Order',
-  props<{ order: Order }>()
+ props<{ order: Order}>()
 );
 
 export const addOrderSuccess = createAction(
   '[Order] Add Order Success',
-  props<{ order: Order }>()
+  props<{ order: Order;  message: string  }>()
 );
 
 export const addOrderFailure = createAction(
   '[Order] Add Order Failure',
-  props<{ error: any }>()
+   props<{ error: any; message: string }>()
 );
+
+export const clearOrderMessage = createAction('[Order] Clear Order Message');

@@ -6,34 +6,42 @@ export const orderFeatureKey = 'orders';
 
 export interface OrderState {
   orders: Order[];
-  loading: boolean;
+  message: string | null;
   error: any;
+  loading: boolean;
 }
 
 export const initialState: OrderState = {
   orders: [],
-  loading: false,
-  error: null
+  message: null,
+  error: null,
+  loading: false
 };
 
 export const orderReducer = createReducer(
   initialState,
-
   on(OrderActions.addOrder, (state) => ({
     ...state,
     loading: true,
     error: null
   })),
 
-  on(OrderActions.addOrderSuccess, (state, { order }) => ({
+  on(OrderActions.addOrderSuccess, (state, { order, message }) => ({
     ...state,
-    loading: false,
-    orders: [...state.orders, order]
+    orders: [...state.orders, order],
+    message,
+    error: null,
+    loading: false
   })),
 
-  on(OrderActions.addOrderFailure, (state, { error }) => ({
+  on(OrderActions.addOrderFailure, (state, { error, message }) => ({
     ...state,
-    loading: false,
-    error
+    error,
+    message,
+    loading: false
+  })),
+  on(OrderActions.clearOrderMessage, (state) => ({
+    ...state,
+    message: null
   }))
 );

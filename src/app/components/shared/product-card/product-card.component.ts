@@ -13,6 +13,7 @@ import * as CartActions from "../../core/store/cart/cart.actions"
 import * as FavoriteActions from "../../core/store/favorite/favorite.actions"
 import { tick } from '@angular/core/testing';
 import * as FavoriteSelectors from '../../core/store/favorite/favorite.selectors';
+import { CartEffects } from '../../core/store/cart/cart.effects';
 @Component({
   selector: 'app-product-card',
   imports: [MatIconModule,
@@ -40,21 +41,24 @@ export class ProductCardComponent {
 
   async addToCart() {
     this.store.dispatch(CartActions.addItem({ productId: this.product.id, quantity: 1 }));
+    this.store.dispatch(CartActions.addToCartSuccess({ productId: this.product.id, quantity: 1 }));   
     this.store.dispatch(FavoriteActions.removeItem({ productId: this.product.id }));
+   
 
   }
-  addToFavorite() {
-    this.store.dispatch(FavoriteActions.addItem({ productId: this.product.id }));
-  }
+ 
 
 toggleFavorite(productId: number) {
   this.isFavorite$.pipe(take(1)).subscribe(isFav => {
     if (isFav) {
       this.store.dispatch(FavoriteActions.removeItem({ productId }));
+       this.store.dispatch(FavoriteActions.removeFromFavoriteSuccess({ productId: this.product.id }));
     } else {
       this.store.dispatch(FavoriteActions.addItem({ productId }));
+       this.store.dispatch(FavoriteActions.addToFavoriteSuccess({ productId: this.product.id }));
     }
   });
+  
 }
   goToDetail() {
     this.router.navigateByUrl("details/" + this.product.id)

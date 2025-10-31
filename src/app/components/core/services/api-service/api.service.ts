@@ -90,7 +90,7 @@ export class ApiService {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 
-  addOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${this.baseUrl}/orders/add`, order);
+  addOrder(order: Order): Observable<{ message: string }>{
+    return this.http.post<{ message: string }>(`${this.baseUrl}/orders/add`, order);
   }
 }

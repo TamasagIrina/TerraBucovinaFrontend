@@ -1,5 +1,5 @@
 import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, RouterModule, withInMemoryScrolling } from '@angular/router';
 import * as fromProducts from '../app/components/core/store/products/products.reducer';
 import * as fromPlants from '../app/components/core/store/plants/plants.reducer';
 import * as fromImages from '../app/components/core/store/images/images.reducer';
@@ -17,6 +17,9 @@ import * as fromFavorite from '../app/components/core/store/favorite/favorite.re
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { productsReducer } from '../app/components/core/store/products/products.reducer';
 import { OrderEffects } from './components/core/store/order/order.effects';
+import * as fromNotification from './components/core/store/notification/notification.reducer';
+import { CartEffects } from './components/core/store/cart/cart.effects';
+import { FavoriteEffects } from './components/core/store/favorite/favorite.effects';
 
 const keysToSync = [
   fromCart.cartFeatureKey,
@@ -29,7 +32,7 @@ function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any
     keys: keysToSync,
     rehydrate: true,
     storage: window.localStorage,
-    removeOnUndefined: true
+    removeOnUndefined: true,
   })(reducer)
 }
 
@@ -46,8 +49,17 @@ export const appConfig: ApplicationConfig = {
     ProductsEffects,
     PlantsEffects,
     ImagesEffects,
-    OrderEffects
+    OrderEffects,
+    CartEffects,
+    FavoriteEffects,
   ]),
+  provideRouter(
+    routes,
+    withInMemoryScrolling({
+      scrollPositionRestoration: 'top',
+    })
+  ),
+  provideState(fromNotification.notificationFeatureKey, fromNotification.notificationReducer),
   provideState(fromProducts.productFeatureKey, fromProducts.productsReducer),
   provideState(fromPlants.plantsFeatureKey, fromPlants.plantsReducer),
   provideState(fromImages.imagesFeatureKey, fromImages.imagesReducer),
