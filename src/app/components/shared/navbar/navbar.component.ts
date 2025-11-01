@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CartDropdownComponent } from "../cart-dropdown/cart-dropdown.component";
 import { CommonModule } from '@angular/common';
 import { MatBadge } from '@angular/material/badge';
@@ -18,6 +18,7 @@ import { selectAllProducts, selectAllProductsWithPrimaryImage } from '../../core
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { SearchBarComponent } from "../search-bar/search-bar.component";
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
 
 
 @Component({
@@ -35,7 +36,7 @@ import { SearchBarComponent } from "../search-bar/search-bar.component";
     FavoriteDropdownComponent,
     FormsModule,
     SearchBarComponent
-],
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
@@ -44,16 +45,34 @@ export class NavbarComponent {
   public isFavoriteOpen = false;
   totalCartItems$: Observable<number> | undefined;
   totalFavoriteItems$: Observable<number> | undefined;
+  isLoggedIn = false;
 
-  
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private authService: AuthService, private router: Router) {
     this.totalCartItems$ = this.store.select(CartSelectors.selectCartTotalItems);
     this.totalFavoriteItems$ = this.store.select(FavoriteSelectors.selectCartTotalItems);
+
+    this.isLoggedIn = this.authService.isLoggedIn();
+
+    this.authService.roles$.subscribe(() => {
+      this.isLoggedIn = this.authService.isLoggedIn();
+      // isAdmin și isUser se vor recalcula automat din getter
+    });
   }
 
- 
+  get isAdmin(): boolean {
+    return this.authService.hasRole('ROLE_ADMIN');
+  }
 
+  get isUser(): boolean {
+    return this.authService.hasRole('ROLE_USER');
+  }
+
+  logOut() {
+    this.authService.logout();
+    this.router.navigateByUrl("/store");
+
+  }
 
   toggleCart() {
     this.isCartOpen = !this.isCartOpen;

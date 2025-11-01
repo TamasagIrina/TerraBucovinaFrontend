@@ -1,6 +1,34 @@
 import { createAction, props } from '@ngrx/store';
 import { Order } from '../../interfaces/order.interface';
 
+export const loadOrders = createAction('[Order] Load Orders');
+
+export const loadOrdersSuccess = createAction(
+  '[Order] Load Orders Success',
+  props<{ orders: Order[] }>()
+);
+
+export const loadOrdersFailure = createAction(
+  '[Order] Load Orders Failure',
+  props<{ error: any }>()
+);
+
+// === UPDATE ORDER STATUS ===
+export const updateOrderStatus = createAction(
+  '[Order] Update Order Status',
+  props<{ orderId: number; status: string }>()
+);
+
+export const updateOrderStatusSuccess = createAction(
+  '[Order] Update Order Status Success',
+  props<{ orderId: number; status: string; message: string }>()
+);
+
+export const updateOrderStatusFailure = createAction(
+  '[Order] Update Order Status Failure',
+  props<{ error: any; message: string }>()
+);
+
 export const addOrder = createAction(
   '[Order] Add Order',
  props<{ order: Order}>()

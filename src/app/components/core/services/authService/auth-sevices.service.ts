@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import { tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { decodeJwt, isExpired } from './jwt.utils';
 
 @Injectable({
@@ -11,16 +11,25 @@ export class AuthService {
 
   private readonly baseUrl = `${environment.apiUrl}`;
   private readonly KEY = 'access_token';
- 
+
   constructor(private http: HttpClient) { }
 
-   login(email: string, password: string) {
+  private rolesSubject = new BehaviorSubject<string[]>(this.roles);
+  roles$ = this.rolesSubject.asObservable();
+
+  login(email: string, password: string) {
     return this.http.post<string>(`${this.baseUrl}/api/auth/login`, { email, password }, { responseType: 'text' as 'json' });
   }
 
-   register(username: string, password: string, email: string) {
+  register(username: string, password: string, email: string) {
     return this.http.post<string>(`${this.baseUrl}/api/auth/register`, { username, password, email }, { responseType: 'text' as 'json' });
   }
+
+  saveToken(token: string) {
+    localStorage.setItem(this.KEY, token);
+    this.rolesSubject.next(this.roles);
+  }
+
 
   getToken(): string | null {
     return localStorage.getItem(this.KEY);
@@ -29,9 +38,10 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem(this.KEY);
+    this.rolesSubject.next([]);
   }
 
-   isLoggedIn(): boolean {
+  isLoggedIn(): boolean {
     const t = localStorage.getItem(this.KEY);
     return !!t && !isExpired(t);
   }
@@ -41,13 +51,14 @@ export class AuthService {
     if (!t) return [];
     try {
       const payload = decodeJwt<any>(t);
+
       return payload?.roles ?? payload?.authorities ?? [];
     } catch {
       return [];
     }
   }
 
-   hasRole(role: string): boolean {
+  hasRole(role: string): boolean {
     return this.roles.includes(role);
   }
 

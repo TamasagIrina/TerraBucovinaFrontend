@@ -58,7 +58,7 @@ export class LoginComponent {
         if (res == "Invalid username or password") {
           this.loginError = true;
         } else {
-          localStorage.setItem('access_token', res);
+          this.authService.saveToken(res);
           this.loginSuccess = true;
         }
         console.log('OK', res);

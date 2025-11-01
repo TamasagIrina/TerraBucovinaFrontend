@@ -1,0 +1,82 @@
+
+.admin-orders {
+  padding: 24px;
+  background-color: #fafafa;
+
+  h2 {
+    margin-bottom: 20px;
+    color: #2e2e2e;
+  }
+
+  .empty-message {
+    font-style: italic;
+    color: #777;
+  }
+
+  .order-card {
+    border: 1px solid #ddd;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+
+    .order-header {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+
+      div {
+        margin-right: 12px;
+        font-size: 14px;
+      }
+    }
+
+    .order-status {
+      display: flex;
+      align-items: center;
+
+      label {
+        margin-right: 8px;
+      }
+
+      select {
+        margin-right: 12px;
+        padding: 4px 8px;
+      }
+
+      button {
+        padding: 6px 12px;
+        background-color: #1976d2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #1565c0;
+        }
+      }
+    }
+
+    .order-status-label {
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    // Status color coding
+    & .status-PENDING {
+      color: #ff9800;
+    }
+    & .status-SHIPPED {
+      color: #2196f3;
+    }
+    & .status-DELIVERED {
+      color: #4caf50;
+    }
+    & .status-CANCELLED {
+      color: #f44336;
+    }
+  }
+}

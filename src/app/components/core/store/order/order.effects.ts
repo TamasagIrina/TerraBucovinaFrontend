@@ -14,6 +14,45 @@ export class OrderEffects {
   private store = inject(Store);
   private router = inject(Router);
 
+
+  loadOrders$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(OrderActions.loadOrders),
+    mergeMap(() =>
+      this.apiService.getAllOrders().pipe(
+        map((orders) => OrderActions.loadOrdersSuccess({ orders })),
+        catchError((error) =>
+          of(OrderActions.loadOrdersFailure({ error }))
+        )
+      )
+    )
+  )
+);
+
+updateOrderStatus$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(OrderActions.updateOrderStatus),
+    mergeMap(({ orderId, status }) =>
+      this.apiService.updateOrderStatus(orderId, status).pipe(
+        map((response) =>
+          OrderActions.updateOrderStatusSuccess({
+            orderId,
+            status,
+            message: response.message ?? 'Status actualizat cu succes!'
+          })
+        ),
+        catchError((error) =>
+          of(OrderActions.updateOrderStatusFailure({
+            error,
+            message: 'Eroare la actualizarea statusului'
+          }))
+        )
+      )
+    )
+  )
+);
+
+
   addOrder$ = createEffect(() =>
     this.actions$.pipe(
       ofType(OrderActions.addOrder),

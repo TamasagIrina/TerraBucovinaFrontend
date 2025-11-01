@@ -20,6 +20,41 @@ export const initialState: OrderState = {
 
 export const orderReducer = createReducer(
   initialState,
+
+   on(OrderActions.loadOrders, (state) => ({
+    ...state,
+    loading: true,
+    error: null,
+  })),
+  on(OrderActions.loadOrdersSuccess, (state, { orders }) => ({
+    ...state,
+    orders,
+    loading: false,
+  })),
+  on(OrderActions.loadOrdersFailure, (state, { error }) => ({
+    ...state,
+    error,
+    loading: false,
+  })),
+
+  // --- UPDATE STATUS ---
+  on(OrderActions.updateOrderStatus, (state) => ({
+    ...state,
+    loading: true,
+  })),
+  on(OrderActions.updateOrderStatusSuccess, (state, { orderId, status }) => ({
+    ...state,
+    loading: false,
+    orders: state.orders.map((order) =>
+      order.id === orderId ? { ...order, status } : order
+    ),
+  })),
+  on(OrderActions.updateOrderStatusFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+
   on(OrderActions.addOrder, (state) => ({
     ...state,
     loading: true,

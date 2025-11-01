@@ -2,6 +2,7 @@ import { OrderProduct } from './orederProduct.interface';
 
 
 export interface Order {
+  id: number;
   fullName: string;
   email: string;
   phone: string;
@@ -18,6 +19,10 @@ export interface Order {
   address: string;
 
   products: OrderProduct[];
+
+  createdAt: string;
+
+  status: string;
 
   userId: number | null;
 }

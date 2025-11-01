@@ -59,6 +59,7 @@ export class PurchaseComponent {
     }));
 
     const order: Order = {
+      id:0,
       fullName: this.fullName,
       email: this.email,
       phone: this.phone,
@@ -72,7 +73,9 @@ export class PurchaseComponent {
       deliveryMethod: this.shippingMethod,
       paymentMethod: this.tab,
       products,
-      userId: null
+      userId: null,
+      status: "",
+      createdAt:""
     };
 
     this.store.dispatch(OrderActions.addOrder({ order }));

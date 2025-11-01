@@ -90,7 +90,18 @@ export class ApiService {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 
-  addOrder(order: Order): Observable<{ message: string }>{
+  addOrder(order: Order): Observable<{ message: string }> {
     return this.http.post<{ message: string }>(`${this.baseUrl}/orders/add`, order);
+  }
+
+  getAllOrders() {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<Order[]>(`${this.baseUrl}/orders/get/all`, { context });
+  }
+
+  updateOrderStatus(orderId: number, status: string) {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<{ message: string }>(
+      `${this.baseUrl}/orders/updateStatus/${orderId}/${status}`,null, { context });
   }
 }

@@ -34,7 +34,7 @@
 
     &__links {
         display: flex;
-        gap: 2rem;
+        gap: 1rem;
         list-style: none;
 
         li a {
@@ -47,6 +47,35 @@
             }
         }
     }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        z-index: 1000;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content li {
+        list-style: none;
+    }
+
+    .dropdown-content a {
+        text-decoration: none;
+        color: black;
+        padding: 5px 10px;
+        display: block;
+    }
+
 
     &__right {
         display: flex;

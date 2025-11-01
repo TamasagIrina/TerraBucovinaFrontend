@@ -1,10 +1,34 @@
 <nav class="navbar">
   <div class="navbar__left">
-    <!-- <img src="assets/images/logoTerraBucovina.png" alt="Logo" class="logo" /> -->
+
     <span class="brand">Terra Bucovina</span>
   </div>
+  <ul class="navbar__links" *ngIf="!isLoggedIn">
+    <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
+    <li><a routerLink="about">Remediile Florale</a></li>
+    <li><a routerLink="shop">Magazin</a></li>
+    <li><a routerLink="contact">Contact</a></li>
+  </ul>
 
-  <ul class="navbar__links">
+  <!-- Navbar pentru Admin -->
+  <ul class="navbar__links" *ngIf="isAdmin">
+    <li> <a href="#">Magazin</a></li>
+    <li><a routerLink="admin/add-product">Adaugă produs</a></li>
+    <li><a routerLink="/admin/add-plant">Adaugă plantă</a></li>
+    <li><a routerLink="admin/see-all-orders">Comenzi</a></li>
+    <li><a routerLink="/admin/messages">Mesaje</a></li>
+
+  </ul>
+
+  <!-- Dropdown pentru utilizatori logați (non-admin) -->
+  <ul class="navbar__links" *ngIf="isUser && !isAdmin">
+    <li class="dropdown">
+      <a href="#">Contul Meu</a>
+      <ul class="dropdown-content">
+        <li><a routerLink="/user/orders">Vezi comenzi</a></li>
+        <li><a routerLink="/user/account">Gestionare cont</a></li>
+      </ul>
+    </li>
     <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
     <li><a routerLink="about">Remediile Florale</a></li>
     <li><a routerLink="shop">Magazin</a></li>
@@ -31,6 +55,7 @@
 
     <app-cart-dropdown *ngIf="isCartOpen"></app-cart-dropdown>
 
-    <button class="login-button" [routerLink]="'/login'">Login</button>
+    <button class="login-button"  *ngIf="!isLoggedIn" [routerLink]="'/login'">Log In</button>
+        <button class="login-button"  *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
   </div>
 </nav>
