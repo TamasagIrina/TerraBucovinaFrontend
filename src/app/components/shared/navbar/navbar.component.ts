@@ -61,11 +61,11 @@ export class NavbarComponent {
   }
 
   get isAdmin(): boolean {
-    return this.authService.hasRole('ROLE_ADMIN');
+    return this.authService.hasRole('ROLE_ADMIN') && this.isLoggedIn;
   }
 
   get isUser(): boolean {
-    return this.authService.hasRole('ROLE_USER');
+    return this.authService.hasRole('ROLE_USER') && this.isLoggedIn;
   }
 
   logOut() {

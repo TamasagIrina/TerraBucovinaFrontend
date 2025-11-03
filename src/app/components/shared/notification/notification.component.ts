@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-notification',
-  imports: [CommonModule],
+  imports: [CommonModule, MatIcon],
   templateUrl: './notification.component.html',
   styleUrl: './notification.component.scss'
 })

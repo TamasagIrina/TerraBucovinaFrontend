@@ -21,7 +21,7 @@ export class CartEffects {
                             notificationType: 'success',
                         })
                     );
-                    console.log("SUNTEM IN EFFECTE CART")
+                 
                     setTimeout(() => {
                         this.store.dispatch(NotificationActions.hideNotification());
                     }, 3000);

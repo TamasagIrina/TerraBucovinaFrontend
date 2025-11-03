@@ -20,9 +20,9 @@ export interface Order {
 
   products: OrderProduct[];
 
-  createdAt: string;
+  createdAt: string | null;
 
-  status: string;
+  status: string | null;
 
   userId: number | null;
 }

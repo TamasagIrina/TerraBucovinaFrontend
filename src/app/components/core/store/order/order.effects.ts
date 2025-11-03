@@ -77,7 +77,7 @@ updateOrderStatus$ = createEffect(() =>
 
           this.store.dispatch(
             NotificationActions.showNotification({
-              message: 'Comanda a fost trimisă cu succes!',
+              message: 'Comanda a fost trimisă cu succes, o sa primiti mail de confirmare!',
               notificationType: 'success',
             })
           );

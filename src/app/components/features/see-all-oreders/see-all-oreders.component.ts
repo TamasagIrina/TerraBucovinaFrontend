@@ -6,6 +6,9 @@ import * as OrderActions from "../../core/store/order/order.actions"
 import * as OrderSelectors from "../../core/store/order/order.selectors"
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Product } from '../../core/interfaces/product.interface';
+
+import * as  SelectProducts  from '../../core/store/products/products.selectors';
 
 @Component({
   selector: 'app-see-all-oreders',
@@ -17,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class SeeAllOredersComponent {
   orders$!: Observable<Order[]>;
+  products$!: Observable<Product[]>;
   loading$!: Observable<boolean>;
   statusOptions = [
     "PLASATA",
@@ -30,6 +34,7 @@ export class SeeAllOredersComponent {
 
   ngOnInit(): void {
     this.orders$ = this.store.select(OrderSelectors.selectAllOrders);
+    this.products$= this.store.select(SelectProducts.selectAllProductsWithPrimaryImage);
     this.loading$ = this.store.select(OrderSelectors.selectOrderLoading);
     this.store.dispatch(OrderActions.loadOrders());
   }

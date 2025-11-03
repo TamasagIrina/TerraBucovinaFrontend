@@ -1,10 +1,28 @@
 <div class="notification" [ngClass]="type" *ngIf="show">
   <span class="icon">
     <ng-container [ngSwitch]="type">
-      <i *ngSwitchCase="'success'"></i>
-      <i *ngSwitchCase="'error'"></i>
-      <i *ngSwitchCase="'warning'"></i>
-      <i *ngSwitchDefault></i>
+      <!-- <i *ngSwitchCase="'success'"><mat-icon>check_circle</mat-icon></i>
+      <i *ngSwitchCase="'error'"><mat-icon>error</mat-icon></i>
+      <i *ngSwitchCase="'warning'"><mat-icon>warning</mat-icon></i>
+      <i *ngSwitchDefault> <mat-icon>info</mat-icon></i> -->
+
+      <ng-container [ngSwitch]="type">
+        <ng-container *ngSwitchCase="'success'">
+          <mat-icon color="primary">check_circle</mat-icon>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'error'">
+          <mat-icon color="warn">error</mat-icon>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'warning'">
+          <mat-icon color="accent">warning</mat-icon>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <mat-icon color="primary">info</mat-icon>
+        </ng-container>
+      </ng-container>
     </ng-container>
   </span>
   <span class="message">{{ message }}</span>

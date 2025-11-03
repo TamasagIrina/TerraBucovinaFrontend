@@ -23,9 +23,13 @@
             <select [ngModel]="order.status" (ngModelChange)="onStatusChange(order, $event)">
                 <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
             </select>
-            <!-- <button (click)="updateStatus(order)">Actualizează</button> -->
-        </div>
 
+        </div>
+        <div *ngFor="let product of order.products ">
+            <div>
+                {{product.product.name}} + de {{product.quantity}} ori
+            </div>
+        </div>
         <div class="order-status-label" [ngClass]="'status-'+order.status">
             {{ order.status }}
         </div>

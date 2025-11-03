@@ -28,10 +28,11 @@
           <span class="stars">★★★★☆</span>
           <span class="count">(24 recenzii)</span>
         </div>
-        <div class="sku">
+        <!-- <div class="sku">
           <span class="muted">Cod:</span> TB-ACACIA-500
-        </div>
-        <div class="stock in">În stoc</div>
+        </div> -->
+        <div class="stock in" *ngIf="product.stockQty>0">În stoc</div>
+        <div class="stock in" *ngIf="product.stockQty==0">Nu este in stoc </div>
       </div>
 
       <div class="price-line">
@@ -50,13 +51,13 @@
           <button class="qty-btn">＋</button>
         </div>
 
-        <button class="btn primary">
+        <button (click)="addToCart()" class="btn primary">
           <mat-icon>shopping_cart</mat-icon>
           Adaugă în coș
         </button>
 
-        <button class="btn ghost">
-          <mat-icon class="fav">favorite</mat-icon>
+        <button   (click)="toggleFavorite(product.id)" class="btn ghost">
+          <mat-icon class="fav" >favorite</mat-icon>
           Favorite
         </button>
       </div>

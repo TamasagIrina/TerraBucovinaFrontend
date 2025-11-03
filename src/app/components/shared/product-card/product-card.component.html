@@ -1,22 +1,25 @@
 <div class="product-card">
-    <div>
-        <img (click)="goToDetail()" [src]="product.main_image_url" [alt]="product.name" />
+  <div class="image-wrapper">
+    <img (click)="goToDetail()" [src]="product.main_image_url" [alt]="product.name" />
+  </div>
+
+  <div class="info">
+    <div class="name" (click)="goToDetail()">
+      <a href="/details/{{product.id}}">{{ product.name }}</a>
     </div>
 
-    <div class="info">
-        <div class="name" (click)="goToDetail()">
-            <a href="/details/{{product.id}}"> {{ product.name }} </a>
-        </div>
-        <div (click)="goToDetail()" class="price">{{ product.price + " RON"}}</div>
-        <div class="buttons">
-            <button class="favBtn" (click)="toggleFavorite(product.id)">
-                <mat-icon [class.active]="(isFavorite$ | async)">favorite</mat-icon>
-            </button>
-
-            <button class="addBtn" (click)="addToCart()">
-                <mat-icon [ngClass]="{ 'active': isFavorite$ | async }">add_shopping_cart</mat-icon>
-                Adaugă în coș
-            </button>
-        </div>
+    <div (click)="goToDetail()" class="price">
+      {{ product.price + " RON" }}
     </div>
+
+    <div class="buttons">
+      <button class="favBtn" (click)="toggleFavorite(product.id)">
+        <mat-icon [class.active]="(isFavorite$ | async)">favorite</mat-icon>
+      </button>
+
+      <button class="addBtn" (click)="addToCart()">
+        Adaugă în coș
+      </button>
+    </div>
+  </div>
 </div>

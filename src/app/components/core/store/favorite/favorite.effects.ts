@@ -15,7 +15,7 @@ export class FavoriteEffects {
       this.actions$.pipe(
         ofType(FavoriteActions.addToFavoriteSuccess),
         tap(() => {
-            console.log("aiciii");  
+     
           this.store.dispatch(
             NotificationActions.showNotification({
               message: 'Produs adăugat la favorite!',

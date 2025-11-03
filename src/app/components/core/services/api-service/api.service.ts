@@ -29,9 +29,13 @@ export class ApiService {
     return this.http.post<Product>(`${this.baseUrl}/products/admin/add`, product, { context });
   }
 
+  getProductById(id: number): Observable<Product> {
+    return this.http.get<Product>(`${this.baseUrl}/products/get/byId/${id}`);
+  }
+
 
   updateProducts(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}/products/admin/updata`, product);
+    return this.http.put<Product>(`${this.baseUrl}/products/admin/update/${id}`, product);
   }
 
   deleteProducts(id: number): Observable<void> {
