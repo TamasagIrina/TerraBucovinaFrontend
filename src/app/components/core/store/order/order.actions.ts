@@ -21,12 +21,12 @@ export const updateOrderStatus = createAction(
 
 export const updateOrderStatusSuccess = createAction(
   '[Order] Update Order Status Success',
-  props<{ orderId: number; status: string; message: string }>()
+  props<{ orderId: number; status: string }>()
 );
 
 export const updateOrderStatusFailure = createAction(
   '[Order] Update Order Status Failure',
-  props<{ error: any; message: string }>()
+  props<{ error: any }>()
 );
 
 export const addOrder = createAction(
@@ -36,12 +36,12 @@ export const addOrder = createAction(
 
 export const addOrderSuccess = createAction(
   '[Order] Add Order Success',
-  props<{ order: Order;  message: string  }>()
+  props<{ order: Order }>()
 );
 
 export const addOrderFailure = createAction(
   '[Order] Add Order Failure',
-   props<{ error: any; message: string }>()
+   props<{ error: any }>()
 );
 
 export const clearOrderMessage = createAction('[Order] Clear Order Message');

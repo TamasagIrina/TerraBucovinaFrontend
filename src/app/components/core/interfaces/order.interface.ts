@@ -1,4 +1,5 @@
 import { OrderProduct } from './orederProduct.interface';
+import { User } from './user.interface';
 
 
 export interface Order {
@@ -24,5 +25,5 @@ export interface Order {
 
   status: string | null;
 
-  userId: number | null;
+  user: User |  null;
 }

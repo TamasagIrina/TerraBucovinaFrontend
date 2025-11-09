@@ -11,6 +11,11 @@ import * as OrderActions from '../../core/store/order/order.actions';
 import { OrderProduct } from '../../core/interfaces/orederProduct.interface';
 import { Order } from '../../core/interfaces/order.interface';
 import { selectAllProducts, selectProductById } from '../../core/store/products/products.selectors';
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
+import { ApiService } from '../../core/services/api-service/api.service';
+import { tick } from '@angular/core/testing';
+import { User } from '../../core/interfaces/user.interface';
+import { U } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-purchase',
@@ -35,16 +40,26 @@ export class PurchaseComponent {
   postalCode = '';
   address = '';
   userId: number | null = null;
+  user: User | null = null;
 
 
 
-  constructor(private store: Store, protected router: Router) { }
+  constructor(private store: Store, protected router: Router, private authService: AuthService) { }
 
 
 
   ngOnInit() {
     this.cartItems$ = this.store.select(CartSelectors.selectCartItemsWithDetails);
     this.totalPrice$ = this.store.select(CartSelectors.selectCartTotalPrice);
+    this.authService.getUserId().subscribe(userId => {
+      this.userId = userId as number;
+      console.log(userId);
+      this.authService.getUserById(this.userId).subscribe(user => {
+        this.user = user;
+        console.log(user);
+      });
+    });
+
 
 
   }
@@ -55,11 +70,21 @@ export class PurchaseComponent {
 
   submitOrder(items: CartItemDetailed[]) {
 
+
     this.store.select(selectAllProducts).pipe(take(1)).subscribe(allProducts => {
       const products: OrderProduct[] = items.map(item => ({
         product: allProducts.find(p => p.id === item.productId)!,
         quantity: item.quantity
       }));
+      const orderUser: User = {
+        id: this.user!.id,
+        name: this.user!.name,
+        email: this.user!.email,
+        password: null,
+        roles: null,
+        enabled: null,
+        orders: null
+      };
       const order: Order = {
         id: 0,
         fullName: this.fullName,
@@ -75,12 +100,12 @@ export class PurchaseComponent {
         deliveryMethod: this.shippingMethod,
         paymentMethod: this.tab,
         products,
-        userId: null,
+        user: orderUser,
         status: null,
         createdAt: null
       };
 
-      console.log(order); 
+      console.log(order);
 
       this.store.dispatch(OrderActions.addOrder({ order }));
     });

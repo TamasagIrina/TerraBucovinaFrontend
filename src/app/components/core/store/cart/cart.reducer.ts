@@ -37,19 +37,19 @@ export const cartReducer = createReducer(
    on(CartActions.addToCartSuccess, (state, { productId, quantity }) => {
     const existingItemIndex = state.items.findIndex(item => item.productId === productId);
 
-    let updatedItems: CartItem[];
+    // let updatedItems: CartItem[];
 
-    if (existingItemIndex > -1) {
-      updatedItems = state.items.map((item, index) =>
-        index === existingItemIndex
-          ? { ...item, quantity: item.quantity + quantity }
-          : item
-      );
-    } else {
-      updatedItems = [...state.items, { productId, quantity }];
-    }
+    // if (existingItemIndex > -1) {
+    //   updatedItems = state.items.map((item, index) =>
+    //     index === existingItemIndex
+    //       ? { ...item, quantity: item.quantity + quantity }
+    //       : item
+    //   );
+    // } else {
+    //   updatedItems = [...state.items, { productId, quantity }];
+    // }
 
-    return { ...state, items: updatedItems };
+    return { ...state };
   }),
 
   on(CartActions.removeItem, (state, {productId}) => ({

@@ -1,0 +1,29 @@
+<div class="review-card">
+  <div class="review-header">
+    <img 
+      src="https://via.placeholder.com/50"
+      [alt]="getUserName(review.user)" 
+      class="avatar" 
+    />
+    <div class="review-info">
+      <h4 class="name">{{ getUserName(review.user) }}</h4>
+      <div class="rating">
+        <span>{{ review.stars }}</span>
+        <div class="stars">
+          <ng-container *ngFor="let star of getStarsArray(review.stars); let i = index">
+              <span [class.filled]="isStarFilled(i, review.stars)">★</span>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="review-body">
+    <p class="review-text" [class.expanded]="isExpanded">
+      {{ review.body }}
+    </p>
+    <button class="toggle-btn" *ngIf="isTextLong" (click)="toggleText()">
+      {{ isExpanded ? 'Vezi mai puțin' : 'Vezi mai mult' }}
+    </button>
+  </div>
+</div>

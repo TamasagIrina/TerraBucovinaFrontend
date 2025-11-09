@@ -6,6 +6,8 @@ import { Product } from '../../interfaces/product.interface';
 import { Image } from '../../interfaces/image.interface';
 import { Plant } from '../../interfaces/plant.interfece';
 import { Order } from '../../interfaces/order.interface';
+import { Review } from '../../interfaces/review.inerface';
+import { User } from '../../interfaces/user.interface';
 export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
 
 @Injectable({
@@ -94,8 +96,8 @@ export class ApiService {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 
-  addOrder(order: Order): Observable<{ message: string }> {
-    return this.http.post<{ message: string }>(`${this.baseUrl}/orders/add`, order);
+  addOrder(order: Order):Observable<Order> {
+    return this.http.post<Order>(`${this.baseUrl}/orders/add`, order);
   }
 
   getAllOrders() {
@@ -108,4 +110,23 @@ export class ApiService {
     return this.http.put<{ message: string }>(
       `${this.baseUrl}/orders/updateStatus/${orderId}/${status}`,null, { context });
   }
+
+   getAllReviews(): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.baseUrl}/products/reviews/get/all`);
+  }
+
+  getAllReviewsByProductId(productId: number): Observable<Review[]> {
+    return this.http.get<Review[]>(`${this.baseUrl}/products/reviews/get/allByProductId/${productId}`);
+  }
+
+  addReview(review: Review): Observable<Review> {
+    return this.http.post<Review>(`${this.baseUrl}/products/reviews/add`, review);
+  }
+
+  canUserReview(userId:number, productId: number): Observable<Boolean> {
+    return this.http.get<Boolean>(`${this.baseUrl}/orders/can-review/${userId}/${productId}`);
+  }
+
+ 
+
 }

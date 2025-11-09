@@ -37,14 +37,12 @@ updateOrderStatus$ = createEffect(() =>
         map((response) =>
           OrderActions.updateOrderStatusSuccess({
             orderId,
-            status,
-            message: response.message ?? 'Status actualizat cu succes!'
+            status
           })
         ),
         catchError((error) =>
           of(OrderActions.updateOrderStatusFailure({
-            error,
-            message: 'Eroare la actualizarea statusului'
+            error
           }))
         )
       )
@@ -59,10 +57,12 @@ updateOrderStatus$ = createEffect(() =>
       mergeMap(({ order }) =>
         this.apiService.addOrder(order).pipe(
           map((response) =>
-            OrderActions.addOrderSuccess({ order, message: response.message })
+            OrderActions.addOrderSuccess({
+              order
+            })
           ),
           catchError((error) =>
-            of(OrderActions.addOrderFailure({ error, message: 'Order failed!' }))
+            of(OrderActions.addOrderFailure({ error }))
           )
         )
       )
@@ -75,6 +75,7 @@ updateOrderStatus$ = createEffect(() =>
         ofType(OrderActions.addOrderSuccess),
         tap(() => {
 
+          console.log("AM INTRAT");
           this.store.dispatch(
             NotificationActions.showNotification({
               message: 'Comanda a fost trimisă cu succes, o sa primiti mail de confirmare!',

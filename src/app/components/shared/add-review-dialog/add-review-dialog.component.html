@@ -1,0 +1,39 @@
+<h2 mat-dialog-title *ngIf="data.userId!=0">Adaugă o recenzie</h2>
+
+<h2 mat-dialog-title *ngIf="data.userId==0">NU ati cumparat acest produs</h2>
+
+<mat-dialog-actions *ngIf="data.userId==0">
+    <div>
+       Pentru a face o recenzie trebuie sa fi cumparat acest produs!
+    </div>
+</mat-dialog-actions>
+
+<mat-dialog-content [formGroup]="form" *ngIf="data.userId!=0">
+  <div class="star-rating">
+    <ng-container *ngFor="let s of stars">
+      <mat-icon
+        class="star"
+        [class.filled]="form.value.rating >= s"
+        (click)="onStarClick(s)">
+        star
+      </mat-icon>
+    </ng-container>
+  </div>
+
+  <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-label>Comentariu</mat-label>
+    <textarea matInput formControlName="comment" rows="4"></textarea>
+    <mat-error *ngIf="form.get('comment')?.hasError('required')">
+      Comentariul este obligatoriu
+    </mat-error>
+    <mat-error *ngIf="form.get('comment')?.hasError('minlength')">
+      Comentariul trebuie să aibă minimum 5 caractere
+    </mat-error>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="cancel()">Anulează</button>
+  <button mat-button color="primary" (click)="submit()" [disabled]="!form.valid">Trimite</button>
+</mat-dialog-actions>
+

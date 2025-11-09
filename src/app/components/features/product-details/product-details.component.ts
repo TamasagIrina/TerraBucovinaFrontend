@@ -1,4 +1,4 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, numberAttribute } from '@angular/core';
 
 import { Product } from '../../core/interfaces/product.interface';
 
@@ -15,6 +15,11 @@ import { environment } from '../../../../environments/environment';
 import * as CartActions from "../../core/store/cart/cart.actions";
 import * as FavoriteActions from "../../core/store/favorite/favorite.actions";
 import * as FavoriteSelectors from '../../core/store/favorite/favorite.selectors';
+import { ApiService } from '../../core/services/api-service/api.service';
+import { T } from '@angular/cdk/keycodes';
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
+import { AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult } from '../../shared/add-review-dialog/add-review-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-product-details',
   imports: [MatIconModule,
@@ -31,7 +36,7 @@ export class ProductDetailsComponent {
 
   public environment = environment.apiUrl;
 
-  constructor(protected store: Store) { }
+  constructor(protected store: Store, private apiService: ApiService, private authService: AuthService, private dialog: MatDialog ) { }
 
   readonly router = inject(ActivatedRoute);
   id: number | undefined;
@@ -72,6 +77,40 @@ toggleFavorite(productId: number) {
     }
   });
   
+}
+
+canUserReview(idProduct : number){
+  this.authService.getUserId().subscribe(userId => {
+    console.log("UserId:", userId);
+
+ 
+   this.apiService.canUserReview(userId as number, idProduct)
+      .subscribe(canReview => {
+        if (canReview) {
+          const dialogRef = this.dialog.open<AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult>(
+      AddReviewDialogComponent,
+      {
+        width: '400px',
+        data: {
+          productId: idProduct,
+          userId: userId as number
+        }
+      }
+    );
+        } else {
+           const dialogRef = this.dialog.open<AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult>(
+      AddReviewDialogComponent,
+      {
+        width: '400px',
+        data: {
+          productId: idProduct,
+          userId:0
+        }
+      }
+    );
+        }
+      });
+  });
 }
 
 

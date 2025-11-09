@@ -8,7 +8,7 @@ import { ApiService } from '../../services/api-service/api.service';
 
 export class ProductsEffects {
   private actions$ = inject(Actions);
-  private apiService = inject(ApiService)
+  private apiService = inject(ApiService);
 
   load$ = createEffect(() =>
     this.actions$.pipe(

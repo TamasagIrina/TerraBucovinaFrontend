@@ -32,7 +32,7 @@
           <span class="muted">Cod:</span> TB-ACACIA-500
         </div> -->
         <div class="stock in" *ngIf="product.stockQty>0">În stoc</div>
-        <div class="stock in" *ngIf="product.stockQty==0">Nu este in stoc </div>
+        <div class="stock out" *ngIf="product.stockQty==0">Nu este in stoc </div>
       </div>
 
       <div class="price-line">
@@ -123,7 +123,7 @@
         </div>
         <p>Ambalaj frumos, produs foarte bun. Recomand!</p>
       </div>
-      <button class="btn outline">Scrie o recenzie</button>
+      <button class="btn outline" (click)="canUserReview(product.id)" >Scrie o recenzie</button>
     </div>
   </div>
 

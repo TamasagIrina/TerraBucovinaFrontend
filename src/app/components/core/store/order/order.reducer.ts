@@ -61,18 +61,18 @@ export const orderReducer = createReducer(
     error: null
   })),
 
-  on(OrderActions.addOrderSuccess, (state, { order, message }) => ({
+  on(OrderActions.addOrderSuccess, (state, { order}) => ({
     ...state,
     orders: [...state.orders, order],
-    message,
+
     error: null,
     loading: false
   })),
 
-  on(OrderActions.addOrderFailure, (state, { error, message }) => ({
+  on(OrderActions.addOrderFailure, (state, { error }) => ({
     ...state,
     error,
-    message,
+
     loading: false
   })),
   on(OrderActions.clearOrderMessage, (state) => ({
