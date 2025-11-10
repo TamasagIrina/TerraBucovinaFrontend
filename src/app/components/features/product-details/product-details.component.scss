@@ -1,4 +1,5 @@
 .product-page {
+
   --bg: #ffffff;
   --ink: #0f172a;
   --muted: #64748b;
@@ -11,6 +12,7 @@
 }
 
 .back-link {
+    padding-top: 70px;
   display: inline-block;
   margin-bottom: 12px;
   text-decoration: none;
@@ -23,6 +25,7 @@
 }
 
 .grid {
+
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 28px;

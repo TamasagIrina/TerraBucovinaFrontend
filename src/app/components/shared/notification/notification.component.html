@@ -8,19 +8,19 @@
 
       <ng-container [ngSwitch]="type">
         <ng-container *ngSwitchCase="'success'">
-          <mat-icon color="primary">check_circle</mat-icon>
+          <mat-icon >check_circle</mat-icon>
         </ng-container>
 
         <ng-container *ngSwitchCase="'error'">
-          <mat-icon color="warn">error</mat-icon>
+          <mat-icon >error</mat-icon>
         </ng-container>
 
         <ng-container *ngSwitchCase="'warning'">
-          <mat-icon color="accent">warning</mat-icon>
+          <mat-icon>warning</mat-icon>
         </ng-container>
 
         <ng-container *ngSwitchDefault>
-          <mat-icon color="primary">info</mat-icon>
+          <mat-icon >info</mat-icon>
         </ng-container>
       </ng-container>
     </ng-container>

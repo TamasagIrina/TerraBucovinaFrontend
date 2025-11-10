@@ -7,11 +7,11 @@
     color: var(--navbar-text);
     font-family: 'Poppins', sans-serif;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 99999;
 
     overflow: visible !important;
 
@@ -28,7 +28,17 @@
         .brand {
             font-size: 1.6rem;
             font-weight: 600;
-            color: var(--navbar-text);
+
+
+            .link-brand {
+                text-decoration: none;
+                color: var(--navbar-text);
+
+                &:hover {
+                    color: var(--navbar-hover);
+                }
+            }
+
         }
     }
 

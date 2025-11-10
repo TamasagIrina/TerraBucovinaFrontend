@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, of, tap } from 'rxjs';
 import { decodeJwt, isExpired } from './jwt.utils';
 import { User } from '../../interfaces/user.interface';
 
@@ -79,12 +79,17 @@ export class AuthService {
       return null;
     }
   }
-  getUserId() {
-    return this.http.get(`${this.baseUrl}/userId/${this.getName()}`);
+  getUserId(): Observable<number> {
+    if (this.isLoggedIn()) {
+      return this.http.get<number>(`${this.baseUrl}/userId/${this.getName()}`);
+    }
+    return of(0);
   }
 
-     getUserById(userId:number): Observable<User> {
+  getUserById(userId: number): Observable<User> {
+
     return this.http.get<User>(`${this.baseUrl}/user/${userId}`);
+
   }
   // getRole(username: string){
   //   return this.http.get<any>(`${this.baseUrl}/api/auth/login/${username}`)

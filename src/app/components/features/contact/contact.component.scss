@@ -1,6 +1,8 @@
-.contactPage{
-     background: var(--navbar-bg);
+.contactPage {
+  padding-top: 70px;
+  background: var(--navbar-bg);
 }
+
 .contact-hero {
   background: var(--navbar-bg);
   border-bottom: 1px solid #fff;
@@ -15,7 +17,9 @@
       font-size: clamp(1.6rem, 3vw, 2.2rem);
       color: var(--icon-color);
 
-      span { color: var(--navbar-hover); }
+      span {
+        color: var(--navbar-hover);
+      }
     }
 
     p {
@@ -54,7 +58,7 @@
     border: 1px solid #eef0f2;
     border-radius: 12px;
     padding: .75rem 1rem;
-    box-shadow: 0 6px 14px rgba(0,0,0,.05);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .05);
 
     mat-icon {
       color: var(--icon-color);
@@ -66,7 +70,8 @@
       font-weight: 600;
     }
 
-    a, p {
+    a,
+    p {
       margin: 0;
       color: #5a6b7b;
       text-decoration: none;
@@ -84,7 +89,9 @@
     gap: .5rem;
     color: #5a6b7b;
 
-    mat-icon { color: var(--icon-color); }
+    mat-icon {
+      color: var(--icon-color);
+    }
   }
 }
 
@@ -94,7 +101,7 @@
   border: 1px solid #eef0f2;
   border-radius: 14px;
   padding: 1rem;
-  box-shadow: 0 10px 20px rgba(0,0,0,.06);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .06);
 
   .row {
     display: grid;
@@ -116,7 +123,8 @@
       font-size: .95rem;
     }
 
-    input, textarea {
+    input,
+    textarea {
       border: 1px solid #e5e7eb;
       border-radius: 10px;
       padding: .6rem .75rem;
@@ -132,7 +140,9 @@
       }
     }
 
-    textarea { resize: vertical; }
+    textarea {
+      resize: vertical;
+    }
   }
 
   .policy {
@@ -142,7 +152,9 @@
     margin: .6rem 0 0;
     color: #5a6b7b;
 
-    input { transform: translateY(1px); }
+    input {
+      transform: translateY(1px);
+    }
   }
 
   .send-btn {
@@ -159,10 +171,18 @@
     cursor: pointer;
     transition: transform .15s ease, background .2s ease;
 
-    mat-icon { font-size: 20px; }
+    mat-icon {
+      font-size: 20px;
+    }
 
-    &:hover { background: #92c6a7; transform: translateY(-1px); }
-    &:active { transform: scale(.98); }
+    &:hover {
+      background: #92c6a7;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: scale(.98);
+    }
   }
 }
 
@@ -176,7 +196,7 @@
     border-radius: 14px;
     overflow: hidden;
     border: 1px solid #eef0f2;
-    box-shadow: 0 10px 20px rgba(0,0,0,.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .05);
     background: #fff;
 
     iframe {
