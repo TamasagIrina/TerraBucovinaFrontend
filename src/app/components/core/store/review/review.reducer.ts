@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import * as ReviewActions from './review.actions';
 import { Review } from '../../interfaces/review.inerface';
-
+export const reviewFeatureKey = 'review';
 export interface ReviewState {
   reviews: Review[];
   loading: boolean;

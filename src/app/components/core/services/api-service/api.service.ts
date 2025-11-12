@@ -120,7 +120,8 @@ export class ApiService {
   }
 
   addReview(review: Review): Observable<Review> {
-    return this.http.post<Review>(`${this.baseUrl}/products/reviews/add`, review);
+      const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.post<Review>(`${this.baseUrl}/products/reviews/add`, review, {context});
   }
 
   canUserReview(userId:number, productId: number): Observable<Boolean> {

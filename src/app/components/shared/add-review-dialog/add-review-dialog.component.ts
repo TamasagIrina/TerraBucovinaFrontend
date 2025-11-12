@@ -8,11 +8,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';  // for star icons maybe
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { Review } from '../../core/interfaces/review.inerface';
+import { Product } from '../../core/interfaces/product.interface';
+import { Store } from '@ngrx/store';
+import { selectProductById } from '../../core/store/products/products.selectors';
+import { combineLatest, forkJoin, take } from 'rxjs';
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
+import { addReview } from '../../core/store/review/review.actions';
+import { User } from '../../core/interfaces/user.interface';
 export interface AddReviewDialogData {
   productId: number;
   userId: number;
-  
+
 }
 
 export interface AddReviewDialogResult {
@@ -41,7 +48,9 @@ export class AddReviewDialogComponent {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<AddReviewDialogComponent, AddReviewDialogResult>,
-    @Inject(MAT_DIALOG_DATA) public data: AddReviewDialogData
+    @Inject(MAT_DIALOG_DATA) public data: AddReviewDialogData,
+    private store: Store,
+    private authApi: AuthService
   ) {
     this.form = this.fb.group({
       rating: [null, [Validators.required]],
@@ -55,6 +64,55 @@ export class AddReviewDialogComponent {
 
   submit() {
     if (this.form.valid) {
+      var review: Review;
+      // combineLatest([
+      //   this.authApi.getUserById(this.data.userId),
+      //   this.store.select(selectProductById(this.data.productId)).pipe(take(1))
+      // ]).subscribe(([user, product]) => {
+      //     review = {
+      //     id: 0,
+      //     product: product!,
+      //     user: user!,
+      //     body: this.form.value.comment,
+      //     stars: this.form.value.rating as number
+      //   };
+
+      //   console.log(review);
+      //   this.store.dispatch(addReview({ review }));
+      // });
+      var product: Product = {
+        id: this.data.productId,
+        name: '',
+        price: 0,
+        main_image_url: undefined,
+        shortDesc: '',
+        longDesc: '',
+        category: '',
+        stockQty: 0,
+        createdAt: '',
+        updatedAt: ''
+      }
+
+      var user: User = {
+        id: this.data.userId,
+        name: '',
+        email: '',
+        password: null,
+        roles: null,
+        enabled: null,
+        orders: null
+      }
+      review = {
+        id: 0,
+        product: { id: this.data.productId },   
+        user: { id: this.data.userId },
+        body: this.form.value.comment,
+        stars: this.form.value.rating as number
+      };
+
+      console.log(review);
+      this.store.dispatch(addReview({ review }));
+
       const result: AddReviewDialogResult = {
         rating: this.form.value.rating,
         comment: this.form.value.comment

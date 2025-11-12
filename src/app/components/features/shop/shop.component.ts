@@ -40,8 +40,6 @@ export class ShopComponent {
  
     this.products$ = this.store.select(selectAllProductsWithPrimaryImage);
 
-   
-
   }
 
 

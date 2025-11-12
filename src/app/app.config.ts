@@ -20,6 +20,8 @@ import { OrderEffects } from './components/core/store/order/order.effects';
 import * as fromNotification from './components/core/store/notification/notification.reducer';
 import { CartEffects } from './components/core/store/cart/cart.effects';
 import { FavoriteEffects } from './components/core/store/favorite/favorite.effects';
+import { ReviewEffects } from './components/core/store/review/review.effects';
+import * as fromReview from './components/core/store/review/review.reducer';
 
 const keysToSync = [
   fromCart.cartFeatureKey,
@@ -52,6 +54,7 @@ export const appConfig: ApplicationConfig = {
     OrderEffects,
     CartEffects,
     FavoriteEffects,
+    ReviewEffects,
   ]),
   provideRouter(
     routes,
@@ -65,7 +68,8 @@ export const appConfig: ApplicationConfig = {
   provideState(fromImages.imagesFeatureKey, fromImages.imagesReducer),
   provideState(fromOrders.orderFeatureKey, fromOrders.orderReducer),
   provideState(fromCart.cartFeatureKey, fromCart.cartReducer),
-  provideState(fromFavorite.favoriteFeatureKey, fromFavorite.favoriteReducer)
+  provideState(fromFavorite.favoriteFeatureKey, fromFavorite.favoriteReducer),
+  provideState(fromReview.reviewFeatureKey, fromReview.reviewReducer)
   ]
 };
 
