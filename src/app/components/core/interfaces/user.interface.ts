@@ -3,7 +3,7 @@ import { Role } from "./role.interface";
 
 export interface User {
   id: number;
-  name: string;
+  username: string;
   email: string;
   password: string | null;
   roles: Role[] | null;

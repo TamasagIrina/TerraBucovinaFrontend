@@ -78,7 +78,7 @@ export class PurchaseComponent {
       }));
       const orderUser: User = {
         id: this.user!.id,
-        name: this.user!.name,
+        username: this.user!.username,
         email: this.user!.email,
         password: null,
         roles: null,

@@ -9,6 +9,7 @@ import { NotificationComponent } from "./components/shared/notification/notifica
 import { filter, map, Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { selectNotification } from './components/core/store/notification/notification.selectors';
+import { loadReviews } from './components/core/store/review/review.actions';
 
 @Component({
   selector: 'app-root',
@@ -29,7 +30,7 @@ export class AppComponent {
   ngOnInit() {
     this.store.dispatch(ProductsActions.loadProducts());
     this.store.dispatch(ImagesActions.loadAllImages());
-
+    this.store.dispatch(loadReviews());
     this.notification$ = this.store.select(selectNotification);
 
   }

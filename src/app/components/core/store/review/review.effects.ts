@@ -38,7 +38,7 @@ export class ReviewEffects {
       ofType(ReviewActions.addReview),
       mergeMap(action =>
         this.apiService.addReview(action.review).pipe(
-          map(review => ReviewActions.addReviewSuccess({ review })),
+          map(() => ReviewActions.loadReviews()),
           catchError(error => of(ReviewActions.addReviewFailure({ error })))
         )
       )

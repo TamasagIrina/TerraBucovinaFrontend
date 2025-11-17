@@ -21,12 +21,15 @@ import { AuthService } from '../../core/services/authService/auth-sevices.servic
 import { AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult } from '../../shared/add-review-dialog/add-review-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import * as NotificationActions from '../../core/store/notification/notification.actions';
+import { Review } from '../../core/interfaces/review.inerface';
+import { selectAllReviews, selectByProductId, selectByProductIdCOUNT, selectByProductIdMediaOfStars } from '../../core/store/review/review.selectors';
+import { ReviewCardComponent } from "../../shared/review-card/review-card.component";
+import { loadReviews, loadReviewsByProductId } from '../../core/store/review/review.actions';
 @Component({
   selector: 'app-product-details',
   imports: [MatIconModule,
     CommonModule,
-    RouterLinkWithHref
-  ],
+    RouterLinkWithHref, ReviewCardComponent],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
@@ -42,6 +45,9 @@ export class ProductDetailsComponent {
   readonly router = inject(ActivatedRoute);
   id: number | undefined;
   isFavorite$!: Observable<boolean>;
+  reviews$!: Observable<Review[]>;
+  count$!: Observable<number>;
+  avgStars$!: Observable<number>;
 
   ngOnInit(): void {
     this.router.paramMap.subscribe(params => {
@@ -56,6 +62,11 @@ export class ProductDetailsComponent {
       this.isFavorite$ = this.store.select(
         FavoriteSelectors.selectIsFavorite(this.id)
       );
+     
+      this.reviews$ = this.store.select(selectByProductId(this.id));
+      
+      this.count$ = this.store.select(selectByProductIdCOUNT(this.id));
+      this.avgStars$ = this.store.select(selectByProductIdMediaOfStars(this.id));
     });
   }
 

@@ -3,8 +3,8 @@ import { User } from "./user.interface";
 
 export interface Review {
   id: number;
-   product: { id: number } | number;
-  user: { id: number } | number;
+  productId: number;
+  userId: number;
   body: string;
   stars: number;
 

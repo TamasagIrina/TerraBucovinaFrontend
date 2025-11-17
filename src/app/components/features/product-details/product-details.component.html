@@ -4,18 +4,18 @@
   <div class="grid">
     <!-- LEFT: Gallery -->
     <div class="gallery">
-      <div class="main-image"  *ngFor="let img of images$  | async" >
+      <div class="main-image" *ngFor="let img of images$  | async">
         <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
-      
+
       </div>
-      <div class="thumbs"  *ngFor="let img of images$  | async">
+      <div class="thumbs" *ngFor="let img of images$  | async">
         <button class="thumb is-active">
-           <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
+          <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
         </button>
         <button class="thumb">
           <img *ngIf="!img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
         </button>
-       
+
       </div>
     </div>
 
@@ -25,8 +25,8 @@
 
       <div class="meta">
         <div class="rating">
-          <span class="stars">★★★★☆</span>
-          <span class="count">(24 recenzii)</span>
+          <span class="stars"> {{ avgStars$ | async | number:'1.1-1' }} ★</span>
+          <span class="count"> ({{ count$| async }} recenzii)</span>
         </div>
         <!-- <div class="sku">
           <span class="muted">Cod:</span> TB-ACACIA-500
@@ -56,8 +56,8 @@
           Adaugă în coș
         </button>
 
-        <button   (click)="toggleFavorite(product.id)" class="btn ghost">
-          <mat-icon class="fav" >favorite</mat-icon>
+        <button (click)="toggleFavorite(product.id)" class="btn ghost">
+          <mat-icon class="fav">favorite</mat-icon>
           Favorite
         </button>
       </div>
@@ -81,14 +81,14 @@
   <div class="tabs">
     <button class="tab active">Descriere</button>
     <button class="tab">Specificații</button>
-    <button class="tab">Recenzii (24)</button>
+    <button class="tab">Recenzii ({{ count$ | async }})</button>
   </div>
 
   <div class="tabs-content">
     <div class="card">
       <h3>Descriere</h3>
       <p>
-       {{product.longDesc}}
+        {{product.longDesc}}
       </p>
       <ul class="bullets">
         <li>Ingrediente: 100% extract natural</li>
@@ -109,22 +109,29 @@
 
     <div class="card">
       <h3>Recenzii</h3>
-      <div class="review">
-        <div class="r-head">
-          <strong>Andrei</strong>
-          <span class="stars">★★★★★</span>
+
+
+      <ng-container *ngIf="reviews$ | async as reviews">
+
+
+        <div *ngIf="reviews.length > 0; else noReviews">
+          <app-review-card *ngFor="let rev of reviews" [review]="rev">
+          </app-review-card>
         </div>
-        <p>Aroma este excelentă, se simte naturală. Livrare rapidă.</p>
-      </div>
-      <div class="review">
-        <div class="r-head">
-          <strong>Ioana</strong>
-          <span class="stars">★★★★☆</span>
-        </div>
-        <p>Ambalaj frumos, produs foarte bun. Recomand!</p>
-      </div>
-      <button class="btn outline" (click)="canUserReview(product.id)" >Scrie o recenzie</button>
+
+
+        <ng-template #noReviews>
+          <p>Nu există recenzii pentru acest produs încă.</p>
+        </ng-template>
+
+      </ng-container>
+
+
+      <button class="btn outline" (click)="canUserReview(product.id)">
+        Scrie o recenzie
+      </button>
     </div>
+
   </div>
 
   <!-- Related products -->

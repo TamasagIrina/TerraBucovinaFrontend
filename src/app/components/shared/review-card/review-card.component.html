@@ -1,12 +1,12 @@
 <div class="review-card">
   <div class="review-header">
-    <!-- <img 
-      src="https://via.placeholder.com/50"
-      [alt]="getUserName(review.user)" 
+    <img 
+      src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
+      [alt]="user?.username" 
       class="avatar" 
-    /> -->
+    />
     <div class="review-info">
-      <!-- <h4 class="name">{{ getUserName(review.user) }}</h4> -->
+      <h4 class="name">{{ user?.username }}</h4>
       <div class="rating">
         <span>{{ review.stars }}</span>
         <div class="stars">

@@ -95,7 +95,7 @@ export class AddReviewDialogComponent {
 
       var user: User = {
         id: this.data.userId,
-        name: '',
+        username: '',
         email: '',
         password: null,
         roles: null,
@@ -104,13 +104,13 @@ export class AddReviewDialogComponent {
       }
       review = {
         id: 0,
-        product: { id: this.data.productId },   
-        user: { id: this.data.userId },
+        productId: this.data.productId ,   
+        userId: this.data.userId ,
         body: this.form.value.comment,
         stars: this.form.value.rating as number
       };
 
-      console.log(review);
+
       this.store.dispatch(addReview({ review }));
 
       const result: AddReviewDialogResult = {
