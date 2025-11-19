@@ -8,6 +8,8 @@ import { Plant } from '../../interfaces/plant.interfece';
 import { Order } from '../../interfaces/order.interface';
 import { Review } from '../../interfaces/review.inerface';
 import { User } from '../../interfaces/user.interface';
+import { ContactUsMessage } from '../../interfaces/contact-us-message.model';
+import { MessageStatus } from '../../interfaces/message-status.enum';
 export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
 
 @Injectable({
@@ -96,7 +98,7 @@ export class ApiService {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 
-  addOrder(order: Order):Observable<Order> {
+  addOrder(order: Order): Observable<Order> {
     return this.http.post<Order>(`${this.baseUrl}/orders/add`, order);
   }
 
@@ -108,10 +110,10 @@ export class ApiService {
   updateOrderStatus(orderId: number, status: string) {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
     return this.http.put<{ message: string }>(
-      `${this.baseUrl}/orders/updateStatus/${orderId}/${status}`,null, { context });
+      `${this.baseUrl}/orders/updateStatus/${orderId}/${status}`, null, { context });
   }
 
-   getAllReviews(): Observable<Review[]> {
+  getAllReviews(): Observable<Review[]> {
     return this.http.get<Review[]>(`${this.baseUrl}/products/reviews/get/all`);
   }
 
@@ -120,14 +122,26 @@ export class ApiService {
   }
 
   addReview(review: Review): Observable<Review> {
-      const context = new HttpContext().set(REQUIRES_AUTH, true);
-    return this.http.post<Review>(`${this.baseUrl}/products/reviews/add`, review, {context});
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.post<Review>(`${this.baseUrl}/products/reviews/add`, review, { context });
   }
 
-  canUserReview(userId:number, productId: number): Observable<Boolean> {
+  canUserReview(userId: number, productId: number): Observable<Boolean> {
     return this.http.get<Boolean>(`${this.baseUrl}/orders/can-review/${userId}/${productId}`);
   }
 
- 
+  getAllContactUsMessages(): Observable<ContactUsMessage[]> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<ContactUsMessage[]>(`${this.baseUrl}/contact/us/get/all`, { context });
+  }
+
+  addContactUsMessages(message: ContactUsMessage): Observable<ContactUsMessage> {
+    return this.http.put<ContactUsMessage>(`${this.baseUrl}/contact/us/add`, message);
+  }
+
+  updateStatusContactUsMessages(id: number, status: MessageStatus, responseMessage?: string): Observable<ContactUsMessage> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.patch<ContactUsMessage>(`${this.baseUrl}/contact/us/update/status`, { id, status, responseMessage }, { context });
+  }
 
 }

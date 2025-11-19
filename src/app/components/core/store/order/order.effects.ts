@@ -75,7 +75,6 @@ updateOrderStatus$ = createEffect(() =>
         ofType(OrderActions.addOrderSuccess),
         tap(() => {
 
-          console.log("AM INTRAT");
           this.store.dispatch(
             NotificationActions.showNotification({
               message: 'Comanda a fost trimisă cu succes, o sa primiti mail de confirmare!',

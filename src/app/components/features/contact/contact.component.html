@@ -1,87 +1,119 @@
 <div class="contactPage">
-    <section class="contact-hero">
-  <div class="hero-copy">
-    <h1>Contactează <span>Terra Bucovina</span></h1>
-    <p>Ai întrebări despre produse, comenzi sau colaborări? Scrie-ne și revenim rapid.</p>
-  </div>
-</section>
+  <section class="contact-hero">
+    <div class="hero-copy">
+      <h1>Contactează <span>Terra Bucovina</span></h1>
+      <p>Ai întrebări despre produse, comenzi sau colaborări? Scrie-ne și revenim rapid.</p>
+    </div>
+  </section>
 
-<section class="contact-grid">
+  <section class="contact-grid">
 
-  <div class="contact-info">
-    <div class="info-card">
-      <mat-icon>mail</mat-icon>
-      <div>
-        <h4>Email</h4>
-        <a href="mailto:contact@terrabucovina.ro">contactterrabucovina.ro</a>
+    <div class="contact-info">
+      <div class="info-card">
+        <mat-icon>mail</mat-icon>
+        <div>
+          <h4>Email</h4>
+          <a href="mailto:contact@terrabucovina.ro">.ro</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <mat-icon>call</mat-icon>
+        <div>
+          <h4>Telefon</h4>
+          <a href="tel:+40745 067 865">+40 745 067 865</a>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <mat-icon>location_on</mat-icon>
+        <div>
+          <h4>Adresă</h4>
+          <p>Ulma-Bucovina, România</p>
+        </div>
+      </div>
+
+      <div class="info-note">
+        <mat-icon>schedule</mat-icon>
+        <p>Luni–Vineri: 09:00–17:00</p>
       </div>
     </div>
 
-    <div class="info-card">
-      <mat-icon>call</mat-icon>
-      <div>
-        <h4>Telefon</h4>
-        <a href="tel:+40745 067 865">+40 745 067 865</a>
+
+    <form class="contact-form" #contactForm="ngForm" [class.was-submitted]="contactForm.submitted"
+      (ngSubmit)="onSubmit(contactForm)">
+
+      <div class="row">
+        <!-- NUME -->
+        <div class="field" [class.invalid]="name.invalid && (name.touched || contactForm.submitted)">
+          <label for="name">Nume</label>
+          <input type="text" id="name" name="name" [(ngModel)]="model.name" #name="ngModel" required
+            placeholder="Numele tău">
+          <div class="error-message" *ngIf="name.invalid && (name.touched || contactForm.submitted)">
+            <mat-icon>error_outline</mat-icon> Numele este obligatoriu
+          </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="field" [class.invalid]="email.invalid && (email.touched || contactForm.submitted)">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" [(ngModel)]="model.email" #email="ngModel" required email
+            placeholder="Email">
+          <div class="error-message" *ngIf="email.invalid && (email.touched || contactForm.submitted)">
+            <mat-icon>error_outline</mat-icon> Email invalid sau lipsă
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="info-card">
-      <mat-icon>location_on</mat-icon>
-      <div>
-        <h4>Adresă</h4>
-        <p>Ulma-Bucovina, România</p>
+      <div class="row">
+        <!-- SUBIECT -->
+        <div class="field" [class.invalid]="subject.invalid && (subject.touched || contactForm.submitted)">
+          <label for="subject">Subiect</label>
+          <input type="text" id="subject" name="subject" [(ngModel)]="model.subject" #subject="ngModel" required
+            placeholder="Subiect">
+          <div class="error-message" *ngIf="subject.invalid && (subject.touched || contactForm.submitted)">
+            <mat-icon>error_outline</mat-icon> Subiectul este obligatoriu
+          </div>
+        </div>
+
+        <!-- TELEFON -->
+        <div class="field">
+          <label for="phone">Telefon (opțional)</label>
+          <input type="tel" id="phone" name="phone" [(ngModel)]="model.phone" placeholder="+40 ...">
+        </div>
       </div>
-    </div>
 
-    <div class="info-note">
-      <mat-icon>schedule</mat-icon>
-      <p>Luni–Vineri: 09:00–17:00</p>
-    </div>
-  </div>
-
-
-  <form class="contact-form" (submit)="$event.preventDefault()">
-    <div class="row">
-      <div class="field">
-        <label for="name">Nume</label>
-        <input id="name" type="text" placeholder="Numele tău" required />
+      <!-- MESAJ -->
+      <div class="field" [class.invalid]="message.invalid && (message.touched || contactForm.submitted)">
+        <label for="message">Mesaj</label>
+        <textarea id="message" name="message" [(ngModel)]="model.message" #message="ngModel" required
+          placeholder="Mesajul tău"></textarea>
+        <div class="error-message" *ngIf="message.invalid && (message.touched || contactForm.submitted)">
+          <mat-icon>error_outline</mat-icon> Mesajul este obligatoriu
+        </div>
       </div>
-      <div class="field">
-        <label for="email">Email</label>
-        <input id="email" type="email" placeholder="nume@exemplu.com" required />
+
+      <!-- POLITICA -->
+      <div class="policy-field" [class.invalid]="policy.invalid && (policy.touched || contactForm.submitted)">
+        <label class="policy">
+          <input type="checkbox" name="policyAccepted" [(ngModel)]="model.policyAccepted" #policy="ngModel" required>
+          Sunt de acord cu politica de confidențialitate
+        </label>
+        <div class="error-message policy-error" *ngIf="policy.invalid && (policy.touched || contactForm.submitted)">
+          <mat-icon>error_outline</mat-icon> Trebuie să accepți politica
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="field">
-        <label for="phone">Telefon (opțional)</label>
-        <input id="phone" type="tel" placeholder="+40 ..." />
-      </div>
-      <div class="field">
-        <label for="subject">Subiect</label>
-        <input id="subject" type="text" placeholder="Despre ce este vorba?" required />
-      </div>
-    </div>
+      <button type="submit" class="send-btn" >
+        <mat-icon>send</mat-icon>
+        Trimite mesajul
+      </button>
 
-    <div class="field">
-      <label for="message">Mesaj</label>
-      <textarea id="message" rows="6" placeholder="Scrie mesajul tău..." required></textarea>
-    </div>
-
-    <label class="policy">
-      <input type="checkbox" required />
-      Sunt de acord cu prelucrarea datelor conform Politicii de confidențialitate.
-    </label>
-
-    <button type="submit" class="send-btn">
-      <mat-icon>send</mat-icon>
-      Trimite mesajul
-    </button>
-  </form>
-</section>
+    </form>
+  </section>
 
 
-<!-- <section class="contact-map">
+  <!-- <section class="contact-map">
   <div class="map-card">
     <iframe
       src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14699.43382412242!2d25.1948324!3d47.8526491!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47342ae7d4e52383%3A0x54b84e69703daad6!2sComuna%20Ulma!5e0!3m2!1sro!2sro!4v1723230000000!5m2!1sro!2sro"

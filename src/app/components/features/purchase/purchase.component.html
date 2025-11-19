@@ -1,236 +1,282 @@
-<section class="checkout-page">
+<section class="checkout-page" *ngIf="cartItems$ | async as items">
 
+  <form #checkoutForm="ngForm" (ngSubmit)="submitOrder(checkoutForm, items)" novalidate>
 
-  <div class="checkout-form">
-    <header class="section-header">
-      <h2>Finalizare comandă</h2>
-      <a routerLink="/shop" class="link">Înapoi la magazin</a>
-    </header>
+    <div class="checkout-form">
+      <header class="section-header">
+        <h2>Finalizare comandă</h2>
+        <a routerLink="/shop" class="link">Înapoi la magazin</a>
+      </header>
 
+      <div class="card">
+        <h3>Detalii de contact</h3>
+        <div class="grid-2">
+          <label class="field" [class.invalid]="fullNameRef.invalid && (fullNameRef.touched || checkoutForm.submitted)">
+            <span>Nume</span>
+            <input type="text" name="fullName" [(ngModel)]="fullName" #fullNameRef="ngModel" required
+              placeholder="Nume și prenume" />
+            <div class="error-message" *ngIf="fullNameRef.invalid && (fullNameRef.touched || checkoutForm.submitted)">
+              Numele este obligatoriu.
+            </div>
+          </label>
+
+          <label class="field" [class.invalid]="emailRef.invalid && (emailRef.touched || checkoutForm.submitted)">
+            <span>Email</span>
+            <input type="email" name="email" [(ngModel)]="email" #emailRef="ngModel" required email
+              placeholder="ex: nume@email.com" />
+            <div class="error-message" *ngIf="emailRef.invalid && (emailRef.touched || checkoutForm.submitted)">
+              Email invalid sau lipsă.
+            </div>
+          </label>
+        </div>
+
+        <div class="grid-2">
+          <label class="field" [class.invalid]="emailRef.invalid && (emailRef.touched || checkoutForm.submitted)">
+            <span>Telefon</span>
+            <input type="tel" name="phone" [(ngModel)]="phone" placeholder="+40 7xx xxx xxx" required />
+            <div class="error-message" *ngIf="emailRef.invalid && (emailRef.touched || checkoutForm.submitted)">
+              Numarul de telefon invalid sau lipsă.
+            </div>
+          </label>
+
+          <label class="field">
+            <span>CUI (opțional)</span>
+            <input type="text" name="cui" [(ngModel)]="cui" placeholder="Pentru factură pe firmă" />
+          </label>
+        </div>
+
+        <label class="checkbox policy-field"
+      >
+          <input type="checkbox" name="isCompanyInvoice" [(ngModel)]="isCompanyInvoice" #isCompanyInvoiceRef="ngModel" />
+          <span>Doresc factură pe firmă</span>
+        </label>
     
- 
-    <div class="card">
-      <h3>Detalii de contact</h3>
-      <div class="grid-2">
-        <label class="field">
-          <span>Nume</span>
-          <input type="text"  [(ngModel)]="fullName"  placeholder="Nume și prenume" />
-        </label>
-        <label class="field">
-          <span>Email</span>
-          <input type="email"  [(ngModel)]="email"  placeholder="ex: nume@email.com" />
-        </label>
-      </div>
-      <div class="grid-2">
-        <label class="field">
-          <span>Telefon</span>
-          <input type="tel"  [(ngModel)]="phone" placeholder="+40 7xx xxx xxx" />
-        </label>
-        <label class="field">
-          <span>CUI (opțional)</span>
-          <input type="text" [(ngModel)]="cui" placeholder="Pentru factură pe firmă" />
-        </label>
-      </div>
-      <label class="checkbox">
-        <input type="checkbox" [(ngModel)]="isCompanyInvoice" />
-        <span>Doresc factură pe firmă</span>
-      </label>
-    </div>
 
-    <div class="card">
-      <h3>Adresă de livrare</h3>
-      <div class="grid-2">
-        <label class="field">
-          <span>Țara</span>
-          <select>
-            <option>România</option>
-            <option>Italia</option>
-            <option>Germania</option>
-          </select>
-        </label>
-        <label class="field">
-          <span>Județ</span>
-          <input type="text"  [(ngModel)]="county"  placeholder="ex: Suceava" />
-        </label>
-      </div>
-      <div class="grid-2">
-        <label class="field">
-          <span>Oraș</span>
-          <input type="text"  [(ngModel)]="city" placeholder="ex: Rădăuți" />
-        </label>
-        <label class="field">
-          <span>Cod poștal</span>
-          <input type="text"  [(ngModel)]="postalCode"  placeholder="ex: 725400" />
-        </label>
-      </div>
-      <label class="field">
-        <span>Adresă</span>
-        <input type="text"  [(ngModel)]="address" placeholder="Strada, număr, bloc, scara, apartament" />
-      </label>
-    </div>
-
-    <div class="card">
-      <h3>Metodă de livrare</h3>
-      <label class="radio">
-        <input type="radio" name="ship"   value="curier" [(ngModel)]="shippingMethod"  checked />
-        <div class="radio-line">
-          <span>Curier standard</span>
-          <strong>RON 24.99</strong>
-        </div>
-      </label>
-      <label class="radio">
-        <input type="radio" name="ship" value="pickup" [(ngModel)]="shippingMethod" />
-        <div class="radio-line">
-          <span>Ridicare personală</span>
-          <strong>RON 0.00</strong>
-        </div>
-      </label>
-    </div>
-
-    <!-- PLATĂ cu tab-uri -->
-    <div class="card">
-      <h3>Plată</h3>
-
-      <div class="tabs" role="tablist">
-        <button class="tab" role="tab" [class.active]="tab==='card'" [attr.aria-selected]="tab==='card'"
-          (click)="setTab('card')">Card</button>
-
-        <button class="tab" role="tab" [class.active]="tab==='cod'" [attr.aria-selected]="tab==='cod'"
-          (click)="setTab('cod')">Ramburs</button>
-
-        <button class="tab" role="tab" [class.active]="tab==='bank'" [attr.aria-selected]="tab==='bank'"
-          (click)="setTab('bank')">Transfer bancar</button>
       </div>
 
-      <!-- CARD -->
-      <div class="pay-card" *ngIf="tab==='card'">
-        <label class="field">
-          <span>Număr card</span>
-          <input type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" />
-        </label>
-        <div class="grid-3">
-          <label class="field">
-            <span>Valabil până la</span>
-            <input type="text" inputmode="numeric" placeholder="MM/AA" />
+      <div class="card">
+        <h3>Adresă de livrare</h3>
+        <div class="grid-2">
+          <label class="field" [class.invalid]="countryRef.invalid && (countryRef.touched || checkoutForm.submitted)">
+            <span>Ţara</span>
+            <select name="country" [(ngModel)]="country" #countryRef="ngModel" required>
+              <option value="">Selectează ţara</option>
+              <option>România</option>
+              <option>Italia</option>
+              <option>Germania</option>
+            </select>
+            <div class="error-message" *ngIf="countryRef.invalid && (countryRef.touched || checkoutForm.submitted)">
+              Trebuie să selectezi ţara.
+            </div>
           </label>
-          <label class="field">
-            <span>CVV</span>
-            <input type="password" inputmode="numeric" placeholder="***" />
-          </label>
-          <label class="field">
-            <span>Deținător card</span>
-            <input type="text" placeholder="Nume exact ca pe card" />
+
+          <label class="field" [class.invalid]="countyRef.invalid && (countyRef.touched || checkoutForm.submitted)">
+            <span>Judeţ</span>
+            <input type="text" name="county" [(ngModel)]="county" #countyRef="ngModel" required
+              placeholder="ex: Suceava" />
+            <div class="error-message" *ngIf="countyRef.invalid && (countyRef.touched || checkoutForm.submitted)">
+              Judeţul este obligatoriu.
+            </div>
           </label>
         </div>
-        <label class="checkbox">
-          <input type="checkbox" />
-          <span>Salvează datele cardului în siguranță</span>
+
+        <div class="grid-2">
+          <label class="field" [class.invalid]="cityRef.invalid && (cityRef.touched || checkoutForm.submitted)">
+            <span>Oraş</span>
+            <input type="text" name="city" [(ngModel)]="city" #cityRef="ngModel" required placeholder="ex: Rădăuţi" />
+            <div class="error-message" *ngIf="cityRef.invalid && (cityRef.touched || checkoutForm.submitted)">
+              Oraşul este obligatoriu.
+            </div>
+          </label>
+
+          <label class="field"
+            [class.invalid]="postalCodeRef.invalid && (postalCodeRef.touched || checkoutForm.submitted)">
+            <span>Cod poştal</span>
+            <input type="text" name="postalCode" [(ngModel)]="postalCode" #postalCodeRef="ngModel" required
+              placeholder="ex: 725400" />
+            <div class="error-message"
+              *ngIf="postalCodeRef.invalid && (postalCodeRef.touched || checkoutForm.submitted)">
+              Codul poştal este obligatoriu.
+            </div>
+          </label>
+        </div>
+
+        <label class="field" [class.invalid]="addressRef.invalid && (addressRef.touched || checkoutForm.submitted)">
+          <span>Adresă</span>
+          <input type="text" name="address" [(ngModel)]="address" #addressRef="ngModel" required
+            placeholder="Strada, număr, bloc, scara, apartament" />
+          <div class="error-message" *ngIf="addressRef.invalid && (addressRef.touched || checkoutForm.submitted)">
+            Adresa este obligatorie.
+          </div>
         </label>
       </div>
 
-      <!-- RAMBURS -->
-      <div class="pay-cod" *ngIf="tab==='cod'">
-        <p class="muted">Plătești numerar/pos la curier, la livrare.</p>
-        <ul class="mini-list">
-          <li>Verifică adresa și numărul de telefon.</li>
-          <li>Curierul te contactează înainte de livrare.</li>
-          <li>Taxa de ramburs poate fi inclusă în costul transportului.</li>
-        </ul>
+      <div class="card">
+        <h3>Metodă de livrare</h3>
+        <label class="radio">
+          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" value="curier" checked />
+          <div class="radio-line">
+            <span>Curier standard</span>
+            <strong>RON 24.99</strong>
+          </div>
+        </label>
+        <label class="radio">
+          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" value="pickup" />
+          <div class="radio-line">
+            <span>Ridicare personală</span>
+            <strong>RON 0.00</strong>
+          </div>
+        </label>
       </div>
 
-      <!-- TRANSFER BANCAR -->
-      <div class="pay-bank" *ngIf="tab==='bank'">
-        <p class="muted">După plasare, primești pe email factura și detaliile de plată.</p>
-        <div class="bank-box">
-          <div><strong>Beneficiar:</strong> Terra Bucovina SRL</div>
-          <div><strong>IBAN:</strong> RO49 AAAA 1B31 0075 9384 0000</div>
-          <div><strong>Banca:</strong> BCR, Sucursala Suceava</div>
-          <div><strong>Detalii plată:</strong> Nr. comandă #TB-12345</div>
+      <div class="card">
+        <h3>Plată</h3>
+
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab" role="tab" [class.active]="tab==='card'" [attr.aria-selected]="tab==='card'"
+            (click)="setTab('card')">Card</button>
+          <button type="button" class="tab" role="tab" [class.active]="tab==='cod'" [attr.aria-selected]="tab==='cod'"
+            (click)="setTab('cod')">Ramburs</button>
+          <button type="button" class="tab" role="tab" [class.active]="tab==='bank'" [attr.aria-selected]="tab==='bank'"
+            (click)="setTab('bank')">Transfer bancar</button>
         </div>
-        <p class="hint">Comanda se procesează după confirmarea plății.</p>
+
+        <div class="pay-card" *ngIf="tab==='card'">
+          <label class="field">
+            <span>Număr card</span>
+            <input type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" />
+          </label>
+          <div class="grid-3">
+            <label class="field">
+              <span>Valabil până la</span>
+              <input type="text" inputmode="numeric" placeholder="MM/AA" />
+            </label>
+            <label class="field">
+              <span>CVV</span>
+              <input type="password" inputmode="numeric" placeholder="***" />
+            </label>
+            <label class="field">
+              <span>Deţinător card</span>
+              <input type="text" placeholder="Nume exact ca pe card" />
+            </label>
+          </div>
+          <label class="checkbox">
+            <input type="checkbox" />
+            <span>Salvează datele cardului în siguranţă</span>
+          </label>
+        </div>
+
+        <div class="pay-cod" *ngIf="tab==='cod'">
+          <p class="muted">Plăteşti numerar/pos la curier, la livrare.</p>
+          <ul class="mini-list">
+            <li>Verifică adresa şi numărul de telefon.</li>
+            <li>Curierul te contactează înainte de livrare.</li>
+            <li>Taxa de ramburs poate fi inclusă în costul transportului.</li>
+          </ul>
+        </div>
+
+        <div class="pay-bank" *ngIf="tab==='bank'">
+          <p class="muted">După plasare, primeşti pe email factura şi detaliile de plată.</p>
+          <div class="bank-box">
+            <div><strong>Beneficiar:</strong> Terra Bucovina SRL</div>
+            <div><strong>IBAN:</strong> RO49 AAAA 1B31 0075 9384 0000</div>
+            <div><strong>Banca:</strong> BCR, Sucursala Suceava</div>
+            <div><strong>Detalii plată:</strong> Nr. comandă #TB‑12345</div>
+          </div>
+          <p class="hint">Comanda se procesează după confirmarea plăţii.</p>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="items.length > 0">
+        <div class="coupon">
+          <input type="text" placeholder="Cupon reducere" />
+          <button class="btn apply">Aplică</button>
+        </div>
+        <div class="checkbox-wrapper">
+          <label class="checkbox terms"
+            [class.invalid]="termsRef.invalid && (termsRef.touched || checkoutForm.submitted)">
+            <input type="checkbox" name="terms" [(ngModel)]="termsAccepted" #termsRef="ngModel" required />
+            <span>Sunt de acord cu termenii și condițiile</span>
+          </label>
+          <div class="error-message" *ngIf="termsRef.invalid && (termsRef.touched || checkoutForm.submitted)">
+            Trebuie să accepți termenii și condițiile.
+          </div>
+        </div>
+        <button class="btn primary wfull" type="submit">Plăteşte acum</button>
       </div>
     </div>
 
-    <div class="card"*ngIf="cartItems$ | async as items" >
-      <div class="coupon">
-        <input type="text" placeholder="Cupon reducere" />
-        <button class="btn apply">Aplică</button>
-      </div>
-      <label class="checkbox terms">
-        <input type="checkbox" />
-        <span>Sunt de acord cu termenii și condițiile</span>
-      </label>
-      <button class="btn primary wfull"  (click)="submitOrder(items)" *ngIf="cartItems$ | async as items">Plătește acum</button>
-    </div>
-  </div>
+
+
+  </form>
+
+
+
 
   <aside class="order-summary" *ngIf="cartItems$ | async as items">
-  <div class="card" *ngIf="items.length > 0">
-    <h3>Rezumat comandă</h3>
+    <div class="card" *ngIf="items.length > 0">
+      <h3>Rezumat comandă</h3>
 
-    <!-- LISTĂ PRODUSE -->
-    <div class="summary-items">
-      <div class="s-item" *ngFor="let item of items">
-        <img
-          [src]="item.imageUrl || 'https://placehold.co/60x60/cccccc/ffffff?text=IMG'"
-          [alt]="item.name"
-        />
-        <div class="meta">
-          <div class="name">{{ item.name }}</div>
-          <div class="muted">Cantitate: {{ item.quantity }}</div>
+      <!-- LISTĂ PRODUSE -->
+      <div class="summary-items">
+        <div class="s-item" *ngFor="let item of items">
+          <img [src]="item.imageUrl || 'https://placehold.co/60x60/cccccc/ffffff?text=IMG'" [alt]="item.name" />
+          <div class="meta">
+            <div class="name">{{ item.name }}</div>
+            <div class="muted">Cantitate: {{ item.quantity }}</div>
+          </div>
+          <div class="price">
+            {{ item.lineTotal | number:'1.2-2' }} RON
+          </div>
         </div>
-        <div class="price">
-          {{ item.lineTotal | number:'1.2-2' }} RON
-        </div>
+      </div>
+
+      <!-- SUBTOTAL -->
+      <div class="line">
+        <span>Subtotal</span>
+        <span>{{ totalPrice$ | async | number:'1.2-2'}} RON</span>
+      </div>
+
+      <!-- TRANSPORT -->
+      <div class="line">
+        <span>Transport</span>
+        <span *ngIf="shippingMethod === 'curier'">24.99 RON</span>
+        <span *ngIf="shippingMethod === 'pickup'">0 RON</span>
+        <span *ngIf="!shippingMethod">Calculat la checkout</span>
+      </div>
+
+      <!-- TVA -->
+      <div class="line muted">
+        <span>TVA (19%)</span>
+        <span>{{ ((totalPrice$ | async)! * 0.19) | number:'1.2-2'}} RON</span>
+      </div>
+
+      <!-- TOTAL -->
+      <div class="total">
+        <span>Total</span>
+        <strong>
+          {{ ((totalPrice$ | async)! * 1.19) | number:'1.2-2' }} RON
+        </strong>
+      </div>
+
+      <a routerLink="/cart" class="link small">Editează coșul</a>
+    </div>
+
+    <!-- Mesaje informative -->
+    <div class="info-card">
+      <div class="icn">🔒</div>
+      <div>
+        <strong>Plată sigură</strong>
+        <p>Tranzacții criptate și protejate.</p>
       </div>
     </div>
 
-    <!-- SUBTOTAL -->
-    <div class="line">
-      <span>Subtotal</span>
-      <span>{{ totalPrice$ | async | number:'1.2-2'}} RON</span>
+    <div class="info-card">
+      <div class="icn">🚚</div>
+      <div>
+        <strong>Livrare rapidă</strong>
+        <p>24–48h în rețeaua de curierat.</p>
+      </div>
     </div>
-
-    <!-- TRANSPORT -->
-    <div class="line">
-      <span>Transport</span>
-      <span *ngIf="shippingMethod === 'curier'">24.99 RON</span>
-      <span *ngIf="shippingMethod === 'pickup'">0 RON</span>
-      <span *ngIf="!shippingMethod">Calculat la checkout</span>
-    </div>
-
-    <!-- TVA -->
-    <div class="line muted">
-      <span>TVA (19%)</span>
-      <span>{{ ((totalPrice$ | async)! * 0.19) | number:'1.2-2'}} RON</span>
-    </div>
-
-    <!-- TOTAL -->
-    <div class="total">
-      <span>Total</span>
-      <strong>
-        {{ ((totalPrice$ | async)! * 1.19) | number:'1.2-2' }} RON
-      </strong>
-    </div>
-
-    <a routerLink="/cart" class="link small">Editează coșul</a>
-  </div>
-
-  <!-- Mesaje informative -->
-  <div class="info-card">
-    <div class="icn">🔒</div>
-    <div>
-      <strong>Plată sigură</strong>
-      <p>Tranzacții criptate și protejate.</p>
-    </div>
-  </div>
-
-  <div class="info-card">
-    <div class="icn">🚚</div>
-    <div>
-      <strong>Livrare rapidă</strong>
-      <p>24–48h în rețeaua de curierat.</p>
-    </div>
-  </div>
-</aside>
+  </aside>
 </section>

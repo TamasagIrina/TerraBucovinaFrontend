@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { filter, Observable, take } from 'rxjs';
 import { CartItemDetailed } from '../../core/interfaces/cart.interface';
@@ -16,6 +16,7 @@ import { ApiService } from '../../core/services/api-service/api.service';
 import { tick } from '@angular/core/testing';
 import { User } from '../../core/interfaces/user.interface';
 import { U } from '@angular/cdk/keycodes';
+import { OrderEffects } from '../../core/store/order/order.effects';
 
 @Component({
   selector: 'app-purchase',
@@ -41,6 +42,7 @@ export class PurchaseComponent {
   address = '';
   userId: number | null = null;
   user: User | null = null;
+  termsAccepted: any;
 
 
 
@@ -68,23 +70,28 @@ export class PurchaseComponent {
 
   shippingMethod: 'curier' | 'pickup' = 'curier';
 
-  submitOrder(items: CartItemDetailed[]) {
+  submitOrder(form: NgForm, items: CartItemDetailed[]) {
 
+    if (form.invalid) {
+      form.form.markAllAsTouched();
+      return;
+    }
 
     this.store.select(selectAllProducts).pipe(take(1)).subscribe(allProducts => {
       const products: OrderProduct[] = items.map(item => ({
         product: allProducts.find(p => p.id === item.productId)!,
         quantity: item.quantity
       }));
-      const orderUser: User = {
-        id: this.user!.id,
-        username: this.user!.username,
-        email: this.user!.email,
+      const orderUser: User | null = this.user ? {
+        id: this.user.id,
+        username: this.user.username,
+        email: this.user.email,
         password: null,
         roles: null,
         enabled: null,
         orders: null
-      };
+      } : null;
+
       const order: Order = {
         id: 0,
         fullName: this.fullName,
@@ -104,8 +111,6 @@ export class PurchaseComponent {
         status: null,
         createdAt: null
       };
-
-      console.log(order);
 
       this.store.dispatch(OrderActions.addOrder({ order }));
     });

@@ -116,6 +116,8 @@
   .field {
     display: grid;
     gap: .35rem;
+    position: relative;
+    margin-bottom: 1.8rem;
 
     label {
       color: var(--icon-color);
@@ -125,14 +127,17 @@
 
     input,
     textarea {
+      
+      border-radius: 10px;
       border: 1px solid #e5e7eb;
       border-radius: 10px;
       padding: .6rem .75rem;
-      font-size: .95rem;
-      color: var(--icon-color);
+      box-sizing: border-box;
       background: #fff;
+      height: 46px;
+      font-size: .95rem;
       outline: none;
-      transition: border-color .2s, box-shadow .2s;
+      transition: box-shadow .2s ease, border-color .2s ease;
 
       &:focus {
         border-color: var(--navbar-hover);
@@ -141,7 +146,9 @@
     }
 
     textarea {
-      resize: vertical;
+      height: auto;
+      min-height: 120px;
+      line-height: 1.4;
     }
   }
 
@@ -205,4 +212,47 @@
       display: block;
     }
   }
+}
+
+.policy-field {
+  position: relative;
+  margin-bottom: 2.2rem; 
+}
+.field {
+  display: grid;
+  position: relative;
+  margin-bottom: 2.2rem;
+}
+
+.field input,
+.field textarea {
+  height: 46px;
+  border-radius: 10px;
+  padding: .6rem .75rem;
+  box-sizing: border-box;
+  background: #fff;
+  font-size: .95rem;
+  transition: box-shadow .2s ease, border-color .2s ease;
+}
+
+/* Pentru textarea override de înălțime */
+.field textarea {
+  min-height: 120px;
+  height: auto;
+  line-height: 1.4rem;
+  padding: .75rem;
+   position: relative;
+  margin-bottom: 2.2rem;
+}
+
+/* Erori poziționate sub câmp, fără a-l împinge în sus */
+.error-message {
+  position: absolute;
+  bottom: -1.4rem;
+  left: 0;
+  color: #e63946;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }

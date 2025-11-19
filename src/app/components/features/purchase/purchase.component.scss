@@ -332,3 +332,65 @@
     font-size: .92rem;
   }
 }
+
+.field {
+  position: relative;
+  margin-bottom: 2.2rem;
+  display: grid;
+  gap: 6px;
+}
+
+.checkbox-wrapper {
+  position: relative;
+  margin-bottom: 2.2rem;
+}
+
+.checkbox.invalid input {
+  border-color: #e63946;
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+}
+
+.field input,
+.field select {
+  padding: .65rem .75rem;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  outline: none;
+  font-size: .98rem;
+}
+
+.field input:focus,
+.field select:focus {
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, .25);
+}
+
+.field.invalid input,
+.field.invalid select {
+  border-color: #e63946;
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, .2);
+}
+
+.error-message {
+  position: absolute;
+  bottom: -1.4rem;
+  left: 0;
+  color: #e63946;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+.policy-field {
+  position: relative;
+  margin-bottom: 2.2rem;
+}
+
+.policy-error {
+  position: absolute;
+  bottom: -1.4rem;
+  left: 0;
+  color: #e63946;
+  font-size: 0.8rem;
+}
