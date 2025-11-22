@@ -2,31 +2,41 @@
   <form (ngSubmit)="onSubmit()" #productForm="ngForm">
     <h2>Adaugă Produs Nou</h2>
 
-    <input type="text" id="name" name="name" placeholder="Nume produs" [(ngModel)]="product.name" required />
+    <div class="form-group">
+      <label for="name">Nume produs</label>
+      <input type="text" id="name" name="name" [(ngModel)]="product.name" required />
+    </div>
 
-    <input type="number" step="1.0" id="price" name="price" placeholder="Preț" [(ngModel)]="product.price" required />
+    <div class="form-group">
+      <label for="price">Preț</label>
+      <input type="number" step="1.0" id="price" name="price" [(ngModel)]="product.price" required />
+    </div>
 
-    <textarea id="shortDesc" name="shortDesc" placeholder="Descriere scurtă (max 500 caractere)"
-      [(ngModel)]="product.shortDesc" maxlength="500" required></textarea>
+    <div class="form-group">
+      <label for="shortDesc">Descriere scurtă (max 500 caractere)</label>
+      <textarea id="shortDesc" name="shortDesc" [(ngModel)]="product.shortDesc" maxlength="500" required></textarea>
+    </div>
 
-    <textarea id="longDesc" name="longDesc" placeholder="Descriere detaliată (max 1000 caractere)"
-      [(ngModel)]="product.longDesc" maxlength="1000" required></textarea>
+    <div class="form-group">
+      <label for="longDesc">Descriere detaliată (max 1000 caractere)</label>
+      <textarea id="longDesc" name="longDesc" [(ngModel)]="product.longDesc" maxlength="1000" required></textarea>
+    </div>
 
-    <input type="text" id="category" name="category" placeholder="Categorie" [(ngModel)]="product.category" required />
+    <div class="form-group">
+      <label for="category">Categorie</label>
+      <input type="text" id="category" name="category" [(ngModel)]="product.category" required />
+    </div>
 
-    <input type="number" id="stockQty" name="stockQty" aria-label="Cantitate în stoc" [(ngModel)]="product.stockQty"
-      required />
+    <div class="form-group">
+      <label for="stockQty">Cantitate în stoc</label>
+      <input type="number" id="stockQty" name="stockQty" [(ngModel)]="product.stockQty" required />
+    </div>
 
     <!-- Upload multiple images section -->
-    <div class="images-upload-section">
+    <div class="form-group images-upload-section">
       <label class="image-label" for="images">Încarcă imagini (poţi adăuga mai multe)</label>
-      <input type="file" id="images" #imageInput (change)="onImagesSelected($event)" multiple accept="image/*"
-        style="display: none" />
-
-      <!-- buton vizibil care declanșează click pe input -->
-      <button type="button" class="custom-upload-btn" (click)="imageInput.click()">
-        📎 Adaugă imagini
-      </button>
+      <input type="file" id="images" #imageInput (change)="onImagesSelected($event)" multiple accept="image/*" style="display: none" />
+      <button type="button" class="custom-upload-btn" (click)="imageInput.click()">📎 Adaugă imagini</button>
     </div>
 
     <div class="images-preview" *ngIf="previewImages.length > 0">
@@ -34,8 +44,7 @@
         <img [src]="img.url" [alt]="'Imagine ' + (i + 1)" />
         <div class="radio-holder">
           <label>
-            <input type="radio" name="mainImageRadio" [value]="i" (change)="selectMainImage(i)"
-              [checked]="selectedMainImageIndex === i" />
+            <input type="radio" name="mainImageRadio" [value]="i" (change)="selectMainImage(i)" [checked]="selectedMainImageIndex === i" />
             Poză principală
           </label>
         </div>
@@ -43,9 +52,6 @@
       </div>
     </div>
 
-    <button type="submit" [disabled]="!productForm.form.valid">
-      Trimite
-    </button>
+    <button type="submit" [disabled]="!productForm.form.valid">Trimite</button>
   </form>
-
 </div>

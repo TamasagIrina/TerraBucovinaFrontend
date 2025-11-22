@@ -1,37 +1,42 @@
 <div class="admin-orders">
     <h2>Toate comenzile</h2>
-
-    <div *ngIf="(orders$ | async)?.length === 0" class="empty-message">
+    <div class="status-tabs">
+        <button *ngFor="let s of statusOptions" [class.active]="currentStatusTab === s" (click)="setCurrentTab(s)">
+            {{ s }}
+        </button>
+    </div>
+    
+    <div *ngIf="(filteredOrders$ | async)?.length === 0" class="empty-message">
         Nu există comenzi de afișat.
     </div>
 
-    <div class="order-card" class="order-card" *ngFor="let order of (orders$ | async)">
+    <div class="order-card" *ngFor="let order of (filteredOrders$ | async)">
+        <!-- header with full details -->
         <div class="order-header">
-            <div>
-                <strong>ID:</strong> {{ order.id }}
-            </div>
-            <div>
-                <strong>Client:</strong> {{ order.fullName }}
-            </div>
-            <div>
-                <strong>Data:</strong> {{ order.createdAt | date:'short' }}
-            </div>
+            <div><strong>ID:</strong> {{ order.id }}</div>
+            <div><strong>Nume:</strong> {{ order.fullName }}</div>
+            <div><strong>Telefon:</strong> {{ order.phone }}</div>
+            <div><strong>Adresă:</strong> {{ order.address +", "+ order.city +", "+  order.county +", "+  order.country}}</div>
+            <div><strong>Data:</strong> {{ order.createdAt | date:'short' }}</div>
         </div>
 
+        <!-- status dropdown -->
         <div class="order-status">
-            <label for="statusSelect-{{order.id}}">Status:</label>
+            <label>Status:</label>
             <select [ngModel]="order.status" (ngModelChange)="onStatusChange(order, $event)">
                 <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
             </select>
+        </div>
 
+        <!-- products -->
+        <div *ngFor="let product of order.products">
+            {{ product.product.name }} — de {{ product.quantity }} ori
         </div>
-        <div *ngFor="let product of order.products ">
-            <div>
-                {{product.product.name}} + de {{product.quantity}} ori
-            </div>
-        </div>
+
+        <!-- status label -->
         <div class="order-status-label" [ngClass]="'status-'+order.status">
             {{ order.status }}
         </div>
     </div>
+
 </div>

@@ -91,8 +91,5 @@ export class AuthService {
     return this.http.get<User>(`${this.baseUrl}/user/${userId}`);
 
   }
-  // getRole(username: string){
-  //   return this.http.get<any>(`${this.baseUrl}/api/auth/login/${username}`)
-  //   .pipe(tap(res => localStorage.setItem("role", res as any)));
-  // }
+
 }

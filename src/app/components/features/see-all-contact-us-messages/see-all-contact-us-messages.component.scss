@@ -1,5 +1,4 @@
-
-.admin-orders {
+.admin-messages {
   padding: 24px;
   background-color: #fafafa;
 
@@ -8,7 +7,7 @@
     color: #2e2e2e;
   }
 
-  .status-tabs {
+  .message-tabs {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
@@ -20,7 +19,7 @@
     border-radius: 20px;
     font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease;
 
     &.active {
       background-color: #0e7632;
@@ -38,69 +37,67 @@
     color: #777;
   }
 
-  .order-card {
+  .message-card {
     border: 1px solid #ddd;
     background-color: #fff;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
-    .order-header {
+    .message-header {
       display: flex;
-      justify-content: space-between;
       flex-wrap: wrap;
+      justify-content: space-between;
       margin-bottom: 12px;
 
       div {
-        margin-right: 12px;
+        margin-right: 16px;
         font-size: 14px;
       }
     }
 
-    .order-status {
+    .message-body {
+      font-size: 14px;
+      margin-bottom: 12px;
+
+      p {
+        margin: 4px 0 0;
+        line-height: 1.4;
+      }
+    }
+
+    .message-footer {
       display: flex;
+      justify-content: space-between;
       align-items: center;
 
-      label {
-        margin-right: 8px;
-      }
-
-      select {
-        margin-right: 12px;
-        padding: 4px 8px;
+      .message-status {
+        font-weight: bold;
       }
 
       button {
         padding: 6px 12px;
-        background-color: #1976d2;
+        background-color:  #0e7632;
         color: white;
         border: none;
         border-radius: 4px;
         cursor: pointer;
 
         &:hover {
-          background-color: #1565c0;
+          background-color: #094d21;
         }
       }
     }
 
-    .order-status-label {
-      margin-top: 12px;
-      font-weight: bold;
-    }
-
-    // Status color coding
-    & .status-PENDING {
+    // Optional color coding by status
+    & .status-OPEN {
       color: #ff9800;
     }
-    & .status-SHIPPED {
-      color: #2196f3;
-    }
-    & .status-DELIVERED {
+    & .status-REPLIED {
       color: #4caf50;
     }
-    & .status-CANCELLED {
+    & .status-CLOSED {
       color: #f44336;
     }
   }

@@ -135,8 +135,8 @@
         <div class="tabs" role="tablist">
           <button type="button" class="tab" role="tab" [class.active]="tab==='card'" [attr.aria-selected]="tab==='card'"
             (click)="setTab('card')">Card</button>
-          <button type="button" class="tab" role="tab" [class.active]="tab==='cod'" [attr.aria-selected]="tab==='cod'"
-            (click)="setTab('cod')">Ramburs</button>
+          <button type="button" class="tab" role="tab" [class.active]="tab==='ramburs'" [attr.aria-selected]="tab==='ramburs'"
+            (click)="setTab('ramburs')">Ramburs</button>
           <button type="button" class="tab" role="tab" [class.active]="tab==='bank'" [attr.aria-selected]="tab==='bank'"
             (click)="setTab('bank')">Transfer bancar</button>
         </div>
@@ -166,7 +166,7 @@
           </label>
         </div>
 
-        <div class="pay-cod" *ngIf="tab==='cod'">
+        <div class="pay-cod" *ngIf="tab==='ramburs'">
           <p class="muted">Plăteşti numerar/pos la curier, la livrare.</p>
           <ul class="mini-list">
             <li>Verifică adresa şi numărul de telefon.</li>

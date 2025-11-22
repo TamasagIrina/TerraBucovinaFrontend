@@ -66,7 +66,7 @@ export class PurchaseComponent {
 
   }
 
-  tab: 'card' | 'cod' | 'bank' = 'card';
+  tab: 'card' | 'ramburs' | 'bank' = 'card';
 
   shippingMethod: 'curier' | 'pickup' = 'curier';
 
@@ -118,7 +118,7 @@ export class PurchaseComponent {
 
   }
 
-  setTab(next: 'card' | 'cod' | 'bank') {
+  setTab(next: 'card' | 'ramburs' | 'bank') {
     this.tab = next;
   }
 }

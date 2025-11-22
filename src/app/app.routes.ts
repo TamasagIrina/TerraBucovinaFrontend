@@ -10,6 +10,7 @@ import { AddProductComponent } from './components/features/add-product/add-produ
 import { authGuard } from './components/core/auth/auth.guard';
 import { ForbiddenComponent } from './components/features/forbidden/forbidden.component';
 import { SeeAllOredersComponent } from './components/features/see-all-oreders/see-all-oreders.component';
+import { SeeAllContactUsMessagesComponent } from './components/features/see-all-contact-us-messages/see-all-contact-us-messages.component';
 
 export const routes: Routes = [
     { path: 'shop', component: ShopComponent },
@@ -18,6 +19,7 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'admin/add-product', component: AddProductComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-orders', component: SeeAllOredersComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
+    { path: 'admin/see-all-contact-us-mesages', component: SeeAllContactUsMessagesComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'cart', component: CartComponent },
     { path: 'purchase', component: PurchaseComponent },
     { path: 'details/:id', component: ProductDetailsComponent },

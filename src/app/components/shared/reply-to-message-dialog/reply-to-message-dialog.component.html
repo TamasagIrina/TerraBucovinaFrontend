@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Răspunde la mesaj</h2>
+
+<mat-dialog-content>
+  <p><strong>Destinatar:</strong> {{ data.name }} ({{ data.email }})</p>
+  <p><strong>Subiect:</strong> {{ data.subject }}</p>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Mesajul tău</mat-label>
+    <textarea matInput [(ngModel)]="replyMessage" rows="6" required></textarea>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Anulează</button>
+  <button mat-raised-button color="primary" (click)="onSend()" [disabled]="!replyMessage.trim()">Trimite</button>
+</mat-dialog-actions>

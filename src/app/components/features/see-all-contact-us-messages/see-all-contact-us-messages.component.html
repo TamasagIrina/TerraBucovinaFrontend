@@ -1,0 +1,33 @@
+<div class="admin-messages">
+    <h2>Mesaje Contact</h2>
+
+    <div class="message-tabs">
+        <button *ngFor="let s of statusOptions" [class.active]="currentStatusTab === s" (click)="setCurrentTab(s)">
+            {{ s }}
+        </button>
+    </div>
+
+    <div *ngIf="(filteredMessages$ | async)?.length === 0" class="empty-message">
+        Nu există mesaje pentru acest status.
+    </div>
+
+    <div class="message-card" *ngFor="let msg of (filteredMessages$ | async)">
+        <div class="message-header">
+            <div><strong>ID:</strong> {{ msg.id }}</div>
+            <div><strong>Nume:</strong> {{ msg.name }}</div>
+            <div><strong>Email:</strong> {{ msg.email }}</div>
+            <div><strong>Telefon:</strong> {{ msg.phone_number }}</div>
+            <div><strong>Subiect:</strong> {{ msg.subject }}</div>
+        </div>
+
+        <div class="message-body">
+            <strong>Mesaj:</strong>
+            <p>{{ msg.message }}</p>
+        </div>
+
+        <div class="message-footer">
+            <span class="message-status status-{{ msg.status }}">{{ msg.status }}</span>
+            <button *ngIf="currentStatusTab!='RASPUNS'" (click)="replyTo(msg)">Răspunde la mesaj</button>
+        </div>
+    </div>
+</div>

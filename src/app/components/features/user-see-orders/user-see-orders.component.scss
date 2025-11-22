@@ -1,0 +1,147 @@
+.orders-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #2a3d25;
+  margin-bottom: 30px;
+}
+
+.no-orders {
+  text-align: center;
+  font-size: 18px;
+  padding: 40px 0;
+  color: #666;
+}
+
+.order-card {
+  background: #fff;
+  border-radius: 25px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+  }
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-header h3 {
+  font-size: 22px;
+  margin: 0;
+  color: #1d2e17;
+}
+
+.date {
+  font-size: 14px;
+  color: #7e7e7e;
+}
+
+.status {
+  padding: 8px 18px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+
+  &.plasata {
+    background: #d7f3d0;
+    color: #1d7c32;
+  }
+
+  &.procesata {
+    background: #e9e6ff;
+    color: #5c4acb;
+  }
+
+  &.livrata {
+    background: #d0ecff;
+    color: #0077c8;
+  }
+
+  &.anulata {
+    background: #ffe0e0;
+    color: #c23131;
+  }
+}
+
+.order-products {
+  margin-top: 20px;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+
+  img {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+
+  .info {
+    flex: 1;
+
+    .name {
+      font-weight: 500;
+      font-size: 16px;
+      margin: 0;
+      color: #1f311a;
+    }
+
+    .qty {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+
+  .price {
+    font-weight: 600;
+    color: #2a3d25;
+  }
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+
+  .total {
+    font-size: 18px;
+    color: #1f311a;
+  }
+
+  .details-btn {
+    padding: 10px 25px;
+    background: #2a6f3f;
+    color: #fff;
+    border-radius: 30px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease;
+
+    &:hover {
+      background: #245e36;
+    }
+  }
+}

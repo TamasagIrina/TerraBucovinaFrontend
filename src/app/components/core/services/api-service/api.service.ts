@@ -1,4 +1,4 @@
-import { HttpClient, HttpContext, HttpContextToken } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpContextToken, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
@@ -132,7 +132,7 @@ export class ApiService {
 
   getAllContactUsMessages(): Observable<ContactUsMessage[]> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
-    return this.http.get<ContactUsMessage[]>(`${this.baseUrl}/contact/us/get/all`, { context });
+    return this.http.get<ContactUsMessage[]>(`${this.baseUrl}/contact/us/admin/get/all`, { context });
   }
 
   addContactUsMessages(message: ContactUsMessage): Observable<ContactUsMessage> {
@@ -141,7 +141,11 @@ export class ApiService {
 
   updateStatusContactUsMessages(id: number, status: MessageStatus, responseMessage?: string): Observable<ContactUsMessage> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
-    return this.http.patch<ContactUsMessage>(`${this.baseUrl}/contact/us/update/status`, { id, status, responseMessage }, { context });
+    const params = new HttpParams()
+      .set('id', id.toString())
+      .set('status', status)
+      .set('message', responseMessage!);
+    return this.http.patch<ContactUsMessage>(`${this.baseUrl}/contact/us/admin/update/status`, params, { context });
   }
 
 }
