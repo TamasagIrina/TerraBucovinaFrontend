@@ -107,6 +107,11 @@ export class ApiService {
     return this.http.get<Order[]>(`${this.baseUrl}/orders/get/all`, { context });
   }
 
+  getOrderByUserId(id: number){
+     const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<Order[]>(`${this.baseUrl}/orders/get/byUserId/${id}`, { context });
+  }
+
   updateOrderStatus(orderId: number, status: string) {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
     return this.http.put<{ message: string }>(

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { filter, Observable, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable, take } from 'rxjs';
 import { CartItemDetailed } from '../../core/interfaces/cart.interface';
 import { Store } from '@ngrx/store';
 import * as CartSelectors from '../../core/store/cart/cart.selectors';
@@ -29,6 +29,7 @@ import { OrderEffects } from '../../core/store/order/order.effects';
 export class PurchaseComponent {
   cartItems$!: Observable<CartItemDetailed[]>;
   totalPrice$!: Observable<number>;
+  totalPriceOrder$!: Observable<number>;
 
   fullName = '';
   email = '';
@@ -44,7 +45,10 @@ export class PurchaseComponent {
   user: User | null = null;
   termsAccepted: any;
 
+  tab: 'card' | 'ramburs' | 'bank' = 'card';
 
+  shippingMethod$ = new BehaviorSubject<'curier' | 'pickup'>('curier');
+  shippingMethod: 'curier' | 'pickup' = 'curier';
 
   constructor(private store: Store, protected router: Router, private authService: AuthService) { }
 
@@ -62,13 +66,22 @@ export class PurchaseComponent {
       });
     });
 
+    this.totalPriceOrder$ = combineLatest([
+      this.totalPrice$,
+      this.shippingMethod$
+    ]).pipe(
+      map(([total, shippingMethod]) => {
+        const tva = total * 0.19;
+        const shippingCost = shippingMethod === 'curier' ? 24 : 0;
+        return total + tva + shippingCost;
+      })
+    );
+
 
 
   }
 
-  tab: 'card' | 'ramburs' | 'bank' = 'card';
 
-  shippingMethod: 'curier' | 'pickup' = 'curier';
 
   submitOrder(form: NgForm, items: CartItemDetailed[]) {
 
@@ -77,42 +90,46 @@ export class PurchaseComponent {
       return;
     }
 
-    this.store.select(selectAllProducts).pipe(take(1)).subscribe(allProducts => {
-      const products: OrderProduct[] = items.map(item => ({
-        product: allProducts.find(p => p.id === item.productId)!,
-        quantity: item.quantity
-      }));
-      const orderUser: User | null = this.user ? {
-        id: this.user.id,
-        username: this.user.username,
-        email: this.user.email,
-        password: null,
-        roles: null,
-        enabled: null,
-        orders: null
-      } : null;
+    this.totalPriceOrder$.pipe(take(1)).subscribe(totalFinal => {
 
-      const order: Order = {
-        id: 0,
-        fullName: this.fullName,
-        email: this.email,
-        phone: this.phone,
-        isCompanyInvoice: this.isCompanyInvoice,
-        cui: this.cui,
-        country: this.country,
-        county: this.county,
-        city: this.city,
-        postalCode: this.postalCode,
-        address: this.address,
-        deliveryMethod: this.shippingMethod,
-        paymentMethod: this.tab,
-        products,
-        user: orderUser,
-        status: null,
-        createdAt: null
-      };
+      this.store.select(selectAllProducts).pipe(take(1)).subscribe(allProducts => {
+        const products: OrderProduct[] = items.map(item => ({
+          product: allProducts.find(p => p.id === item.productId)!,
+          quantity: item.quantity
+        }));
+        const orderUser: User | null = this.user ? {
+          id: this.user.id,
+          username: this.user.username,
+          email: this.user.email,
+          password: null,
+          roles: null,
+          enabled: null,
+          orders: null
+        } : null;
 
-      this.store.dispatch(OrderActions.addOrder({ order }));
+        const order: Order = {
+          id: 0,
+          fullName: this.fullName,
+          email: this.email,
+          phone: this.phone,
+          isCompanyInvoice: this.isCompanyInvoice,
+          cui: this.cui,
+          country: this.country,
+          county: this.county,
+          city: this.city,
+          postalCode: this.postalCode,
+          address: this.address,
+          deliveryMethod: this.shippingMethod$.value,
+          paymentMethod: this.tab,
+          products,
+          user: orderUser,
+          totalPrice: totalFinal,
+          status: null,
+          createdAt: null
+        };
+
+        this.store.dispatch(OrderActions.addOrder({ order }));
+      });
     });
 
 
@@ -120,5 +137,9 @@ export class PurchaseComponent {
 
   setTab(next: 'card' | 'ramburs' | 'bank') {
     this.tab = next;
+  }
+
+  setShipping(method: 'curier' | 'pickup') {
+    this.shippingMethod$.next(method);
   }
 }

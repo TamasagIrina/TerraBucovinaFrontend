@@ -4,6 +4,9 @@ import { Order } from '../../core/interfaces/order.interface';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { loadOrdersByCustomer } from '../../core/store/order/order.actions';
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
+import { selectCustomerOrders } from '../../core/store/order/order.selectors';
 
 @Component({
   selector: 'app-user-see-orders',
@@ -15,13 +18,16 @@ import { RouterLink } from '@angular/router';
 })
 export class UserSeeOrdersComponent {
 
-    orders$!: Observable<Order[]> ;
+  orders$!: Observable<Order[]>;
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private authService: AuthService) { }
 
   ngOnInit(): void {
-    // Incarcam comenzile automat cand intra pe pagina
-    // this.store.dispatch();
+    this.authService.getUserId().subscribe(userId => {
+      this.store.dispatch(loadOrdersByCustomer({ customerId: userId }));
+      this.orders$= this.store.select(selectCustomerOrders);
+    });
+
   }
 
 }

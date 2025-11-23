@@ -1,0 +1,54 @@
+<section class="account-settings" *ngIf="user">
+
+  <header class="page-header">
+    <h2>Setări cont</h2>
+    <p class="subtitle">Modifică informațiile tale de bază sau schimbă parola.</p>
+  </header>
+
+  <form #settingsForm="ngForm" (ngSubmit)="updateUser(settingsForm)">
+    
+    <!-- CARD: User Info -->
+    <div class="card">
+      <h3>Informații cont</h3>
+
+      <label class="field">
+        <span>Nume</span>
+        <input type="text" name="username" [(ngModel)]="user.username" required />
+      </label>
+
+      <label class="field">
+        <span>Email</span>
+        <input type="email" name="email" [(ngModel)]="user.email" required />
+      </label>
+    </div>
+
+    <!-- CARD: Password -->
+    <div class="card">
+      <h3>Schimbă parola</h3>
+
+      <label class="field">
+        <span>Parola actuală</span>
+        <input type="password" name="currentPassword" [(ngModel)]="passwords.current" />
+      </label>
+
+      <div class="grid-2">
+        <label class="field">
+          <span>Parolă nouă</span>
+          <input type="password" name="newPassword" [(ngModel)]="passwords.newPass" />
+        </label>
+
+        <label class="field">
+          <span>Confirmă parola</span>
+          <input type="password" name="confirmPassword" [(ngModel)]="passwords.confirm" />
+        </label>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button class="btn primary" type="submit">Salvează modificările</button>
+    </div>
+
+  </form>
+</section>
+

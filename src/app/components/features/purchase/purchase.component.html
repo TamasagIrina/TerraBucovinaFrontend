@@ -114,14 +114,14 @@
       <div class="card">
         <h3>Metodă de livrare</h3>
         <label class="radio">
-          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" value="curier" checked />
+          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" (click)="setShipping('curier')"  value="curier" checked />
           <div class="radio-line">
             <span>Curier standard</span>
             <strong>RON 24.99</strong>
           </div>
         </label>
         <label class="radio">
-          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" value="pickup" />
+          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" (click)="setShipping('pickup')"  value="pickup" />
           <div class="radio-line">
             <span>Ridicare personală</span>
             <strong>RON 0.00</strong>
@@ -255,7 +255,7 @@
       <div class="total">
         <span>Total</span>
         <strong>
-          {{ ((totalPrice$ | async)! * 1.19) | number:'1.2-2' }} RON
+          {{ (totalPriceOrder$ | async) | number:'1.2-2' }} RON
         </strong>
       </div>
 

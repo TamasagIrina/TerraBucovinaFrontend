@@ -29,6 +29,23 @@ export class OrderEffects {
   )
 );
 
+loadOrdersByCustomer$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(OrderActions.loadOrdersByCustomer),
+    mergeMap(({ customerId }) =>
+      this.apiService.getOrderByUserId(customerId).pipe(
+        map((orders) =>
+          OrderActions.loadOrdersByCustomerSuccess({ orders })
+        ),
+        catchError((error) =>
+          of(OrderActions.loadOrdersByCustomerFailure({ error }))
+        )
+      )
+    )
+  )
+);
+
+
 updateOrderStatus$ = createEffect(() =>
   this.actions$.pipe(
     ofType(OrderActions.updateOrderStatus),

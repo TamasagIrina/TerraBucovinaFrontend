@@ -25,5 +25,7 @@ export interface Order {
 
   status: string | null;
 
+  totalPrice: number;
+
   user: User |  null;
 }

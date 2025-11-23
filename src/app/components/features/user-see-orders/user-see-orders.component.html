@@ -11,6 +11,7 @@
                 <div>
                     <h3>Comanda #{{ order.id }}</h3>
                     <p class="date">Plasata pe: {{ order.createdAt | date:'dd MMM yyyy, HH:mm' }}</p>
+                    <p class="date">Adresa de livrare: {{order.address +", "+ order.city +", "+ order.county+", "+ order.country}} </p>
                 </div>
 
                 <div class="status" [ngClass]="order.status">
@@ -20,9 +21,9 @@
 
             <div class="order-products">
                 <div class="product" *ngFor="let p of order.products">
-                    <img [src]="p.product.main_image_url" alt="img">
+              
                     <div class="info">
-                        <p class="name">{{ p.product.name }}</p>
+                        <a [routerLink]="'/details/' + p.product.id" class="name">{{ p.product.name }} </a>
                         <p class="qty">Cantitate: {{ p.quantity }}</p>
                     </div>
                     <p class="price">{{ p.product.price }} RON</p>
@@ -30,8 +31,7 @@
             </div>
 
             <div class="order-footer">
-                <p class="total">Total: <strong> RON</strong></p>
-                <a [routerLink]="['/order', order.id]" class="details-btn">Detalii</a>
+                <p class="total">Total: <strong> {{order.totalPrice}} RON</strong></p>
             </div>
         </div>
     </div>

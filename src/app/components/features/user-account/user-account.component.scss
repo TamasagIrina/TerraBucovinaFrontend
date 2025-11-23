@@ -1,0 +1,88 @@
+.account-settings {
+  
+  max-width: 600px;
+  margin: 30px auto 60px;
+  padding: 0 20px;
+
+  .page-header {
+      padding-top: 70px;
+    text-align: center;
+    margin-bottom: 25px;
+
+    h2 {
+      margin-bottom: 8px;
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+    }
+  }
+
+  .card {
+    background: #fff;
+    padding: 20px 25px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+
+    h3 {
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+
+    span {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #444;
+    }
+
+    input {
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+
+      &:focus {
+        border-color: #16a34a;
+        outline: none;
+      }
+    }
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+
+    @media (max-width: 700px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .actions {
+    text-align: center;
+    margin-top: 25px;
+
+    .btn {
+      padding: 12px 20px;
+      font-size: 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+
+      &.primary {
+        background: #16a34a;
+        color: white;
+      }
+    }
+  }
+}

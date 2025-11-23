@@ -13,7 +13,22 @@ export const loadOrdersFailure = createAction(
   props<{ error: any }>()
 );
 
-// === UPDATE ORDER STATUS ===
+export const loadOrdersByCustomer = createAction(
+  '[Order] Load Orders By Customer',
+  props<{ customerId: number }>()
+);
+
+export const loadOrdersByCustomerSuccess = createAction(
+  '[Order] Load Orders By Customer Success',
+  props<{ orders: Order[] }>()
+);
+
+export const loadOrdersByCustomerFailure = createAction(
+  '[Order] Load Orders By Customer Failure',
+  props<{ error: any }>()
+);
+
+
 export const updateOrderStatus = createAction(
   '[Order] Update Order Status',
   props<{ orderId: number; status: string }>()
