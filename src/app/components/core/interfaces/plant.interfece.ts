@@ -1,9 +1,11 @@
+import { Product } from "./product.interface";
+
 export interface Plant {
     id: number;
-    benefit: string;
-    description: string;
-    extract:string;
+    shortDescription: string;
+    longDescription: string;
+    plantMessage:string;
     name:string;
-    product_id: number;
+    product: { id: number };
     imageUrl:string;
 }

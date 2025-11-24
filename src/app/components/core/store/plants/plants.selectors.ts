@@ -11,4 +11,4 @@ export const selectPlantById = (id: number) =>
   createSelector(selectAllPlants, plants => plants.find(p => p.id === id));
 
 export const selectPlantsByProduct = (productId: number) =>
-  createSelector(selectAllPlants, plants => plants.filter(p => p.product_id === productId));
+  createSelector(selectAllPlants, plants => plants.filter(p => p.product.id === productId));

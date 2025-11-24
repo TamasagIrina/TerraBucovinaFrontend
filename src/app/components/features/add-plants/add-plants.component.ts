@@ -4,6 +4,9 @@ import { Store } from '@ngrx/store';
 import { ProductsActions } from '../../core/store/products/products.actions'
 import { Product } from '../../core/interfaces/product.interface';
 import { FormsModule } from '@angular/forms';
+import { Plant } from '../../core/interfaces/plant.interfece';
+import * as PlantsActions from '../../core/store/plants/plants.actions';
+import { selectAllProducts } from '../../core/store/products/products.selectors';
 
 @Component({
   selector: 'app-add-plants',
@@ -14,6 +17,65 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-plants.component.scss'
 })
 export class AddPlantsComponent {
-  
+  plant: Omit<Plant, 'id'> = {
+    name: '',
+    imageUrl: '',
+    shortDescription: '',
+    longDescription: '',
+    plantMessage: '',
+    product: { id: 0 }
+  };
+
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
+  products!: Product[];
+
+  constructor(private store: Store) { }
+
+  ngOnInit() {
+    this.store.dispatch(ProductsActions.loadProducts());
+
+    this.store.select(selectAllProducts)
+      .subscribe(products => {
+        this.products = products;
+        console.log("PRODUSELE AU VENIT:", this.products);
+      });
+  }
+
+
+  onImageSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      this.selectedFile = input.files[0];
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.previewUrl = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
+    }
+  }
+
+  onSubmit(form: any) {
+    if (!this.selectedFile) return;
+
+    this.store.dispatch(
+      PlantsActions.addPlant({
+        plant: this.plant,
+        file: this.selectedFile
+      })
+    );
+
+
+    form.resetForm();
+    this.previewUrl = null;
+    this.selectedFile = null;
+
+    const fileInput = document.querySelector("#fileInput") as HTMLInputElement;
+    if (fileInput) fileInput.value = "";
+
+
+  }
 
 }

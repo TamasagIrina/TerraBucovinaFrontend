@@ -39,7 +39,7 @@ export const plantsReducer = createReducer(
  
   on(PlantsActions.loadPlantsByProduct, (state) => ({ ...state, loading: true, error: null })),
   on(PlantsActions.loadPlantsByProductSuccess, (state, { productId, plants }) => {
-    const rest = state.plants.filter(p => p.product_id !== productId);
+    const rest = state.plants.filter(p => p.product.id !== productId);
     return { ...state, loading: false, plants: [...rest, ...plants] };
   }),
   on(PlantsActions.loadPlantsByProductFailure, (state, { error }) => ({ ...state, loading: false, error })),

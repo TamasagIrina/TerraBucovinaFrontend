@@ -75,7 +75,7 @@ export class ApiService {
   }
 
   getAllPlants(): Observable<Plant[]> {
-    return this.http.get<Plant[]>(`${this.baseUrl}/getAll`);
+    return this.http.get<Plant[]>(`${this.baseUrl}/products/plants/getAll`);
   }
 
   getPlantById(id: number): Observable<Plant> {
@@ -86,13 +86,28 @@ export class ApiService {
     return this.http.get<Plant[]>(`${this.baseUrl}/getByProductId/${productId}`);
   }
 
-  addPlant(plant: Omit<Plant, 'id'>): Observable<Plant> {
-    return this.http.post<Plant>(`${this.baseUrl}/add`, plant);
+  addPlant(plant: any, file: File): Observable<Plant> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    const formData = new FormData();
+
+    const dto = {
+      name: plant.name,
+      shortDescription: plant.shortDescription,
+      longDescription: plant.longDescription,
+      plantMessage: plant.plantMessage,
+      productId: plant.product.id
+    };
+
+    formData.append(
+      "plant",
+      new Blob([JSON.stringify(dto)], { type: "application/json" })
+    );
+
+    formData.append("file", file);
+
+    return this.http.post<Plant>(`${this.baseUrl}/products/plants/admin/add`, formData, { context });
   }
 
-  updatePlant(id: number, plant: Plant): Observable<Plant> {
-    return this.http.put<Plant>(`${this.baseUrl}/update/${id}`, plant);
-  }
 
   deletePlant(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
@@ -107,8 +122,8 @@ export class ApiService {
     return this.http.get<Order[]>(`${this.baseUrl}/orders/get/all`, { context });
   }
 
-  getOrderByUserId(id: number){
-     const context = new HttpContext().set(REQUIRES_AUTH, true);
+  getOrderByUserId(id: number) {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
     return this.http.get<Order[]>(`${this.baseUrl}/orders/get/byUserId/${id}`, { context });
   }
 

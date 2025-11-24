@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h1>Descoperă Colecția Noastră de Plante</h1>
+  <p>Alege dintr-o selecție variată de plante, fiecare aleasă pentru frumusețea și unicitatea ei.</p>
+</div>
+
+<div class="plants-grid">
+
+  <div class="plant-card" *ngFor="let plant of (plants$ | async)">
+
+    <img [src]="getImageUrl(plant)" [alt]="plant.name" />
+
+    <div class="overlay">
+      <h3>{{ plant.name }}</h3>
+
+      <button (click)="goToPlantDetails(plant.id)">
+        Read more
+      </button>
+    </div>
+
+  </div>
+
+</div>
+

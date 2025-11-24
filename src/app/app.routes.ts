@@ -13,14 +13,18 @@ import { SeeAllOredersComponent } from './components/features/see-all-oreders/se
 import { SeeAllContactUsMessagesComponent } from './components/features/see-all-contact-us-messages/see-all-contact-us-messages.component';
 import { UserSeeOrdersComponent } from './components/features/user-see-orders/user-see-orders.component';
 import { UserAccountComponent } from './components/features/user-account/user-account.component';
+import { AddPlantsComponent } from './components/features/add-plants/add-plants.component';
+import { AboutPlantsComponent } from './components/features/about-plants/about-plants.component';
 
 export const routes: Routes = [
     { path: 'shop', component: ShopComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'about', component: AboutComponent },
+    { path: 'about-plants', component: AboutPlantsComponent },
     { path: 'login', component: LoginComponent },
     { path: 'admin/add-product', component: AddProductComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-orders', component: SeeAllOredersComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
+     { path: 'admin/add-plant', component: AddPlantsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-contact-us-mesages', component: SeeAllContactUsMessagesComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'user/see-orders', component: UserSeeOrdersComponent, canActivate: [authGuard], data: { roles: ['ROLE_USER'] } },
     { path: 'user/account', component: UserAccountComponent, canActivate: [authGuard], data: { roles: ['ROLE_USER'] } },

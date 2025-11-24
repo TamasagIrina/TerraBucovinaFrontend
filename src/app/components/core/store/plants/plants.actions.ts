@@ -41,7 +41,7 @@ export const loadPlantsByProductFailure = createAction(
 
 export const addPlant = createAction(
   '[Plants] Add Plant',
-  props<{ plant: Omit<Plant, 'id'> }>() 
+  props<{ plant: Omit<Plant, 'id'>, file: File }>() 
 );
 export const addPlantSuccess = createAction(
   '[Plants] Add Plant Success',

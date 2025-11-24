@@ -50,8 +50,8 @@ export class PlantsEffects {
   add$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlantsActions.addPlant),
-      mergeMap(({ plant }) =>
-        this.service.addPlant(plant).pipe(
+      mergeMap(({ plant, file }) =>
+        this.service.addPlant(plant, file).pipe(
           map(created => PlantsActions.addPlantSuccess({ plant: created })),
           catchError(error => of(PlantsActions.addPlantFailure({ error })))
         )
@@ -59,17 +59,7 @@ export class PlantsEffects {
     )
   );
 
-  update$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(PlantsActions.updatePlant),
-      mergeMap(({ plant }) =>
-        this.service.updatePlant(plant.id, plant).pipe(
-          map(updated => PlantsActions.updatePlantSuccess({ plant: updated })),
-          catchError(error => of(PlantsActions.updatePlantFailure({ error })))
-        )
-      )
-    )
-  );
+
 
   delete$ = createEffect(() =>
     this.actions$.pipe(

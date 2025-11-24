@@ -1,0 +1,45 @@
+<div class="add-plant-container">
+    <form (ngSubmit)="onSubmit(plantForm)" #plantForm="ngForm">
+
+        <h2>Adaugă Plantă Nouă</h2>
+
+        <div class="form-group">
+            <label>Nume</label>
+            <input type="text" name="name" [(ngModel)]="plant.name" required />
+        </div>
+
+        <div class="form-group">
+            <label>Descriere scurtă</label>
+            <textarea name="shortDescription" [(ngModel)]="plant.shortDescription"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Descriere lungă</label>
+            <textarea name="longDescription" [(ngModel)]="plant.longDescription"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Mesaj plantă</label>
+            <textarea name="plantMessage" [(ngModel)]="plant.plantMessage"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label>Imagine plantă</label>
+            <input type="file" accept="image/*" (change)="onImageSelected($event)" />
+        </div>
+
+        <div class="image-preview" *ngIf="previewUrl">
+            <img [src]="previewUrl" />
+        </div>
+
+        <div class="form-group">
+            <label>Produs asociat</label>
+            <select name="productId" [(ngModel)]="plant.product.id" required>
+                <option *ngFor="let p of products" [ngValue]="p.id">{{ p.name }}</option>
+            </select>
+        </div>
+
+        <button type="submit">Trimite</button>
+
+    </form>
+</div>
