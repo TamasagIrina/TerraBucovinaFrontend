@@ -8,12 +8,14 @@ export interface PlantsState {
   plants: Plant[];
   loading: boolean;
   error: any;
+  addPlantSuccess: boolean;
 }
 
 export const initialState: PlantsState = {
   plants: [],
   loading: false,
-  error: null
+  error: null,
+  addPlantSuccess: false
 };
 
 export const plantsReducer = createReducer(
@@ -36,7 +38,7 @@ export const plantsReducer = createReducer(
   }),
   on(PlantsActions.loadPlantByIdFailure, (state, { error }) => ({ ...state, loading: false, error })),
 
- 
+
   on(PlantsActions.loadPlantsByProduct, (state) => ({ ...state, loading: true, error: null })),
   on(PlantsActions.loadPlantsByProductSuccess, (state, { productId, plants }) => {
     const rest = state.plants.filter(p => p.product.id !== productId);
@@ -49,9 +51,15 @@ export const plantsReducer = createReducer(
   on(PlantsActions.addPlantSuccess, (state, { plant }) => ({
     ...state,
     loading: false,
-    plants: [...state.plants, plant]
+    plants: [...state.plants, plant],
+    addPlantSuccess: true
   })),
-  on(PlantsActions.addPlantFailure, (state, { error }) => ({ ...state, loading: false, error })),
+  on(PlantsActions.addPlantFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+    addPlantSuccess: false
+  })),
 
 
   on(PlantsActions.updatePlant, (state) => ({ ...state, loading: true, error: null })),
@@ -62,7 +70,7 @@ export const plantsReducer = createReducer(
   })),
   on(PlantsActions.updatePlantFailure, (state, { error }) => ({ ...state, loading: false, error })),
 
-  
+
   on(PlantsActions.deletePlant, (state) => ({ ...state, loading: true, error: null })),
   on(PlantsActions.deletePlantSuccess, (state, { id }) => ({
     ...state,

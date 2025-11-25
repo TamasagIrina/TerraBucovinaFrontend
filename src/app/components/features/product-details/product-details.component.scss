@@ -12,7 +12,7 @@
 }
 
 .back-link {
-    padding-top: 70px;
+  padding-top: 70px;
   display: inline-block;
   margin-bottom: 12px;
   text-decoration: none;
@@ -262,29 +262,26 @@
     }
 
     .fav {
-       background: transparent;
-        border: none;
-        color: #94a3b8;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        padding: 6px;
-        transition: all 0.25s ease;
+      color: #94a3b8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      padding: 6px;
+      transition: transform .25s ease, color .25s ease;
 
-       
+      &.active {
+        color: #e63946; // roșu aprins la favorite
+        transform: scale(1.2);
+      }
 
-        &.active mat-icon {
-          color: #e63946;
-          transform: scale(1.2);
-        }
-
-        &:hover mat-icon {
-          color: #ef4444;
-          transform: scale(1.1);
-        }
+      &:hover {
+        color: #ef444490;
+        transform: scale(1.1);
+      }
     }
+
 
     /* roz-roșu */
   }
@@ -369,11 +366,78 @@
   border-radius: 16px;
   background: #fff;
   padding: 16px;
+  max-height: 360px; 
+   overflow-y: hidden;   
   box-shadow: 0 10px 30px rgba(2, 6, 23, .06);
 
   h3 {
     margin: 0 0 8px;
     font-size: 1.1rem;
+  }
+.reviews-grid {
+  display: flex;
+  flex-direction: row;   // toate una sub alta
+  gap: 3px;
+
+  max-height: 200px;        // FIXED HEIGHT — extrem de important
+  overflow-y: hidden;         // SCROLL VERTICAL doar în această zonă
+  overflow-x: auto;
+
+   padding: 6px 2px 14px 2px; // un pic de padding să fie frumos
+  scroll-behavior: smooth;
+
+  scrollbar-width: thin;
+  scrollbar-color: #16a34a #f1f5f9;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #16a34a;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  .review-item {
+    width: 30%;            // cardul se întinde pe toată lățimea
+    flex: 0 0 auto;
+    margin-bottom: 10px;
+  }
+      margin-bottom: 20px;
+}
+
+
+
+  .review-btn {
+    background-color: #16a34a;
+    color: #ffffff;
+
+    border: none;
+    padding: .75rem 1rem;
+    border-radius: 12px;
+    ;
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: all 0.25s ease;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
+    &:hover {
+      background-color: #0e652e;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    &:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
   }
 }
 
@@ -414,6 +478,8 @@
   .stars {
     letter-spacing: 1px;
   }
+
+
 }
 
 .btn.outline {

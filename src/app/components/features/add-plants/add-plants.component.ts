@@ -5,8 +5,10 @@ import { ProductsActions } from '../../core/store/products/products.actions'
 import { Product } from '../../core/interfaces/product.interface';
 import { FormsModule } from '@angular/forms';
 import { Plant } from '../../core/interfaces/plant.interfece';
+
 import * as PlantsActions from '../../core/store/plants/plants.actions';
 import { selectAllProducts } from '../../core/store/products/products.selectors';
+import { selectAddPlantSuccess } from '../../core/store/plants/plants.selectors';
 
 @Component({
   selector: 'app-add-plants',
@@ -23,7 +25,18 @@ export class AddPlantsComponent {
     shortDescription: '',
     longDescription: '',
     plantMessage: '',
-    product: { id: 0 }
+    product: {
+      id: 0,
+      name: '',
+      price: 0,
+      main_image_url: undefined,
+      shortDesc: '',
+      longDesc: '',
+      category: '',
+      stockQty: 0,
+      createdAt: '',
+      updatedAt: ''
+    }
   };
 
   selectedFile: File | null = null;
@@ -38,8 +51,13 @@ export class AddPlantsComponent {
     this.store.select(selectAllProducts)
       .subscribe(products => {
         this.products = products;
-        console.log("PRODUSELE AU VENIT:", this.products);
       });
+
+    this.store.select(selectAddPlantSuccess).subscribe(success => {
+      if (success) {
+        this.resetFormFields();
+      }
+    });
   }
 
 
@@ -57,7 +75,7 @@ export class AddPlantsComponent {
     }
   }
 
-  onSubmit(form: any) {
+  onSubmit() {
     if (!this.selectedFile) return;
 
     this.store.dispatch(
@@ -68,14 +86,40 @@ export class AddPlantsComponent {
     );
 
 
-    form.resetForm();
-    this.previewUrl = null;
-    this.selectedFile = null;
 
-    const fileInput = document.querySelector("#fileInput") as HTMLInputElement;
-    if (fileInput) fileInput.value = "";
 
 
   }
 
+  resetFormFields() {
+    this.plant = {
+      name: '',
+      imageUrl: '',
+      shortDescription: '',
+      longDescription: '',
+      plantMessage: '',
+      product: {
+        id: 0,
+        name: '',
+        price: 0,
+        main_image_url: undefined,
+        shortDesc: '',
+        longDesc: '',
+        category: '',
+        stockQty: 0,
+        createdAt: '',
+        updatedAt: ''
+      }
+    };
+
+    this.selectedFile = null;
+    this.previewUrl = null;
+
+    const fileInput = document.querySelector("#fileInput") as HTMLInputElement;
+    if (fileInput) fileInput.value = "";
+  }
+
+
 }
+
+

@@ -6,6 +6,6 @@ export interface Plant {
     longDescription: string;
     plantMessage:string;
     name:string;
-    product: { id: number };
+    product: Product ;
     imageUrl:string;
 }

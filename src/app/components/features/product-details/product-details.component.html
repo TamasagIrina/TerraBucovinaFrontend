@@ -36,7 +36,7 @@
       </div>
 
       <div class="price-line">
-        <div class="price">€{{ product.price || 59 }}</div>
+        <div class="price">{{ product.price * 0.19 + product.price || 59 }} RON</div>
         <div class="vat muted">TVA inclus</div>
       </div>
 
@@ -57,7 +57,7 @@
         </button>
 
         <button (click)="toggleFavorite(product.id)" class="btn ghost">
-          <mat-icon class="fav">favorite</mat-icon>
+          <mat-icon [class.active]="(isFavorite$ | async)" class="fav">favorite</mat-icon>
           Favorite
         </button>
       </div>
@@ -68,12 +68,12 @@
         <div class="chip">🚚 Livrare 24–48h</div>
       </div>
 
-      <div class="share">
+      <!-- <div class="share">
         <span class="muted">Distribuie:</span>
         <button class="icon-btn" aria-label="Share Facebook">f</button>
         <button class="icon-btn" aria-label="Share Instagram">ig</button>
         <button class="icon-btn" aria-label="Share Link">⤴︎</button>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -113,12 +113,10 @@
 
       <ng-container *ngIf="reviews$ | async as reviews">
 
-
-        <div *ngIf="reviews.length > 0; else noReviews">
-          <app-review-card *ngFor="let rev of reviews" [review]="rev">
+        <div class="reviews-grid" *ngIf="reviews.length > 0; else noReviews">
+          <app-review-card *ngFor="let rev of reviews" [review]="rev" class="review-item">
           </app-review-card>
         </div>
-
 
         <ng-template #noReviews>
           <p>Nu există recenzii pentru acest produs încă.</p>
@@ -127,7 +125,7 @@
       </ng-container>
 
 
-      <button class="btn outline" (click)="canUserReview(product.id)">
+      <button class="review-btn" (click)="canUserReview(product.id)">
         Scrie o recenzie
       </button>
     </div>

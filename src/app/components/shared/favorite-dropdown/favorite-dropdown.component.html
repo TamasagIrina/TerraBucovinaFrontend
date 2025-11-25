@@ -4,49 +4,29 @@
     <button class="close-btn" (click)="closeFavorite()" aria-label="Închide">✕</button>
   </header>
 
- <div class="favorite-items" *ngIf="favoriteItems$ | async as items">
-  
- <div *ngIf="!items || items.length === 0" class="empty-cart">
-        Favorite este gol. Adaugă produse!
+  <div class="favorite-items" *ngIf="favoriteItems$ | async as items">
+
+    <div *ngIf="!items || items.length === 0" class="empty-cart">
+      Favorite este gol. Adaugă produse!
+    </div>
+
+    <!-- Lista de produse favorite -->
+    <div *ngFor="let item of items" class="favorite-item">
+      <img [src]="item.imageUrl" [alt]="item.name" class="thumb" (click)="closeFavorite()" />
+
+      <div class="info">
+        <a href="/details/{{item.productId}}"> {{ item.name }} </a>
+        <span class="price">{{ item.price | currency:'RON':'symbol':'1.0-2' }}</span>
       </div>
 
-  <!-- Lista de produse favorite -->
-  <div *ngFor="let item of items" class="favorite-item">
-    <img 
-      [src]="item.imageUrl" 
-      [alt]="item.name" 
-      class="thumb" 
-      (click)="closeFavorite()" 
-    
-    />
+      <div class="actions">
+        <button class="icon-btn add-btn" aria-label="Adaugă în coș" (click)="addToCart(item.productId)">
+          <mat-icon>add_shopping_cart</mat-icon>
+        </button>
 
-    <div class="info">
-       <a href="/details/{{item.productId}}"> {{ item.name }} </a>
-      <span class="price">{{ item.price | currency:'RON':'symbol':'1.0-2' }}</span>
-    </div>
-
-    <div class="actions">
-      <button 
-        class="icon-btn add-btn" 
-        aria-label="Adaugă în coș"
-        (click)="addToCart(item.productId)"
-       
-      >
-        <mat-icon>add_shopping_cart</mat-icon>
-      </button>
-
-      <button 
-        class="icon-btn remove-btn" 
-        aria-label="Șterge din favorite"
-        (click)="remove(item.productId)"
-      >
-        ✕
-      </button>
+        <button class="icon-btn remove-btn" aria-label="Șterge din favorite" (click)="remove(item.productId)">
+          ✕
+        </button>
+      </div>
     </div>
   </div>
-</div>
-
-
-
- 
-

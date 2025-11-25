@@ -3,9 +3,12 @@
   padding: 16px;
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  margin-bottom: 20px;
-  width: 25%;
   transition: transform 0.2s ease;
+
+  height: 160px;
+  flex: 0 0 320px; // card fix, nu se micșorează
+  width: 320px; // dimensiune stabilă
+  margin-right: 16px; // gap între carduri
 
   &:hover {
     transform: translateY(-2px);
@@ -71,10 +74,26 @@
       margin-bottom: 8px;
       max-height: 60px;
       overflow: hidden;
+      position: relative;
       transition: max-height 0.3s ease;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 25px;
+        background: linear-gradient(to bottom, transparent, #fff);
+        display: block;
+      }
 
       &.expanded {
         max-height: 500px;
+
+        &::after {
+          display: none;
+        }
       }
     }
 
@@ -90,5 +109,6 @@
         text-decoration: underline;
       }
     }
+
   }
 }

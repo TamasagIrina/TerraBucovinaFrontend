@@ -7,6 +7,9 @@ import { RouterLink } from '@angular/router';
 import { loadOrdersByCustomer } from '../../core/store/order/order.actions';
 import { AuthService } from '../../core/services/authService/auth-sevices.service';
 import { selectCustomerOrders } from '../../core/store/order/order.selectors';
+import { MatDialog } from '@angular/material/dialog';
+import { AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult } from '../../shared/add-review-dialog/add-review-dialog.component';
+import { U } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-user-see-orders',
@@ -19,15 +22,29 @@ import { selectCustomerOrders } from '../../core/store/order/order.selectors';
 export class UserSeeOrdersComponent {
 
   orders$!: Observable<Order[]>;
+  userId: number | undefined;
 
-  constructor(private store: Store, private authService: AuthService) { }
+  constructor(private store: Store, private authService: AuthService,private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.authService.getUserId().subscribe(userId => {
+      this.userId=userId;
       this.store.dispatch(loadOrdersByCustomer({ customerId: userId }));
       this.orders$= this.store.select(selectCustomerOrders);
     });
 
+  }
+  openReviw(id: number){
+       this.dialog.open<AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult>(
+                    AddReviewDialogComponent,
+                    {
+                      width: '400px',
+                      data: {
+                        productId: id,
+                        userId: this.userId as number
+                      }
+                    }
+                  );
   }
 
 }

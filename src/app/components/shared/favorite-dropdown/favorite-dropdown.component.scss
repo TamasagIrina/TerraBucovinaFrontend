@@ -23,6 +23,12 @@
             transform: translateY(0);
         }
     }
+    .empty-cart {
+            text-align: center;
+            color: #777;
+            padding: 2rem 1rem;
+            font-size: 0.95rem;
+        }
 }
 
 /* Header */
@@ -79,12 +85,7 @@
             object-fit: cover;
         }
 
-        .empty-cart {
-            text-align: center;
-            color: #777;
-            padding: 2rem 1rem;
-            font-size: 0.95rem;
-        }
+        
 
         .info {
             display: flex;

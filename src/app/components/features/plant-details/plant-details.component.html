@@ -1,0 +1,39 @@
+<div class="plant-details-container"  *ngIf="plant$ | async as plant">
+
+    <!-- TITLU PLANTĂ -->
+    <header class="plant-header">
+        <h1>{{ plant.name }}</h1>
+    </header>
+
+    <!-- CONȚINUT PRINCIPAL -->
+    <section class="plant-content">
+
+        <!-- DESCRIERE TEXT -->
+        <div class="plant-text">
+            <p class="short-description">
+                {{ plant.shortDescription }}
+            </p>
+
+            <p class="long-description">
+                {{ plant.longDescription }}
+                <br>
+                Remediu: 
+                <a [routerLink]="['/details', plant.product.id]" class="name">
+                  {{plant.product.name}}
+                </a>
+            </p>
+
+            <div class="massage-box">
+                <h3> Mesajul florii</h3>
+                <p>{{ plant.plantMessage }}</p>
+            </div>
+        </div>
+
+        <!-- IMAGINEA PLANTEI -->
+        <div class="plant-image">
+            <img [src]="getImageUrl(plant)" [alt]="plant.name" />
+        </div>
+
+    </section>
+
+</div>

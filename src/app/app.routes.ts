@@ -15,6 +15,7 @@ import { UserSeeOrdersComponent } from './components/features/user-see-orders/us
 import { UserAccountComponent } from './components/features/user-account/user-account.component';
 import { AddPlantsComponent } from './components/features/add-plants/add-plants.component';
 import { AboutPlantsComponent } from './components/features/about-plants/about-plants.component';
+import { PlantDetailsComponent } from './components/features/plant-details/plant-details.component';
 
 export const routes: Routes = [
     { path: 'shop', component: ShopComponent },
@@ -31,6 +32,7 @@ export const routes: Routes = [
     { path: 'cart', component: CartComponent },
     { path: 'purchase', component: PurchaseComponent },
     { path: 'details/:id', component: ProductDetailsComponent },
+     { path: 'details-plants/:id', component: PlantDetailsComponent },
     { path: 'forbidden', component: ForbiddenComponent },
     { path: '', redirectTo: 'shop', pathMatch: 'full' },
     { path: '**', redirectTo: 'shop' }

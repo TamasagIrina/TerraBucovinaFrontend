@@ -37,7 +37,7 @@ export class AboutPlantsComponent {
   }
 
   goToPlantDetails(id: number) {
-    this.router.navigate(['/plants', id]); // exemplu: /plants/7
+    this.router.navigate(['details-plants', id]);
   }
 
 }
