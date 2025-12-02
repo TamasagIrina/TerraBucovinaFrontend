@@ -45,11 +45,11 @@
       </div>
 
       <div class="controls">
-        <div class="qty">
+        <!-- <div class="qty">
           <button class="qty-btn">−</button>
           <input type="number" value="1" min="1" />
           <button class="qty-btn">＋</button>
-        </div>
+        </div> -->
 
         <button (click)="addToCart()" class="btn primary">
           <mat-icon>shopping_cart</mat-icon>
@@ -97,15 +97,20 @@
       </ul>
     </div>
 
-    <div class="card">
-      <h3>Specificații</h3>
-      <div class="specs">
-        <div class="row"><span>Origine</span><strong>Bucovina</strong></div>
-        <div class="row"><span>Greutate netă</span><strong>500 ml</strong></div>
-        <div class="row"><span>Certificare</span><strong>BIO</strong></div>
-        <div class="row"><span>Termen de valabilitate</span><strong>18 luni</strong></div>
-      </div>
+
+    <div class="card" *ngIf="product.ingredients">
+      <h3>Ingrediente</h3>
+      <p>{{ product.ingredients }}</p>
     </div>
+
+
+
+
+    <div class="card" *ngIf="product.scientificStudies">
+      <h3>Știai că?</h3>
+      <p>{{ product.scientificStudies }}</p>
+    </div>
+
 
     <div class="card">
       <h3>Recenzii</h3>
@@ -130,27 +135,34 @@
       </button>
     </div>
 
+    <div class="card">
+      <h3>Specificații</h3>
+      <div class="specs">
+        <div class="row"><span>Origine</span><strong>Bucovina</strong></div>
+        <div class="row"><span>Greutate netă</span><strong>500 ml</strong></div>
+        <div class="row"><span>Certificare</span><strong>BIO</strong></div>
+        <div class="row"><span>Termen de valabilitate</span><strong>18 luni</strong></div>
+      </div>
+    </div>
+
+    <div class="card" *ngIf="product.notification">
+      <h3>Notificare</h3>
+      <p>{{ product.notification }}</p>
+    </div>
+
   </div>
 
+
+
   <!-- Related products -->
-  <div class="related">
+  <div class="related" *ngIf="relatedProducts$ | async as related">
     <h3>Produse similare</h3>
+
     <div class="rel-grid">
-      <a class="rel-card" routerLink="/product/2">
-        <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="Produs" />
-        <div class="name">Extract floral II</div>
-        <div class="price">€62</div>
-      </a>
-      <a class="rel-card" routerLink="/product/3">
-        <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="Produs" />
-        <div class="name">Ceai relaxant</div>
-        <div class="price">€28</div>
-      </a>
-      <a class="rel-card" routerLink="/product/4">
-        <img src="assets/images/stejar-copac-terrabucovina.jpg" alt="Produs" />
-        <div class="name">Ulei esențial</div>
-        <div class="price">€79</div>
-      </a>
+      <div *ngFor="let p of related" class="grid-item">
+        <app-product-card [product]="p"></app-product-card>
+      </div>
     </div>
   </div>
+
 </section>

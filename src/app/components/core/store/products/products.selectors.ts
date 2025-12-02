@@ -44,8 +44,14 @@ export const selectAllProductsWithPrimaryImage = createSelector(
 
       return {
         ...product,
-        main_image_url: primaryImage?.imageUrl ?  `${environment.apiUrl}${primaryImage?.imageUrl}` : 'https://placehold.co/60x40/cccccc/ffffff?text=Img'
+        mainImageUrl: primaryImage?.imageUrl ?  `${environment.apiUrl}${primaryImage?.imageUrl}` : 'https://placehold.co/60x40/cccccc/ffffff?text=Img'
       };
     });
   }
 );
+
+export const selectProductsByCategory = (categoryId: number) =>
+  createSelector(
+    selectAllProductsWithPrimaryImage,
+    (products) => products.filter(p => p.categories?.id === categoryId)
+  );

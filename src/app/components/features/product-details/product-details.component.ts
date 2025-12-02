@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { selectProductById } from '../../core/store/products/products.selectors';
-import { Observable, take } from 'rxjs';
+import { selectProductById, selectProductsByCategory } from '../../core/store/products/products.selectors';
+import { map, Observable, switchMap, take } from 'rxjs';
 import { Image } from '../../core/interfaces/image.interface';
 import { ImagesActions } from '../../core/store/images/images.actions';
 import { selectImagesByProduct } from '../../core/store/images/images.selectors';
@@ -25,11 +25,12 @@ import { Review } from '../../core/interfaces/review.inerface';
 import { selectAllReviews, selectByProductId, selectByProductIdCOUNT, selectByProductIdMediaOfStars } from '../../core/store/review/review.selectors';
 import { ReviewCardComponent } from "../../shared/review-card/review-card.component";
 import { loadReviews, loadReviewsByProductId } from '../../core/store/review/review.actions';
+import { ProductCardComponent } from "../../shared/product-card/product-card.component";
 @Component({
   selector: 'app-product-details',
   imports: [MatIconModule,
     CommonModule,
-    RouterLinkWithHref, ReviewCardComponent],
+    RouterLinkWithHref, ReviewCardComponent, ProductCardComponent],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
@@ -48,6 +49,7 @@ export class ProductDetailsComponent {
   reviews$!: Observable<Review[]>;
   count$!: Observable<number>;
   avgStars$!: Observable<number>;
+  relatedProducts$!: Observable<Product[]>;
 
   ngOnInit(): void {
     this.router.paramMap.subscribe(params => {
@@ -62,11 +64,23 @@ export class ProductDetailsComponent {
       this.isFavorite$ = this.store.select(
         FavoriteSelectors.selectIsFavorite(this.id)
       );
-     
+
       this.reviews$ = this.store.select(selectByProductId(this.id));
-      
+
       this.count$ = this.store.select(selectByProductIdCOUNT(this.id));
       this.avgStars$ = this.store.select(selectByProductIdMediaOfStars(this.id));
+
+      this.relatedProducts$ = this.product$.pipe(
+        switchMap(product => {
+          if (!product || !product.categories) {
+            return this.store.select(selectProductsByCategory(-1)); // return gol
+          }
+
+          return this.store.select(selectProductsByCategory(product.categories.id)).pipe(
+            map(list => list.filter(p => p.id !== product.id))
+          );
+        })
+      );
     });
   }
 

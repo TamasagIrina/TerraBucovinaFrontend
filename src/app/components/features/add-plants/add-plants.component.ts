@@ -29,14 +29,18 @@ export class AddPlantsComponent {
       id: 0,
       name: '',
       price: 0,
-      main_image_url: undefined,
       shortDesc: '',
       longDesc: '',
-      category: '',
+      notification: '',
+      ingredients: '',
+      scientificStudies: '',
       stockQty: 0,
+      mainImageUrl: null,
       createdAt: '',
-      updatedAt: ''
+      updatedAt: '',
+      categories: null
     }
+
   };
 
   selectedFile: File | null = null;
@@ -102,13 +106,16 @@ export class AddPlantsComponent {
         id: 0,
         name: '',
         price: 0,
-        main_image_url: undefined,
         shortDesc: '',
         longDesc: '',
-        category: '',
+        notification: '',
+        ingredients: '',
+        scientificStudies: '',
         stockQty: 0,
+        mainImageUrl: null,
         createdAt: '',
-        updatedAt: ''
+        updatedAt: '',
+        categories: null
       }
     };
 

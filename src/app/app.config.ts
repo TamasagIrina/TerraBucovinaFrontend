@@ -22,8 +22,10 @@ import { CartEffects } from './components/core/store/cart/cart.effects';
 import { FavoriteEffects } from './components/core/store/favorite/favorite.effects';
 import { ReviewEffects } from './components/core/store/review/review.effects';
 import * as fromReview from './components/core/store/review/review.reducer';
+import * as fromCategoris from './components/core/store/categoris/category.reducer';
 import * as fromContactUs from './components/core/store/contact-us/contact-us.reducer';
 import { ContactUsEffects } from './components/core/store/contact-us/contact-us.effects';
+import { CategoriesEffects } from './components/core/store/categoris/category.effects';
 
 const keysToSync = [
   fromCart.cartFeatureKey,
@@ -57,7 +59,8 @@ export const appConfig: ApplicationConfig = {
     CartEffects,
     FavoriteEffects,
     ReviewEffects,
-    ContactUsEffects
+    ContactUsEffects,
+    CategoriesEffects
   ]),
   provideRouter(
     routes,
@@ -73,6 +76,7 @@ export const appConfig: ApplicationConfig = {
   provideState(fromCart.cartFeatureKey, fromCart.cartReducer),
   provideState(fromFavorite.favoriteFeatureKey, fromFavorite.favoriteReducer),
   provideState(fromReview.reviewFeatureKey, fromReview.reviewReducer),
+  provideState(fromCategoris.categoriesFeatureKey, fromCategoris.categoriesReducer),
   provideState(fromContactUs.contactUsFeatureKey, fromContactUs.contactUsReducer)
   ]
 };

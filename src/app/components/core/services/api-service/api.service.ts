@@ -10,6 +10,7 @@ import { Review } from '../../interfaces/review.inerface';
 import { User } from '../../interfaces/user.interface';
 import { ContactUsMessage } from '../../interfaces/contact-us-message.model';
 import { MessageStatus } from '../../interfaces/message-status.enum';
+import { Category } from '../../interfaces/category.interface';
 export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
 
 @Injectable({
@@ -45,7 +46,14 @@ export class ApiService {
   deleteProducts(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}products/admin/delete/${id}`);
   }
+  getCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(`${this.baseUrl}/categories/get/all`);
+  }
 
+  addCategory(category: Omit<Category, 'id'>): Observable<Category> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.post<Category>(`${this.baseUrl}/categories/add`, category, { context});
+  }
 
   getAllImages(): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/products/images/get/all`);

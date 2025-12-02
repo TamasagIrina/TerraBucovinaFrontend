@@ -16,6 +16,7 @@ import { UserAccountComponent } from './components/features/user-account/user-ac
 import { AddPlantsComponent } from './components/features/add-plants/add-plants.component';
 import { AboutPlantsComponent } from './components/features/about-plants/about-plants.component';
 import { PlantDetailsComponent } from './components/features/plant-details/plant-details.component';
+import { AddCategoryComponent } from './components/features/add-category/add-category.component';
 
 export const routes: Routes = [
     { path: 'shop', component: ShopComponent },
@@ -25,14 +26,15 @@ export const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'admin/add-product', component: AddProductComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-orders', component: SeeAllOredersComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
-     { path: 'admin/add-plant', component: AddPlantsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
+    { path: 'admin/add-plant', component: AddPlantsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
+    { path: 'admin/add-category', component: AddCategoryComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-contact-us-mesages', component: SeeAllContactUsMessagesComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'user/see-orders', component: UserSeeOrdersComponent, canActivate: [authGuard], data: { roles: ['ROLE_USER'] } },
     { path: 'user/account', component: UserAccountComponent, canActivate: [authGuard], data: { roles: ['ROLE_USER'] } },
     { path: 'cart', component: CartComponent },
     { path: 'purchase', component: PurchaseComponent },
     { path: 'details/:id', component: ProductDetailsComponent },
-     { path: 'details-plants/:id', component: PlantDetailsComponent },
+    { path: 'details-plants/:id', component: PlantDetailsComponent },
     { path: 'forbidden', component: ForbiddenComponent },
     { path: '', redirectTo: 'shop', pathMatch: 'full' },
     { path: '**', redirectTo: 'shop' }

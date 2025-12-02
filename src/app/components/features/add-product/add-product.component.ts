@@ -9,6 +9,9 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Actions, ofType } from '@ngrx/effects';
 import { Subscription } from 'rxjs';
+import { Category } from '../../core/interfaces/category.interface';
+import { CategoriesActions } from '../../core/store/categoris/category.actions';
+import { selectAllCategories } from '../../core/store/categoris/category.selectors';
 
 @Component({
   selector: 'app-add-product',
@@ -20,23 +23,32 @@ import { Subscription } from 'rxjs';
   styleUrl: './add-product.component.scss'
 })
 export class AddProductComponent {
-product: Product = {
+  product: Product = {
+
     id: 0,
     name: '',
     price: 0,
-    main_image_url: '',
     shortDesc: '',
     longDesc: '',
-    category: '',
+    notification: '',
+    ingredients: '',
+    scientificStudies: '',
     stockQty: 0,
+    mainImageUrl: null,
     createdAt: '',
-    updatedAt: ''
-  };
+    updatedAt: '',
+    categories: {
+      id: 0,
+      name: '',
+      description: ''
+    }
 
+  };
+  categories: Category[] = [];
 
   previewImages: { file: File; url: string }[] = [];
-  selectedMainImageIndex = 0; 
-    private actionsSubscription: Subscription;
+  selectedMainImageIndex = 0;
+  private actionsSubscription: Subscription;
 
   constructor(private store: Store, private actions$: Actions) {
     // ascultă acțiunea de succes
@@ -44,11 +56,47 @@ product: Product = {
       .pipe(ofType(ProductsActions.addProductSuccess))
       .subscribe(({ product }) => {
         if (product.id) {
-          console.log('intraaa', product.id)
-
-          this.uploadImages(product.id); // trimite pozele cu product.id
+          this.uploadImages(product.id);
         }
+
+        
       });
+  }
+
+  ngOnInit() {
+    // load categories
+    this.store.dispatch(CategoriesActions.loadCategories());
+
+    this.store.select(selectAllCategories).subscribe(c => {
+      this.categories = c;
+    });
+
+
+  }
+
+  resetFormFields() {
+    this.product = {
+      id: 0,
+      name: '',
+      price: 0,
+      shortDesc: '',
+      longDesc: '',
+      notification: '',
+      ingredients: '',
+      scientificStudies: '',
+      stockQty: 0,
+      mainImageUrl: null,
+      createdAt: '',
+      updatedAt: '',
+      categories: {
+        id: 0,
+        name: '',
+        description: ''
+      }
+    };
+
+    const fileInput = document.querySelector("#fileInput") as HTMLInputElement;
+    if (fileInput) fileInput.value = "";
   }
 
   onImagesSelected(event: Event): void {
@@ -70,7 +118,7 @@ product: Product = {
 
   selectMainImage(index: number): void {
     this.selectedMainImageIndex = index;
-    this.product.main_image_url = this.previewImages[index].url;
+    this.product.mainImageUrl = this.previewImages[index].url;
   }
 
   removeImage(index: number): void {
@@ -79,9 +127,9 @@ product: Product = {
     if (this.selectedMainImageIndex === index) {
       this.selectedMainImageIndex = 0;
       if (this.previewImages.length > 0) {
-        this.product.main_image_url = this.previewImages[0].url;
+        this.product.mainImageUrl = this.previewImages[0].url;
       } else {
-        this.product.main_image_url = '';
+        this.product.mainImageUrl = '';
       }
     } else if (this.selectedMainImageIndex > index) {
       this.selectedMainImageIndex--;
@@ -90,11 +138,12 @@ product: Product = {
 
   onSubmit(): void {
     this.store.dispatch(ProductsActions.addProduct({ product: this.product }));
+    console.log(this.product);
   }
 
-    uploadImages(productId: number) {
+  uploadImages(productId: number) {
     this.previewImages.forEach((img, index) => {
-       console.log('intraaa', img, index)
+      console.log('intraaa', img, index)
       this.store.dispatch(
         ImagesActions.uploadImage({
           productId: productId,
@@ -105,6 +154,8 @@ product: Product = {
         })
       );
     });
+
+    this.resetFormFields();
   }
 
 }

@@ -2,52 +2,90 @@
   <form (ngSubmit)="onSubmit()" #productForm="ngForm">
     <h2>Adaugă Produs Nou</h2>
 
+    <!-- NAME -->
     <div class="form-group">
       <label for="name">Nume produs</label>
       <input type="text" id="name" name="name" [(ngModel)]="product.name" required />
     </div>
 
+    <!-- PRICE -->
     <div class="form-group">
       <label for="price">Preț</label>
-      <input type="number" step="1.0" id="price" name="price" [(ngModel)]="product.price" required />
+      <input type="number" step="0.1" id="price" name="price" [(ngModel)]="product.price" required />
     </div>
 
+    <!-- SHORT DESC -->
     <div class="form-group">
       <label for="shortDesc">Descriere scurtă (max 500 caractere)</label>
       <textarea id="shortDesc" name="shortDesc" [(ngModel)]="product.shortDesc" maxlength="500" required></textarea>
     </div>
 
+    <!-- LONG DESC -->
     <div class="form-group">
       <label for="longDesc">Descriere detaliată (max 1000 caractere)</label>
       <textarea id="longDesc" name="longDesc" [(ngModel)]="product.longDesc" maxlength="1000" required></textarea>
     </div>
 
+    <!-- NOTIFICATION -->
     <div class="form-group">
-      <label for="category">Categorie</label>
-      <input type="text" id="category" name="category" [(ngModel)]="product.category" required />
+      <label for="notification">Notification</label>
+      <input type="text" id="notification" name="notification" [(ngModel)]="product.notification" maxlength="200" />
     </div>
 
+    <!-- INGREDIENTS -->
+    <div class="form-group">
+      <label for="ingredients">Ingredients</label>
+      <textarea id="ingredients" name="ingredients" [(ngModel)]="product.ingredients" maxlength="200"></textarea>
+    </div>
+
+    <!-- SCIENTIFIC STUDIES -->
+    <div class="form-group">
+      <label for="scientificStudies">Scientific Studies (max 2000 caractere)</label>
+      <textarea id="scientificStudies" name="scientificStudies" [(ngModel)]="product.scientificStudies"
+        maxlength="2000"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="category">Categorie</label>
+
+      <select id="category" name="category" [(ngModel)]="product.categories!.id" required>
+
+        <option *ngFor="let c of categories" [ngValue]="c.id">
+          {{ c.name }}
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- STOCK -->
     <div class="form-group">
       <label for="stockQty">Cantitate în stoc</label>
       <input type="number" id="stockQty" name="stockQty" [(ngModel)]="product.stockQty" required />
     </div>
 
-    <!-- Upload multiple images section -->
+    <!-- IMAGES UPLOAD -->
     <div class="form-group images-upload-section">
       <label class="image-label" for="images">Încarcă imagini (poţi adăuga mai multe)</label>
-      <input type="file" id="images" #imageInput (change)="onImagesSelected($event)" multiple accept="image/*" style="display: none" />
+      <input type="file" id="images" #imageInput (change)="onImagesSelected($event)" multiple accept="image/*"
+        style="display: none" />
       <button type="button" class="custom-upload-btn" (click)="imageInput.click()">📎 Adaugă imagini</button>
     </div>
 
+    <!-- IMAGE PREVIEW -->
     <div class="images-preview" *ngIf="previewImages.length > 0">
       <div class="image-item" *ngFor="let img of previewImages; let i = index">
         <img [src]="img.url" [alt]="'Imagine ' + (i + 1)" />
+
         <div class="radio-holder">
           <label>
-            <input type="radio" name="mainImageRadio" [value]="i" (change)="selectMainImage(i)" [checked]="selectedMainImageIndex === i" />
-            Poză principală
+            <input type="radio" name="mainImageRadio" [value]="i" (change)="selectMainImage(i)"
+              [checked]="selectedMainImageIndex === i" />
+            Poză principală
           </label>
         </div>
+
         <button type="button" class="remove-btn" (click)="removeImage(i)">×</button>
       </div>
     </div>

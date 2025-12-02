@@ -80,17 +80,20 @@ export class AddReviewDialogComponent {
       //   console.log(review);
       //   this.store.dispatch(addReview({ review }));
       // });
-      var product: Product = {
-        id: this.data.productId,
+      var product: {
+        id: 0,
         name: '',
         price: 0,
-        main_image_url: undefined,
         shortDesc: '',
         longDesc: '',
-        category: '',
+        notification: '',
+        ingredients: '',
+        scientificStudies: '',
         stockQty: 0,
+        mainImageUrl: null,
         createdAt: '',
-        updatedAt: ''
+        updatedAt: '',
+        categories: null
       }
 
       var user: User = {
@@ -104,8 +107,8 @@ export class AddReviewDialogComponent {
       }
       review = {
         id: 0,
-        productId: this.data.productId ,   
-        userId: this.data.userId ,
+        productId: this.data.productId,
+        userId: this.data.userId,
         body: this.form.value.comment,
         stars: this.form.value.rating as number
       };

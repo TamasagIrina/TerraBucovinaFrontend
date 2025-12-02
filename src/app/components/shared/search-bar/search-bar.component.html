@@ -7,7 +7,7 @@
         <!-- Show results -->
         <ng-container *ngIf="filteredProducts.length > 0; else noResults">
             <div  *ngFor="let item of filteredProducts" class="search-item" (click)="selectProduct(item)">
-                <img [src]="item.main_image_url || 'assets/no-image.png'" [alt]="item.name" class="thumb" />
+                <img [src]="item.mainImageUrl|| 'assets/no-image.png'" [alt]="item.name" class="thumb" />
 
                 <div class="info">
                     <a >{{ item.name }}</a>

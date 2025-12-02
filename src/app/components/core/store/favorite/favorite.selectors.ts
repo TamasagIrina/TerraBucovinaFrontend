@@ -36,7 +36,7 @@ export const selectFavoriteItemsWithDetails = createSelector(
         ...item,
         name : product?.name ?? 'Product not found',
         price  : product?.price ?? 0,
-        imageUrl : product?.main_image_url ?? 'Image not found',
+        imageUrl : product?.mainImageUrl ?? 'Image not found',
        
       };
     })
