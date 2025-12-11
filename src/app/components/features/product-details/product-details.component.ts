@@ -6,8 +6,8 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { Store } from '@ngrx/store';
-import { selectProductById, selectProductsByCategory } from '../../core/store/products/products.selectors';
-import { map, Observable, switchMap, take } from 'rxjs';
+import { selectAllProductsWithPrimaryImage, selectProductById, selectProductsByCategory } from '../../core/store/products/products.selectors';
+import { map, Observable, of, switchMap, take } from 'rxjs';
 import { Image } from '../../core/interfaces/image.interface';
 import { ImagesActions } from '../../core/store/images/images.actions';
 import { selectImagesByProduct } from '../../core/store/images/images.selectors';
@@ -50,6 +50,8 @@ export class ProductDetailsComponent {
   count$!: Observable<number>;
   avgStars$!: Observable<number>;
   relatedProducts$!: Observable<Product[]>;
+  selectedImage: Image | null = null;
+  lightboxOpen = false;
 
   ngOnInit(): void {
     this.router.paramMap.subscribe(params => {
@@ -59,7 +61,15 @@ export class ProductDetailsComponent {
       this.product$ = this.store.select(selectProductById(this.id));
 
       this.store.dispatch(ImagesActions.loadImagesByProduct({ productId: this.id }));
+
       this.images$ = this.store.select(selectImagesByProduct(this.id));
+
+      this.images$.subscribe(images => {
+        if (!images || images.length === 0) return;
+
+        const primary = images.find(img => img.isPrimary);
+        this.selectedImage = primary || images[0];
+      });
 
       this.isFavorite$ = this.store.select(
         FavoriteSelectors.selectIsFavorite(this.id)
@@ -70,17 +80,27 @@ export class ProductDetailsComponent {
       this.count$ = this.store.select(selectByProductIdCOUNT(this.id));
       this.avgStars$ = this.store.select(selectByProductIdMediaOfStars(this.id));
 
-      this.relatedProducts$ = this.product$.pipe(
-        switchMap(product => {
-          if (!product || !product.categories) {
-            return this.store.select(selectProductsByCategory(-1)); // return gol
-          }
+    this.relatedProducts$ = this.product$.pipe(
+      switchMap(product =>
+        this.store.select(selectProductsByCategory(product?.categories?.id || -1)).pipe(
+          switchMap(relatedList => {
+            if (relatedList.length > 1) {
+              return of(relatedList.filter(p => p.id !== product?.id));
+            }
+          
+            return this.store.select(selectAllProductsWithPrimaryImage).pipe(
+              map(all =>
+                all
+                  .filter(p => p.id !== product?.id)
+                  .sort(() => Math.random() - 0.5)
+                  .slice(0, 3)
+              )
+            );
+          })
+        )
+      )
+    );
 
-          return this.store.select(selectProductsByCategory(product.categories.id)).pipe(
-            map(list => list.filter(p => p.id !== product.id))
-          );
-        })
-      );
     });
   }
 
@@ -89,6 +109,23 @@ export class ProductDetailsComponent {
     this.store.dispatch(CartActions.addToCartSuccess({ productId: this.id!, quantity: 1 }));
     this.store.dispatch(FavoriteActions.removeItem({ productId: this.id! }));
 
+  }
+
+  scrollTo(sectionId: string) {
+    const el = document.getElementById(sectionId);
+    if (el) {
+      const yOffset = -120; // cât de sus vrei să fie (negativ = mai sus)
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
+      window.scrollTo({
+        top: y,
+        behavior: 'smooth'
+      });
+    }
+  }
+
+  onThumbClick(img: Image) {
+    this.selectedImage = img;
   }
 
 

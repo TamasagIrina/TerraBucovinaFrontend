@@ -1,9 +1,9 @@
 .product-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 310px;
   border-radius: 14px;
-  background: #fff;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  // background: #fff;
+  // box-shadow: 0 3px 8px rgba(0, 0, 0, 0.09);
   overflow: hidden;
   transition: all 0.25s ease;
   display: flex;
@@ -99,10 +99,7 @@
           transform: scale(1.2);
         }
 
-        &:hover mat-icon {
-          color: #ef444490;
-          transform: scale(1.1);
-        }
+      
       }
 
       .addBtn {

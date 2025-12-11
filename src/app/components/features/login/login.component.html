@@ -12,19 +12,9 @@
   </section>
 
   <section class="side right">
-      <div class="auth-message error" *ngIf="loginError">
-        <mat-icon>error</mat-icon>  Nume de utilizator sau parolă incorectă.
-      </div>
-
-      <div class="auth-message success" *ngIf="loginSuccess">
-         <mat-icon>check_circle</mat-icon> Autentificare reușită! Redirecționare în curs...
-      </div>
-
-      <div class="auth-message warning" *ngIf="missingFields">
-        <mat-icon>warning</mat-icon>  Te rugăm să completezi toate câmpurile.
-      </div>
+ 
     <div class="card">
-    
+
 
       <form class="form signup-form" autocomplete="off">
         <h2>Creează cont</h2>
@@ -32,17 +22,22 @@
         <div class="field"> <mat-icon class="icon">person</mat-icon><input #usernameInput1 type="text"
             placeholder="Nume" (input)="resetMessages()" /></div>
         <div class="field"> <mat-icon class="icon">mail</mat-icon><input #emailInput1 type="email"
-            placeholder="Adresă de e-mail"  (input)="resetMessages()" /></div>
-        <div class="field"> <mat-icon class="icon">lock</mat-icon><input #passwordInput1 type="password"
-            placeholder="Parolă" (input)="resetMessages()" /></div>
-
-        <p class="hint">sau folosește adresa ta de e-mail pentru înregistrare:</p>
+            placeholder="Adresă de e-mail" (input)="resetMessages()" /></div>
+        <div class="field">
+          <mat-icon class="icon">lock</mat-icon>
+          <input #passwordInput1 [type]="showPassword1 ? 'text' : 'password'" placeholder="Parolă"
+            (input)="resetMessages()" />
+          <button type="button" class="toggle-password" (click)="showPassword1 = !showPassword1" tabindex="-1">
+            <mat-icon>{{ showPassword1 ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+        </div>
+        <!-- <p class="hint">sau folosește adresa ta de e-mail pentru înregistrare:</p>
 
         <div class="socials">
           <button aria-label="Înregistrare cu Facebook">f</button>
           <button aria-label="Înregistrare cu Google">G+</button>
           <button aria-label="Înregistrare cu LinkedIn">in</button>
-        </div>
+        </div> -->
 
         <button type="button" class="btn primary"
           (click)="register(usernameInput1.value , passwordInput1.value , emailInput1.value)">Creează cont</button>
@@ -56,9 +51,15 @@
       <form class="form signin-form" autocomplete="off">
         <h2>Autentificare</h2>
         <div class="field"> <mat-icon class="icon">mail</mat-icon><input #emailInput type="email"
-            placeholder="Adresă de e-mail"  (input)="resetMessages()" /></div>
-        <div class="field"> <mat-icon class="icon">lock</mat-icon><input #passwordInput type="password"
-            placeholder="Parolă" (input)="resetMessages()" /></div>
+            placeholder="Adresă de e-mail" (input)="resetMessages()" /></div>
+        <div class="field">
+          <mat-icon class="icon">lock</mat-icon>
+          <input #passwordInput [type]="showPassword2 ? 'text' : 'password'" placeholder="Parolă"
+            (input)="resetMessages()" />
+          <button type="button" class="toggle-password" (click)="showPassword2 = !showPassword2" tabindex="-1">
+            <mat-icon>{{ showPassword2 ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+        </div>
 
         <button type="button" class="btn primary"
           (click)="login(emailInput.value, passwordInput.value)">Autentifică-te</button>

@@ -1,35 +1,33 @@
 <nav class="navbar">
   <div class="navbar__left">
+    <span class="brand">
+      <a class="link-brand" routerLink="shop">Terra Bucovina</a>
+    </span>
 
-    <span class="brand"><a class="link-brand" routerLink="shop">Terra Bucovina</a></span>
+    <!-- 🔥 Buton login pentru mobil -->
+    <button class="login-button mobile-login" *ngIf="!isLoggedIn" [routerLink]="'/login'">Log In</button>
+    <button class="login-button mobile-login" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
   </div>
-  <ul class="navbar__links" *ngIf="!isLoggedIn">
+
+  <!-- Links menu -->
+  <ul class="navbar__links" [class.open]="menuOpen" *ngIf="!isLoggedIn">
     <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
     <li><a routerLink="about-plants">Remediile Florale</a></li>
     <li><a routerLink="shop">Magazin</a></li>
     <li><a routerLink="contact">Contact</a></li>
   </ul>
 
-  <!-- Navbar pentru Admin -->
-  <ul class="navbar__links" *ngIf="isAdmin">
-    <li> <a href="#">Magazin</a></li>
+  <ul class="navbar__links" [class.open]="menuOpen" *ngIf="isAdmin">
+    <li><a href="#">Magazin</a></li>
     <li><a routerLink="admin/add-category">Adaugă categorie</a></li>
     <li><a routerLink="admin/add-product">Adaugă produs</a></li>
     <li><a routerLink="admin/add-plant">Adaugă plantă</a></li>
     <li><a routerLink="admin/see-all-orders">Comenzi</a></li>
     <li><a routerLink="admin/see-all-contact-us-mesages">Mesaje</a></li>
-
   </ul>
 
-  <!-- Dropdown pentru utilizatori logați (non-admin) -->
-  <ul class="navbar__links" *ngIf="isUser && !isAdmin">
-    <li class="dropdown">
-      <a href="#">Contul Meu</a>
-      <ul class="dropdown-content">
-        <li><a routerLink="user/see-orders">Vezi comenzi</a></li>
-        <li><a routerLink="user/account">Gestionare cont</a></li>
-      </ul>
-    </li>
+  <ul class="navbar__links" [class.open]="menuOpen" *ngIf="isUser && !isAdmin">
+    <li><a routerLink="user/see-orders">Vezi comenzi</a></li>
     <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
     <li><a routerLink="about-plants">Remediile Florale</a></li>
     <li><a routerLink="shop">Magazin</a></li>
@@ -37,10 +35,9 @@
   </ul>
 
   <div class="navbar__right">
-    <div class="navbar__right">
+    <div class="search-responsive">
       <app-search-bar></app-search-bar>
     </div>
-
 
     <button class="favorite-btn" (click)="toggleFavorite()" matBadge="{{totalFavoriteItems$ | async }}"
       matBadgeColor="accent">
@@ -53,10 +50,12 @@
       <mat-icon class="icon">shopping_cart</mat-icon>
     </button>
 
-
     <app-cart-dropdown *ngIf="isCartOpen"></app-cart-dropdown>
 
-    <button class="login-button" *ngIf="!isLoggedIn" [routerLink]="'/login'">Log In</button>
-    <button class="login-button" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
+    <!-- 🔥 Buton login pentru desktop -->
+    <button class="login-button desktop-login" *ngIf="!isLoggedIn" [routerLink]="'/login'">Log In</button>
+    <button class="login-button desktop-login" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
+
+    <div class="burger" (click)="toggleMenu()">☰</div>
   </div>
 </nav>

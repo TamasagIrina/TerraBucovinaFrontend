@@ -4,11 +4,13 @@
   border-radius: 12px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease;
+  flex: 0 0 320px;
+  width: 300px;
+  height: 170px; // 🔒 înălțime fixă
 
-  height: 170px;
-  flex: 0 0 320px; // card fix, nu se micșorează
-  width: 320px; // dimensiune stabilă
-  // margin-right: 16px; // gap între carduri
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   &:hover {
     transform: translateY(-2px);
@@ -18,7 +20,7 @@
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 12px;
+    margin-bottom: 8px;
 
     .avatar {
       width: 52px;
@@ -42,7 +44,6 @@
         display: flex;
         align-items: center;
         gap: 8px;
-        margin-top: 2px;
 
         span {
           font-weight: 600;
@@ -67,22 +68,33 @@
   }
 
   .review-body {
+    flex: 1;
+    overflow: hidden;
+
     .review-text {
-      font-size: 0.97rem;
+      font-size: 0.95rem;
       line-height: 1.45;
       color: #101010;
-      max-height: 90px;
-      overflow-y: auto;
-      position: relative;
-      transition: none;
 
-      &::after {
-        overflow-y: auto;
-        display: none;
+      height: 65px; // 🔒 scrollabil
+      overflow-y: auto;
+      overflow-x: hidden;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+
+      // scrollbar personalizat
+      &::-webkit-scrollbar {
+        width: 6px;
       }
 
-      &.expanded {
-        max-height: none;
+      &::-webkit-scrollbar-thumb {
+        background-color: #c5c5c5;
+        border-radius: 3px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #f0f0f0;
       }
     }
 
@@ -90,7 +102,7 @@
       background: none;
       border: none;
       color: #2764ff;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       padding: 0;
 
@@ -98,6 +110,53 @@
         text-decoration: underline;
       }
     }
+  }
+}
+@media (max-width: 600px) {
+  .review-card {
+    width: 90vw;
+    flex: 0 0 92vw;
+    height: 160px;
+    padding: 12px;
 
+    .review-header {
+      gap: 10px;
+
+      .avatar {
+        width: 42px;
+        height: 42px;
+      }
+
+      .review-info {
+        .name {
+          font-size: 1rem;
+        }
+
+        .rating {
+          gap: 6px;
+
+          span {
+            font-size: 0.9rem;
+          }
+
+          .stars span {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    .review-body {
+      .review-text {
+        font-size: 0.85rem;
+        height: 60px;
+        line-height: 1.4;
+        overflow-y: auto;
+      }
+
+      .toggle-btn {
+        font-size: 0.8rem;
+      }
+    }
   }
 }

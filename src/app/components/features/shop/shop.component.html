@@ -1,23 +1,45 @@
 <!-- HERO -->
 <section class="shop-hero">
-    <div class="hero-bg">
-        <img src="assets/images/naturaImg.jpg" alt="Fundal natural" />
-        <div class="overlay"></div>
-    </div>
+  <div class="hero-bg">
+    <img src="assets/images/naturaImg.jpg" alt="Fundal natural" />
+    <div class="overlay"></div>
+  </div>
 
-    <div class="hero-content">
-        <div class="brand-card">
-            <img class="logo" src="assets/images/logoTerraBucovina.png" alt="Terra Bucovina" />
-            <h1>Terra Bucovina</h1>
-            <p class="motto">Natural. Simplu. Din Bucovina.</p>
-        </div>
-    </div>
-</section>
-
-<section class="products-grid">
-  <div class="grid-wrapper">
-    <div *ngFor="let p of products$ | async" class="grid-item">
-      <app-product-card [product]="p"></app-product-card>
+  <div class="hero-content">
+    <div class="brand-card">
+      <img class="logo" src="assets/images/logoTerraBucovina.png" alt="Terra Bucovina" />
+      <h1>Terra Bucovina</h1>
+      <p class="motto">Natural. Simplu. Din Bucovina.</p>
     </div>
   </div>
+</section>
+
+<section class="products-section">
+
+  <aside class="categories-sidebar" *ngIf="categories$ | async as categories">
+    <h3>Categorii</h3>
+
+    <div class="category-item" *ngFor="let cat of categories">
+      <div class="category-header" (click)="toggleCategory(cat.id)">
+        <span>{{ cat.name }}</span>
+        <mat-icon class="arrow" [class.open]="openedCategories.includes(cat.id)">expand_more</mat-icon>
+      </div>
+
+      <ul class="subcategory-list" *ngIf="openedCategories.includes(cat.id)">
+        <li *ngFor="let p of productsByCategory(cat.id) | async"
+            (click)="goToProduct(p.id)">
+          {{ p.name }}
+        </li>
+      </ul>
+    </div>
+  </aside>
+
+  <div class="products-grid">
+    <div class="grid-wrapper">
+      <div *ngFor="let p of products$ | async" class="grid-item">
+        <app-product-card [product]="p"></app-product-card>
+      </div>
+    </div>
+  </div>
+
 </section>

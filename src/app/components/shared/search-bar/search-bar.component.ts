@@ -62,12 +62,17 @@ export class SearchBarComponent {
     this.searchInput$.next(this.query);
   }
 
-  selectProduct(product: Product){
+  selectProduct(product: Product) {
 
     this.router.navigateByUrl(`/details/${product.id}`);
 
-    this.query='';
-    
+    this.query = '';
+
+  }
+
+  closeDropdown(): void {
+    this.query = '';
+    this.filteredProducts = [];
   }
 
 }

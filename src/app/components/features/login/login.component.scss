@@ -11,6 +11,7 @@ $accent-hover: #92c6a7;
 $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
 
 .auth {
+  padding-top: 50px;
   --radius: 14px;
   --pad: 28px;
 
@@ -110,7 +111,7 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
     background: $white;
     display: grid;
     grid-template-rows: auto 1fr;
-   
+
 
     .auth-message {
       padding: 0.3rem 0.3rem;
@@ -217,6 +218,9 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
           background: #fafcfc;
           height: auto;
           box-sizing: border-box;
+            position: relative;
+
+        
 
           .icon {
             opacity: 0.75;
@@ -235,6 +239,17 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
             width: 100%;
           }
         }
+          .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: #666;
+          }
 
         .btn.primary {
           margin-top: 6px;
@@ -343,5 +358,60 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
         max-width: 480px;
       }
     }
+  }
+}
+
+/* === MOBILE MODE (sub 768px) === */
+@media (max-width: 768px) {
+  .auth {
+    padding-top: 20px;
+    grid-template-columns: 1fr;       
+    width: 100vw;                   
+    min-height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    overflow: hidden;
+  }
+
+  .auth .left {
+    display: none !important;        
+  }
+
+  .auth .right {
+    padding: 1.5rem 1rem;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+  }
+
+  .auth .right .card {
+    width: 100%;
+    max-width: 420px;                 /* Arată bine pe toate telefoanele */
+    min-height: auto;
+    padding: 1.5rem 1rem;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .auth .right .signup-form,
+  .auth .right .signin-form {
+    padding: 0;
+    max-width: 100%;
+    gap: 14px;
+  }
+
+  .auth .right h2 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .auth .right .field {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .auth .right .btn.primary {
+    height: 44px;
+    font-size: 1rem;
   }
 }

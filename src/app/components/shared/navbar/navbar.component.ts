@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -41,12 +41,13 @@ import { AuthService } from '../../core/services/authService/auth-sevices.servic
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  @ViewChild(SearchBarComponent) searchBarComponent!: SearchBarComponent;
   public isCartOpen = false;
   public isFavoriteOpen = false;
   totalCartItems$: Observable<number> | undefined;
   totalFavoriteItems$: Observable<number> | undefined;
   isLoggedIn = false;
-
+  menuOpen: boolean = false;
 
   constructor(private store: Store, private authService: AuthService, private router: Router) {
     this.totalCartItems$ = this.store.select(CartSelectors.selectCartTotalItems);
@@ -91,6 +92,17 @@ export class NavbarComponent {
 
   closeCart() {
     this.isCartOpen = false;
+  }
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+
+    if (this.menuOpen && this.searchBarComponent) {
+      this.searchBarComponent.closeDropdown();
+    }
+
+    this.closeFavorite();
+    this.closeCart();
   }
 
 

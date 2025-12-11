@@ -7,7 +7,7 @@
   margin: 15px 0;
   font-size: 15px;
   position: fixed;
-  top: 7%;
+  top: 65px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 99999;
@@ -81,4 +81,31 @@
 
 
 
+}
+
+@media(max-width: 970px){
+  .notification {
+    top: 95px;
+    width: calc(100% - 80px);   
+    max-width: none;            
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 16px;
+
+    .notification-content {
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .message {
+      font-size: 1rem;
+      color: #1f1f1f;
+    }
+
+    .close-btn {
+      font-size: 22px;
+      margin-left: 0;
+    }
+  }
 }

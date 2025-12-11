@@ -10,6 +10,7 @@ import { filter, map, Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { selectNotification } from './components/core/store/notification/notification.selectors';
 import { loadReviews } from './components/core/store/review/review.actions';
+import { loadCategories } from './components/core/store/categoris/category.actions';
 
 @Component({
   selector: 'app-root',
@@ -31,6 +32,7 @@ export class AppComponent {
     this.store.dispatch(ProductsActions.loadProducts());
     this.store.dispatch(ImagesActions.loadAllImages());
     this.store.dispatch(loadReviews());
+    this.store.dispatch(loadCategories());
     this.notification$ = this.store.select(selectNotification);
 
   }

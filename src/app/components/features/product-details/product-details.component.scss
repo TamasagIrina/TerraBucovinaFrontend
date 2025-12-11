@@ -343,6 +343,8 @@
   background: #fff;
   cursor: pointer;
   font-weight: 700;
+  overflow-wrap: break-word;
+  word-break: break-word;
   transition: background .2s, border-color .2s, color .2s, transform .08s;
 
   &.active {
@@ -366,49 +368,110 @@
   border-radius: 16px;
   background: #fff;
   padding: 16px;
-  max-height: 360px; 
-   overflow-y: hidden;   
+  max-height: none;
+  overflow-y: hidden;
   box-shadow: 0 10px 30px rgba(2, 6, 23, .06);
 
   h3 {
     margin: 0 0 8px;
     font-size: 1.1rem;
   }
-.reviews-grid {
-  display: flex;
-  flex-direction: row;   // toate una sub alta
-  gap: 3px;
 
-  max-height: 200px;        // FIXED HEIGHT — extrem de important
-  overflow-y: hidden;         // SCROLL VERTICAL doar în această zonă
-  overflow-x: auto;
+  .reviews-grid {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    max-height: 200px;
+    overflow-y: hidden;
+    overflow-x: auto;
 
-   padding: 6px 2px 14px 2px; // un pic de padding să fie frumos
-  scroll-behavior: smooth;
+    padding: 6px 2px 14px 2px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #16a34a #f1f5f9;
+    margin-bottom: 20px;
 
-  scrollbar-width: thin;
-  scrollbar-color: #16a34a #f1f5f9;
+    /* Scrollbar styling remains same... */
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
 
-  &::-webkit-scrollbar {
-    width: 8px;
+    &::-webkit-scrollbar-thumb {
+      background: #16a34a;
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+
+    .review-item {
+      width: 30%;
+      flex: 0 0 auto;
+      margin-bottom: 10px;
+      max-width: 320px;
+    }
+
+    @media (max-width: 640px) {
+
+      .reviews-grid {
+        display: flex;
+        flex-direction: row;
+
+        overflow-x: auto;
+        /* slider orizontal */
+        overflow-y: hidden;
+        /* NU vrem scroll vertical în grid */
+        gap: 16px;
+        padding: 10px 0 20px 0;
+        text-align: center;
+        text-wrap: inherit;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: thin;
+        scrollbar-color: #16a34a #f1f5f9;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .review-item {
+        width: 80vw;
+        max-width: 220px;
+
+        flex: 0 0 auto;
+
+        overflow-wrap: break-word;
+        word-break: break-word;
+        height: 210px !important;
+
+        scroll-snap-align: center;
+
+        padding: 12px;
+        border-radius: 14px;
+        background: #fff;
+
+
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
+
+        white-space: normal !important;
+      }
+
+
+      .review-item::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      .review-item::-webkit-scrollbar-thumb {
+        background: #16a34a;
+        border-radius: 10px;
+      }
+    }
+
+
+
+
+
+
   }
-
-  &::-webkit-scrollbar-thumb {
-    background: #16a34a;
-    border-radius: 4px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #f1f5f9;
-  }
-
-  .review-item {
-    width: 30%;            // cardul se întinde pe toată lățimea
-    flex: 0 0 auto;
-    margin-bottom: 10px;
-  }
-      margin-bottom: 20px;
-}
 
 
 
@@ -520,66 +583,143 @@
 .grid-item {
   display: flex;
   width: 100%;
-    max-width: 320px;
-    background:  #fafafa;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-    transition: all 0.25s ease;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
+  max-width: 320px;
+  background: #fafafa;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
 
-    &:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-    }
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+  }
 
-    img {
+  .gallery {
+    .main-image img {
       width: 100%;
-      height: 220px;
+      max-height: 400px;
       object-fit: cover;
-      border-bottom: 1px solid #eee;
-      transition: transform 0.3s ease;
+      cursor: zoom-in;
     }
 
-    &:hover img {
-      transform: scale(1.05);
-    }
-
-    .info {
-      padding: 1rem 1.2rem;
+    .thumbs {
+      margin-top: 1rem;
       display: flex;
-      flex-direction: column;
       gap: 0.5rem;
 
-      .title {
-        font-size: 1.05rem;
-        font-weight: 600;
-        color: #1f2937;
-      }
+      .thumb {
+        border: none;
+        padding: 0;
+        background: transparent;
+        cursor: pointer;
+        opacity: 0.7;
+        border-radius: 6px;
+        overflow: hidden;
 
-      .price {
-        font-size: 1rem;
-        color: #16a34a;
-        font-weight: 700;
-      }
+        &.is-active {
+          opacity: 1;
+          outline: 2px solid #0e7632;
+        }
 
-      .desc {
-        font-size: 0.9rem;
-        color: #6b7280;
-        line-height: 1.4;
+        img {
+          width: 64px;
+          height: 64px;
+          object-fit: cover;
+          display: block;
+        }
       }
     }
+  }
 
-    .buttons {
-      padding: 0.9rem 1.2rem 1.1rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid #eee;
-      background-color: #fafafa;
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+
+    .lightbox-content img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 8px;
+    }
+  }
+
+
+  .info {
+    padding: 1rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #1f2937;
     }
 
+    .price {
+      font-size: 1rem;
+      color: #16a34a;
+      font-weight: 700;
+    }
+
+    .desc {
+      font-size: 0.9rem;
+      color: #6b7280;
+      line-height: 1.4;
+    }
+  }
+
+  .buttons {
+    padding: 0.9rem 1.2rem 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid #eee;
+    background-color: #fafafa;
+  }
+
+}
+
+@media (max-width: 640px) {
+  .back-link {
+    padding-top: 90px;
+  }
+
+  .grid {
+    gap: 0; // elimină spațiul dintre galerie și info
+  }
+
+  .gallery,
+  .info {
+    border-radius: 0; // scoate colțurile ca să fie unite vizual
+    box-shadow: none; // dacă vrei un look plat
+    border: none;
+    padding: 0;
+  }
+
+  .main-image img {
+    height: auto !important; // să se adapteze la dimensiunea telefonului
+    border-radius: 0;
+  }
+
+  .thumbs {
+    border-top: 1px solid #eee;
+    padding: 8px;
+    margin-top: 0;
+  }
+
+  .info {
+    padding: 16px;
+    border-top: 1px solid #eee;
+    background-color: #ffffff;
+  }
 }

@@ -1,7 +1,7 @@
 .favorite-dropdown {
     position: absolute;
     right: 0;
-    top: 60px;
+    top: calc(100% + 8px); 
     width: min(90vw, 420px);
     background: #fff;
     border-radius: 16px;

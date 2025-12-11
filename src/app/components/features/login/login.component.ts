@@ -3,7 +3,9 @@ import { Component, HostBinding } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../core/services/authService/auth-sevices.service';
-
+import { Store } from '@ngrx/store';
+import * as NotificationActions from '../../core/store/notification/notification.actions';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   imports: [CommonModule, MatIcon],
@@ -12,7 +14,8 @@ import { AuthService } from '../../core/services/authService/auth-sevices.servic
 })
 export class LoginComponent {
   signup = false;
-
+  showPassword1 = false;
+  showPassword2 = false;
 
   signupForm: FormGroup;
   signinForm: FormGroup;
@@ -20,7 +23,7 @@ export class LoginComponent {
   loginSuccess = false;
   missingFields = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private store: Store, private router: Router) {
     // initializezi ambele formulare
     this.signupForm = this.fb.group({
       fullName: ['', Validators.required],
@@ -35,69 +38,119 @@ export class LoginComponent {
   }
 
   resetMessages(): void {
-    this.loginError = false;
-    this.loginSuccess = false;
-    this.missingFields = false;
+    this.store.dispatch(NotificationActions.hideNotification());
   }
 
   login(email: string, password: string) {
-
-    console.log(email, password);
-
-    this.loginError = false;
-    this.loginSuccess = false;
-    this.missingFields = false;
-
     if (!email || !password) {
-      this.missingFields = true;
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Te rugăm să completezi toate câmpurile.',
+          notificationType: 'error',
+        })
+      );
+
+      setTimeout(() => {
+        this.store.dispatch(NotificationActions.hideNotification());
+      }, 3000);
+
       return;
     }
 
     this.authService.login(email, password).subscribe({
       next: (res) => {
-        if (res == "Invalid username or password") {
-          this.loginError = true;
-        } else {
-          this.authService.saveToken(res);
-          this.loginSuccess = true;
+        if (res === "Invalid username or password") {
+          this.store.dispatch(
+            NotificationActions.showNotification({
+              message: 'Parola sau email incorect!',
+              notificationType: 'error',
+            })
+          );
+          return;
         }
-        console.log('OK', res);
 
+
+        this.authService.saveToken(res);
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'Sunteți logat în cont!',
+            notificationType: 'success',
+          })
+        );
+        setTimeout(() => {
+          this.router.navigateByUrl('/shop');
+          this.store.dispatch(NotificationActions.hideNotification());
+        }, 2000);
       },
       error: (err) => {
         console.error('Eroare login', err);
-        this.loginError = true;
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'A apărut o eroare de rețea sau server.',
+            notificationType: 'error',
+          })
+        );
       }
-
     });
-
-
   }
+
 
   register(username: string, password: string, email: string) {
 
-    console.log(username, password, email);
-
-    this.loginError = false;
-    this.loginSuccess = false;
-    this.missingFields = false;
-
     if (!username || !password || !email) {
-      this.missingFields = true;
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Te rugăm să completezi toate câmpurile.',
+          notificationType: 'error',
+        })
+      );
+
+      setTimeout(() => {
+        this.store.dispatch(NotificationActions.hideNotification());
+      }, 3000);
+
       return;
     }
 
     this.authService.register(username, password, email).subscribe({
       next: (res) => {
-        console.log('OK', res);
-        this.loginSuccess = true;
-      }, error: (err) => {
-        console.error('Eroare login', err);
-        this.loginError = true;
+
+        if (res === "User already exists" || res === "Invalid registration data") {
+          this.store.dispatch(
+            NotificationActions.showNotification({
+              message: "Aveti deja cont de utilizator sau email-ul a fost deja utilizat",
+              notificationType: 'error',
+            })
+          );
+          return;
+        }
+
+
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'Contul a fost creat cu succes!',
+            notificationType: 'success',
+          })
+        );
+        setTimeout(() => {
+          this.signup = false;
+          this.store.dispatch(NotificationActions.hideNotification());
+        }, 2000);
+      },
+
+      error: (err) => {
+        console.error('Eroare la înregistrare:', err);
+
+
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'A apărut o eroare la înregistrare. Încearcă din nou.',
+            notificationType: 'error',
+          })
+        );
       }
     });
-
-
   }
+
 
 }

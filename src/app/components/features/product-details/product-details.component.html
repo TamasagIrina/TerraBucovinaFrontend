@@ -2,22 +2,24 @@
   <a routerLink="/shop" class="back-link">← Înapoi la magazin</a>
 
   <div class="grid">
-    <!-- LEFT: Gallery -->
-    <div class="gallery">
-      <div class="main-image" *ngFor="let img of images$  | async">
-        <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
+    <div class="gallery" *ngIf="images$ | async as images">
 
+      <!-- IMAGINE PRINCIPALĂ -->
+      <div class="main-image" *ngIf="images.length">
+        <img [src]="environment + (selectedImage?.imageUrl || images[0].imageUrl)" [alt]="product.name" />
       </div>
-      <div class="thumbs" *ngFor="let img of images$  | async">
-        <button class="thumb is-active">
-          <img *ngIf="img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
-        </button>
-        <button class="thumb">
-          <img *ngIf="!img.isPrimary" [src]="environment+img.imageUrl" [alt]="product.name" />
-        </button>
 
+      <!-- THUMBNAILS -->
+      <div class="thumbs">
+        <button class="thumb" *ngFor="let img of images" (click)="onThumbClick(img)"
+          [class.is-active]="selectedImage?.id === img.id || (!selectedImage && img.isPrimary)">
+          <img [src]="environment + img.imageUrl" [alt]="product.name" />
+        </button>
       </div>
+
     </div>
+
+
 
     <!-- RIGHT: Info -->
     <div class="info">
@@ -77,15 +79,15 @@
     </div>
   </div>
 
-  <!-- TABS -->
   <div class="tabs">
-    <button class="tab active">Descriere</button>
-    <button class="tab">Specificații</button>
-    <button class="tab">Recenzii ({{ count$ | async }})</button>
+    <button class="tab" (click)="scrollTo('descriere')">Descriere</button>
+    <button class="tab" (click)="scrollTo('recenzii')">Recenzii ({{ count$ | async }})</button>
+    <button class="tab" (click)="scrollTo('specificatii')">Specificații</button>
   </div>
 
+
   <div class="tabs-content">
-    <div class="card">
+    <div class="card" id="descriere">
       <h3>Descriere</h3>
       <p>
         {{product.longDesc}}
@@ -112,7 +114,7 @@
     </div>
 
 
-    <div class="card">
+    <div class="card" id="recenzii">
       <h3>Recenzii</h3>
 
 
@@ -135,7 +137,7 @@
       </button>
     </div>
 
-    <div class="card">
+    <div class="card" id="specificatii">
       <h3>Specificații</h3>
       <div class="specs">
         <div class="row"><span>Origine</span><strong>Bucovina</strong></div>
