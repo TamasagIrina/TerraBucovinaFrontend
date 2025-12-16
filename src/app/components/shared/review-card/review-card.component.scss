@@ -40,6 +40,11 @@
         font-weight: 600;
       }
 
+      .review-date {
+        font-size: 0.8rem;
+        color: #6b7280; // gri discret
+      }
+
       .rating {
         display: flex;
         align-items: center;
@@ -76,7 +81,7 @@
       line-height: 1.45;
       color: #101010;
 
-      height: 65px; // 🔒 scrollabil
+      max-height: 65px;
       overflow-y: auto;
       overflow-x: hidden;
       word-wrap: break-word;
@@ -112,51 +117,39 @@
     }
   }
 }
+
 @media (max-width: 600px) {
+
   .review-card {
-    width: 90vw;
-    flex: 0 0 92vw;
-    height: 160px;
-    padding: 12px;
+    box-sizing: border-box;
 
-    .review-header {
-      gap: 10px;
+    width: 100%;
+    flex: 0 0 100%;
 
-      .avatar {
-        width: 42px;
-        height: 42px;
-      }
+    flex: 0 0 88vw;
+    min-height: 170px;
+    min-height: 150px;
+    padding: 1rem;
 
-      .review-info {
-        .name {
-          font-size: 1rem;
-        }
+    overflow: visible; // 🔴 FOARTE IMPORTANT
+  }
 
-        .rating {
-          gap: 6px;
+  .review-body {
+    .review-text {
+      box-sizing: border-box;
 
-          span {
-            font-size: 0.9rem;
-          }
+      max-height: none;
+      overflow: visible;
 
-          .stars span {
-            font-size: 1rem;
-          }
-        }
-      }
-    }
+      font-size: 0.95rem;
+      line-height: 1.45;
 
-    .review-body {
-      .review-text {
-        font-size: 0.85rem;
-        height: 60px;
-        line-height: 1.4;
-        overflow-y: auto;
-      }
+      padding-right: 0; // 🔴 CHEIA
+      margin-right: 0;
 
-      .toggle-btn {
-        font-size: 0.8rem;
-      }
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: break-word;
     }
   }
 }

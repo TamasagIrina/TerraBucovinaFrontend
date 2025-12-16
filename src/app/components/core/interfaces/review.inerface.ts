@@ -7,5 +7,6 @@ export interface Review {
   userId: number;
   body: string;
   stars: number;
+  createdAt: string | null;
 
 }

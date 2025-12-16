@@ -434,23 +434,18 @@
 
       .review-item {
         width: 80vw;
-        max-width: 220px;
 
         flex: 0 0 auto;
 
         overflow-wrap: break-word;
         word-break: break-word;
-        height: 210px !important;
+    
 
         scroll-snap-align: center;
 
         padding: 12px;
         border-radius: 14px;
         background: #fff;
-
-
-        overflow-y: scroll !important;
-        overflow-x: hidden !important;
 
         white-space: normal !important;
       }
@@ -550,148 +545,60 @@
   border: 1px solid var(--border);
 }
 
-/* Related */
+/* =========================
+   RELATED PRODUCTS
+   ========================= */
+
 .related {
   margin-top: 18px;
 
   h3 {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+    font-size: 1.25rem;
+    font-weight: 700;
   }
 }
 
+/* 🔴 UN SINGUR RÂND + SCROLL ORIZONTAL */
 .rel-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 2REM;
 
-  @media (max-width: 740px) {
-    grid-template-columns: 1fr 1fr;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  padding-bottom: 10px;
+
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+
+  scrollbar-width: thin;
+
+  &::-webkit-scrollbar {
+    height: 6px;
   }
 
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
+  &::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 6px;
   }
 }
 
-.rel-grid {
-  display: grid;
-  gap: 1.5rem;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  margin-top: 1rem;
-}
 
 .grid-item {
-  display: flex;
-  width: 100%;
-  max-width: 320px;
-  background: #fafafa;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
-  transition: all 0.25s ease;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  cursor: pointer;
-
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
-  }
-
-  .gallery {
-    .main-image img {
-      width: 100%;
-      max-height: 400px;
-      object-fit: cover;
-      cursor: zoom-in;
-    }
-
-    .thumbs {
-      margin-top: 1rem;
-      display: flex;
-      gap: 0.5rem;
-
-      .thumb {
-        border: none;
-        padding: 0;
-        background: transparent;
-        cursor: pointer;
-        opacity: 0.7;
-        border-radius: 6px;
-        overflow: hidden;
-
-        &.is-active {
-          opacity: 1;
-          outline: 2px solid #0e7632;
-        }
-
-        img {
-          width: 64px;
-          height: 64px;
-          object-fit: cover;
-          display: block;
-        }
-      }
-    }
-  }
-
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999;
-
-    .lightbox-content img {
-      max-width: 90vw;
-      max-height: 90vh;
-      border-radius: 8px;
-    }
-  }
-
-
-  .info {
-    padding: 1rem 1.2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-
-    .title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #1f2937;
-    }
-
-    .price {
-      font-size: 1rem;
-      color: #16a34a;
-      font-weight: 700;
-    }
-
-    .desc {
-      font-size: 0.9rem;
-      color: #6b7280;
-      line-height: 1.4;
-    }
-  }
-
-  .buttons {
-    padding: 0.9rem 1.2rem 1.1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-top: 1px solid #eee;
-    background-color: #fafafa;
-  }
-
+  flex: 0 0 auto;
+  width: 280px;
 }
+
 
 @media (max-width: 640px) {
   .back-link {
     padding-top: 90px;
+  }
+
+  .rel-grid {
+    max-height: 600px;
   }
 
   .grid {

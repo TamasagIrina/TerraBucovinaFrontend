@@ -156,15 +156,14 @@
 
 
 
-  <!-- Related products -->
-  <div class="related" *ngIf="relatedProducts$ | async as related">
-    <h3>Produse similare</h3>
+<div class="related" *ngIf="relatedProducts$ | async as related">
+  <h3>Produse similare</h3>
 
-    <div class="rel-grid">
-      <div *ngFor="let p of related" class="grid-item">
-        <app-product-card [product]="p"></app-product-card>
-      </div>
+  <div class="rel-grid">
+    <div *ngFor="let p of related" class="grid-item">
+      <app-product-card [product]="p"></app-product-card>
     </div>
   </div>
+</div>
 
 </section>

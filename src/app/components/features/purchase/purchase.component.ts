@@ -107,6 +107,10 @@ export class PurchaseComponent {
           orders: null
         } : null;
 
+        if(this.tab=='card'){
+          this.tab='ramburs';
+        }
+
         const order: Order = {
           id: 0,
           fullName: this.fullName,

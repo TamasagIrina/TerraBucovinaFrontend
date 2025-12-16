@@ -137,33 +137,11 @@
             (click)="setTab('card')">Card</button>
           <button type="button" class="tab" role="tab" [class.active]="tab==='ramburs'" [attr.aria-selected]="tab==='ramburs'"
             (click)="setTab('ramburs')">Ramburs</button>
-          <button type="button" class="tab" role="tab" [class.active]="tab==='bank'" [attr.aria-selected]="tab==='bank'"
-            (click)="setTab('bank')">Transfer bancar</button>
+         
         </div>
 
         <div class="pay-card" *ngIf="tab==='card'">
-          <label class="field">
-            <span>Număr card</span>
-            <input type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" />
-          </label>
-          <div class="grid-3">
-            <label class="field">
-              <span>Valabil până la</span>
-              <input type="text" inputmode="numeric" placeholder="MM/AA" />
-            </label>
-            <label class="field">
-              <span>CVV</span>
-              <input type="password" inputmode="numeric" placeholder="***" />
-            </label>
-            <label class="field">
-              <span>Deţinător card</span>
-              <input type="text" placeholder="Nume exact ca pe card" />
-            </label>
-          </div>
-          <label class="checkbox">
-            <input type="checkbox" />
-            <span>Salvează datele cardului în siguranţă</span>
-          </label>
+          <p class="muted">Momentan plata cu cardul nu este disponibila</p>
         </div>
 
         <div class="pay-cod" *ngIf="tab==='ramburs'">
@@ -175,16 +153,7 @@
           </ul>
         </div>
 
-        <div class="pay-bank" *ngIf="tab==='bank'">
-          <p class="muted">După plasare, primeşti pe email factura şi detaliile de plată.</p>
-          <div class="bank-box">
-            <div><strong>Beneficiar:</strong> Terra Bucovina SRL</div>
-            <div><strong>IBAN:</strong> RO49 AAAA 1B31 0075 9384 0000</div>
-            <div><strong>Banca:</strong> BCR, Sucursala Suceava</div>
-            <div><strong>Detalii plată:</strong> Nr. comandă #TB‑12345</div>
-          </div>
-          <p class="hint">Comanda se procesează după confirmarea plăţii.</p>
-        </div>
+       
       </div>
 
       <div class="card" *ngIf="items.length > 0">

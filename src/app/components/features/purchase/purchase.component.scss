@@ -1,9 +1,13 @@
+/* =========================
+   LAYOUT & VARIABLES
+========================= */
 .checkout-page {
   --bg: #ffffff;
   --ink: #0f172a;
   --muted: #64748b;
   --border: rgba(2, 6, 23, .08);
   --ring: #16a34a;
+
   display: grid;
   grid-template-columns: 1fr 380px;
   gap: 28px;
@@ -12,8 +16,10 @@
   background: var(--bg);
   color: var(--ink);
 
-  @media (max-width: 1024px) {
+  /* Responsive Main Layout */
+  @media (max-width: 900px) {
     grid-template-columns: 1fr;
+    margin-top: 50px;
   }
 }
 
@@ -22,8 +28,37 @@
   gap: 16px;
 }
 
+.wfull {
+  width: 100%;
+}
+
+/* =========================
+   GRID HELPERS
+========================= */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 680px) {
+  .grid-2,
+  .grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================
+   HEADERS & LINKS
+========================= */
 .section-header {
-    padding-top: 70px;
+  padding-top: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,6 +80,20 @@
   }
 }
 
+.link.small {
+  display: inline-block;
+  margin-top: 8px;
+  color: var(--muted);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--ink);
+  }
+}
+
+/* =========================
+   CARDS
+========================= */
 .card {
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -58,29 +107,35 @@
   }
 }
 
-.grid-2 {
+.info-card {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
+  grid-template-columns: 28px 1fr;
+  gap: 10px;
+  align-items: start;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: #fcfcfc;
 
-.grid-3 {
-  display: grid;
-  grid-template-columns: 1fr 120px 1fr;
-  gap: 12px;
-}
+  .icn {
+    font-size: 18px;
+  }
 
-@media (max-width: 680px) {
-
-  .grid-2,
-  .grid-3 {
-    grid-template-columns: 1fr;
+  p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: .92rem;
   }
 }
 
+/* =========================
+   FORMS & FIELDS
+========================= */
 .field {
   display: grid;
   gap: 6px;
+  position: relative;
+  margin-bottom: 2.2rem;
 
   span {
     font-size: .9rem;
@@ -101,6 +156,32 @@
   select:focus {
     box-shadow: 0 0 0 3px rgba(22, 163, 74, .25);
   }
+
+  /* Validation States */
+  &.invalid input,
+  &.invalid select {
+    border-color: #e63946;
+    box-shadow: 0 0 0 2px rgba(230, 57, 70, .2);
+  }
+}
+
+.error-message {
+  position: absolute;
+  bottom: -1.4rem;
+  left: 0;
+  color: #e63946;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+
+/* =========================
+   CHECKBOX & RADIO
+========================= */
+.checkbox-wrapper {
+  position: relative;
+  margin-bottom: 2.2rem;
 }
 
 .checkbox,
@@ -130,7 +211,27 @@
   }
 }
 
-/* Tabs */
+.checkbox.invalid input {
+  border-color: #e63946;
+  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
+}
+
+.policy-field {
+  position: relative;
+  margin-bottom: 2.2rem;
+}
+
+.policy-error {
+  position: absolute;
+  bottom: -1.4rem;
+  left: 0;
+  color: #e63946;
+  font-size: 0.8rem;
+}
+
+/* =========================
+   TABS
+========================= */
 .tabs {
   display: inline-flex;
   gap: 6px;
@@ -145,18 +246,21 @@
   cursor: pointer;
   font-weight: 600;
   transition: background .2s, border-color .2s, color .2s, transform .08s;
+
+  &:hover {
+    background: #f3f4f6;
+  }
+
+  &.active {
+    background: #16a34a;
+    border-color: #16a34a;
+    color: #fff;
+  }
 }
 
-.tab:hover {
-  background: #f3f4f6;
-}
-
-.tab.active {
-  background: #16a34a;
-  border-color: #16a34a;
-  color: #fff;
-}
-
+/* =========================
+   PAYMENT & COUPONS
+========================= */
 .pay-card {
   display: grid;
   gap: 12px;
@@ -165,26 +269,28 @@
 .pay-cod .mini-list {
   margin: 8px 0 0;
   padding-left: 18px;
+
+  li {
+    margin: 4px 0;
+  }
 }
 
-.pay-cod .mini-list li {
-  margin: 4px 0;
-}
+.pay-bank {
+  .bank-box {
+    margin-top: 8px;
+    border: 1px dashed var(--border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    background: #fcfcfc;
+    display: grid;
+    gap: 6px;
+  }
 
-.pay-bank .bank-box {
-  margin-top: 8px;
-  border: 1px dashed var(--border);
-  border-radius: 12px;
-  padding: 10px 12px;
-  background: #fcfcfc;
-  display: grid;
-  gap: 6px;
-}
-
-.pay-bank .hint {
-  margin-top: 8px;
-  color: var(--muted);
-  font-size: .92rem;
+  .hint {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: .92rem;
+  }
 }
 
 .coupon {
@@ -204,6 +310,9 @@
   margin: 8px 0 10px;
 }
 
+/* =========================
+   BUTTONS
+========================= */
 .btn {
   display: inline-block;
   padding: .8rem 1rem;
@@ -230,17 +339,51 @@
   }
 }
 
-.wfull {
-  width: 100%;
-}
-
+/* =========================
+   ORDER SUMMARY
+========================= */
 .order-summary {
-   padding-top: 70px;
+  padding-top: 70px;
   position: sticky;
   top: 24px;
   height: fit-content;
   display: grid;
   gap: 16px;
+
+  @media (max-width: 900px) {
+    margin-top: 20px;
+    padding-top: 0;
+    position: static; /* Nu mai e sticky pe mobil */
+    
+    .card {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .summary-items {
+      order: 1;
+    }
+
+    .line {
+      order: 2;
+    }
+
+    .total {
+      order: 3;
+      margin-top: 8px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+    }
+
+    .link.small {
+      order: 4;
+      margin-bottom: 12px;
+    }
+
+    .btn.primary {
+      order: 5; /* 🔥 Butonul ultimul pe mobil */
+    }
+  }
 }
 
 .summary-items {
@@ -300,98 +443,4 @@
   strong {
     font-size: 1.3rem;
   }
-}
-
-.link.small {
-  display: inline-block;
-  margin-top: 8px;
-  color: var(--muted);
-  text-decoration: none;
-
-  &:hover {
-    color: var(--ink);
-  }
-}
-
-.info-card {
-  display: grid;
-  grid-template-columns: 28px 1fr;
-  gap: 10px;
-  align-items: start;
-  border: 1px dashed var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
-  background: #fcfcfc;
-
-  .icn {
-    font-size: 18px;
-  }
-
-  p {
-    margin: 2px 0 0;
-    color: var(--muted);
-    font-size: .92rem;
-  }
-}
-
-.field {
-  position: relative;
-  margin-bottom: 2.2rem;
-  display: grid;
-  gap: 6px;
-}
-
-.checkbox-wrapper {
-  position: relative;
-  margin-bottom: 2.2rem;
-}
-
-.checkbox.invalid input {
-  border-color: #e63946;
-  box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
-}
-
-.field input,
-.field select {
-  padding: .65rem .75rem;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  background: #fff;
-  outline: none;
-  font-size: .98rem;
-}
-
-.field input:focus,
-.field select:focus {
-  box-shadow: 0 0 0 3px rgba(22, 163, 74, .25);
-}
-
-.field.invalid input,
-.field.invalid select {
-  border-color: #e63946;
-  box-shadow: 0 0 0 2px rgba(230, 57, 70, .2);
-}
-
-.error-message {
-  position: absolute;
-  bottom: -1.4rem;
-  left: 0;
-  color: #e63946;
-  font-size: 0.8rem;
-  display: flex;
-  align-items: center;
-  gap: .4rem;
-}
-
-.policy-field {
-  position: relative;
-  margin-bottom: 2.2rem;
-}
-
-.policy-error {
-  position: absolute;
-  bottom: -1.4rem;
-  left: 0;
-  color: #e63946;
-  font-size: 0.8rem;
 }

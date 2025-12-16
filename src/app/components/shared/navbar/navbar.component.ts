@@ -76,13 +76,16 @@ export class NavbarComponent {
   }
 
   toggleCart() {
+    this.menuOpen = false;
     this.isCartOpen = !this.isCartOpen;
     this.closeFavorite();
 
   }
 
   toggleFavorite() {
+    this.menuOpen = false;
     this.isFavoriteOpen = !this.isFavoriteOpen;
+
     this.closeCart();
 
   }

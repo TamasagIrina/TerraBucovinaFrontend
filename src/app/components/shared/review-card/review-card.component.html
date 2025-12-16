@@ -1,17 +1,17 @@
 <div class="review-card">
   <div class="review-header">
-    <img 
-      src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png"
-      [alt]="user?.username" 
-      class="avatar" 
-    />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" [alt]="user?.username"
+      class="avatar" />
     <div class="review-info">
       <h4 class="name">{{ user?.username }}</h4>
+      <span class="review-date">
+        {{ review.createdAt | date:'dd MMM yyyy' }}
+      </span>
       <div class="rating">
         <span>{{ review.stars }}</span>
         <div class="stars">
           <ng-container *ngFor="let star of getStarsArray(review.stars); let i = index">
-              <span [class.filled]="isStarFilled(i, review.stars)">★</span>
+            <span [class.filled]="isStarFilled(i, review.stars)">★</span>
           </ng-container>
         </div>
       </div>

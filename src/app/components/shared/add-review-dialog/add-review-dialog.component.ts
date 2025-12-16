@@ -110,7 +110,8 @@ export class AddReviewDialogComponent {
         productId: this.data.productId,
         userId: this.data.userId,
         body: this.form.value.comment,
-        stars: this.form.value.rating as number
+        stars: this.form.value.rating as number,
+        createdAt: null
       };
 
 
