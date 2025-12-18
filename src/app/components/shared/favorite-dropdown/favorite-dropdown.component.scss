@@ -165,30 +165,3 @@
     }
 }
 
-
-
-/* Responsive */
-@media (max-width: 480px) {
-    .favorite-items .favorite-item {
-        grid-template-columns: 48px 1fr;
-        grid-template-areas:
-            "thumb info"
-            "thumb actions";
-
-        .thumb {
-            grid-area: thumb;
-            width: 48px;
-            height: 48px;
-        }
-
-        .info {
-            grid-area: info;
-        }
-
-        .actions {
-            grid-area: actions;
-            justify-content: flex-start;
-            margin-left: 56px;
-        }
-    }
-}

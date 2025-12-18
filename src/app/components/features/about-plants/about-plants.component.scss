@@ -1,21 +1,47 @@
 .page-header {
+    margin: 40px auto 60px; 
+    padding: 60px 16px 0;
+    text-align: left;
+    h1 {
 
-    text-align: center;
-    margin-bottom: 30px;
-    padding: 10px 20px;
+        text-align: center;
+        font-size: 2.8rem;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #111;
+        margin-bottom: 32px;
+    }
 }
 
-.page-header h1 {
-     padding-top: 70px;
-    font-size: 2.4rem;
-    font-weight: 700;
-    margin-bottom: 10px;
+.page-text {
+    text-align: left;
+
+    p {
+        text-indent: 2em; 
+        font-size: 1.05rem;
+        line-height: 1.75;
+        color: #374151;
+        margin-bottom: 16px;
+    }
+
+    p:last-child {
+        margin-bottom: 0;
+    }
 }
 
-.page-header p {
-    font-size: 1.2rem;
-    color: #555;
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header h1 {
+        font-size: 2rem;
+        letter-spacing: 0.08em;
+    }
+
+    .page-text p {
+        font-size: 0.95rem;
+    }
 }
+
 
 .plants-grid {
 

@@ -149,6 +149,33 @@
 
 }
 
+.status-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.status-tabs button {
+  padding: 12px 26px;
+  border: none;
+  border-radius: 20px;
+  margin-left: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+
+  cursor: pointer;
+}
+
+.status-tabs button.active {
+  background: #237934;
+  color: #fff;
+  border-color: #237934;
+}
+
+
 .order-footer {
   display: flex;
   justify-content: space-between;
@@ -172,5 +199,118 @@
     &:hover {
       background: #245e36;
     }
+  }
+}
+
+
+@media (max-width: 600px) {
+  .orders-container {
+    padding-top: 40px;
+    margin: 20px auto;
+  }
+
+
+  .status-tabs {
+    flex-wrap: nowrap; 
+    gap: 4px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .status-tabs button {
+    flex: 1; 
+    padding: 8px 4px;
+    font-size: 11px;
+    border-radius: 12px;
+    margin-left: 0;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+ 
+  .order-card {
+    padding: 15px;
+  }
+
+  .order-header {
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .order-header h3 {
+    font-size: 16px;
+  }
+
+  .status {
+    font-size: 14px;
+    padding: 4px 10px;
+  }
+
+
+  .product {
+    display: grid;
+  
+    grid-template-columns: auto 1fr auto; 
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+  }
+
+  .product img {
+    width: 50px; 
+    height: 50px;
+    grid-row: span 2;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+
+  .product .info {
+    display: contents; 
+  }
+
+
+  .product .info .name {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0;
+    text-align: left; 
+  }
+
+  .product .price {
+    grid-column: 3;
+    grid-row: 1;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  .product .info .qty {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 13px;
+    color: #666;
+    text-align: left; 
+  }
+
+  .product .review-btn {
+    grid-column: 3;
+    grid-row: 2;
+    width: auto;
+    padding: 6px 14px;
+    font-size: 14px;
+    margin: 0;
+    border-radius: 12px;
+    white-space: nowrap;
+  }
+
+
+  .order-footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 }

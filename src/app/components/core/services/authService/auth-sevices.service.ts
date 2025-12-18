@@ -22,8 +22,8 @@ export class AuthService {
     return this.http.post<string>(`${this.baseUrl}/api/auth/login`, { email, password }, { responseType: 'text' as 'json' });
   }
 
-  register(username: string, password: string, email: string) {
-    return this.http.post<string>(`${this.baseUrl}/api/auth/register`, { username, password, email }, { responseType: 'text' as 'json' });
+  register(username: string, password: string, email: string, termsAccepted: boolean) {
+    return this.http.post<string>(`${this.baseUrl}/api/auth/register`, { username, password, email, termsAccepted }, { responseType: 'text' as 'json' });
   }
 
   saveToken(token: string) {
@@ -67,20 +67,22 @@ export class AuthService {
   hasAnyRole(roles: string[]): boolean {
     return roles.some(r => this.roles.includes(r));
   }
-
   getName(): string | null {
     const token = localStorage.getItem(this.KEY);
     if (!token) return null;
 
     try {
       const payload = decodeJwt<{ sub?: string }>(token);
-      return payload?.sub || null;
+      return payload?.sub ? decodeURIComponent(payload.sub) : null;
     } catch {
       return null;
     }
   }
+
   getUserId(): Observable<number> {
     if (this.isLoggedIn()) {
+      console.log(this.getName());
+
       return this.http.get<number>(`${this.baseUrl}/userId/${this.getName()}`);
     }
     return of(0);

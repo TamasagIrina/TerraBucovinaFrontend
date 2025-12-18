@@ -19,6 +19,8 @@ export interface Order {
   deliveryMethod: string;
   address: string;
 
+  termsAccepted: boolean;
+
   products: OrderProduct[];
 
   createdAt: string | null;

@@ -37,6 +37,64 @@ export class LoginComponent {
     });
   }
 
+  register(username: string, password: string, email: string, termsAccepted: boolean) {
+
+    if (!username || !password || !email) {
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Te rugăm să completezi toate câmpurile.',
+          notificationType: 'error',
+        })
+      );
+      return;
+    }
+
+    if (!termsAccepted) {
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Trebuie să accepți termenii și condițiile.',
+          notificationType: 'error',
+        })
+      );
+      return;
+    }
+
+    this.authService.register(username, password, email, termsAccepted).subscribe({
+      next: (res) => {
+        if (res === "User already exists" || res === "Invalid registration data") {
+          this.store.dispatch(
+            NotificationActions.showNotification({
+              message: "Aveți deja cont sau email-ul este utilizat",
+              notificationType: 'error',
+            })
+          );
+          return;
+        }
+
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'Contul a fost creat cu succes!',
+            notificationType: 'success',
+          })
+        );
+
+        setTimeout(() => {
+          this.signup = false;
+          this.store.dispatch(NotificationActions.hideNotification());
+        }, 2000);
+      },
+      error: () => {
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'A apărut o eroare la înregistrare.',
+            notificationType: 'error',
+          })
+        );
+      }
+    });
+  }
+
+
   resetMessages(): void {
     this.store.dispatch(NotificationActions.hideNotification());
   }
@@ -80,7 +138,7 @@ export class LoginComponent {
         setTimeout(() => {
           this.router.navigateByUrl('/shop');
           this.store.dispatch(NotificationActions.hideNotification());
-        }, 2000);
+        }, 1000);
       },
       error: (err) => {
         console.error('Eroare login', err);
@@ -95,62 +153,7 @@ export class LoginComponent {
   }
 
 
-  register(username: string, password: string, email: string) {
-
-    if (!username || !password || !email) {
-      this.store.dispatch(
-        NotificationActions.showNotification({
-          message: 'Te rugăm să completezi toate câmpurile.',
-          notificationType: 'error',
-        })
-      );
-
-      setTimeout(() => {
-        this.store.dispatch(NotificationActions.hideNotification());
-      }, 3000);
-
-      return;
-    }
-
-    this.authService.register(username, password, email).subscribe({
-      next: (res) => {
-
-        if (res === "User already exists" || res === "Invalid registration data") {
-          this.store.dispatch(
-            NotificationActions.showNotification({
-              message: "Aveti deja cont de utilizator sau email-ul a fost deja utilizat",
-              notificationType: 'error',
-            })
-          );
-          return;
-        }
-
-
-        this.store.dispatch(
-          NotificationActions.showNotification({
-            message: 'Contul a fost creat cu succes!',
-            notificationType: 'success',
-          })
-        );
-        setTimeout(() => {
-          this.signup = false;
-          this.store.dispatch(NotificationActions.hideNotification());
-        }, 2000);
-      },
-
-      error: (err) => {
-        console.error('Eroare la înregistrare:', err);
-
-
-        this.store.dispatch(
-          NotificationActions.showNotification({
-            message: 'A apărut o eroare la înregistrare. Încearcă din nou.',
-            notificationType: 'error',
-          })
-        );
-      }
-    });
-  }
+ 
 
 
 }

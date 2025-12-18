@@ -1,40 +1,64 @@
 <div class="orders-container" *ngIf="orders$ | async as orders">
-    <h2 class="page-title">Comenzile Mele</h2>
+  <h2 class="page-title">Comenzile Mele</h2>
 
-    <div class="no-orders" *ngIf="orders.length === 0">
-        <p>Nu ai nicio comanda momentan.</p>
-    </div>
+  <!-- STATUS TABS -->
+  <div class="status-tabs">
+    <button
+      *ngFor="let s of statusOptions"
+      [class.active]="currentStatusTab === s"
+      (click)="setCurrentTab(s)">
+      {{ s }}
+    </button>
+  </div>
 
-    <div class="orders-list" *ngFor="let order of orders">
-        <div class="order-card">
-            <div class="order-header">
-                <div>
-                    <h3>Comanda #{{ order.id }}</h3>
-                    <p class="date">Plasata pe: {{ order.createdAt | date:'dd MMM yyyy, HH:mm' }}</p>
-                    <p class="date">Adresa de livrare: {{order.address +", "+ order.city +", "+ order.county+", "+ order.country}} </p>
-                </div>
+  <!-- EMPTY STATE -->
+  <div class="no-orders" *ngIf="(filteredOrders$ | async)?.length === 0">
+    <p>Nu există comenzi pentru acest status.</p>
+  </div>
 
-                <div class="status" [ngClass]="order.status">
-                    {{ order.status }}
-                </div>
-            </div>
+  <!-- ORDERS LIST -->
+  <div class="orders-list" *ngFor="let order of (filteredOrders$ | async)">
+    <div class="order-card">
 
-            <div class="order-products">
-                <div class="product" *ngFor="let p of order.products">
-              
-                    <div class="info">
-                        <a [routerLink]="'/details/' + p.product.id" class="name">{{ p.product.name }} </a>
-                        <p class="qty">Cantitate: {{ p.quantity }}</p>
-                    </div>
-                    <p class="price">{{ p.product.price }} RON</p>
-                    <button class="review-btn" (click)="openReviw(p.product.id)">Scrie o recenzie</button>
-                </div>
-            </div>
-
-            <div class="order-footer">
-                <p class="total">Total: <strong> {{order.totalPrice}} RON</strong></p>
-            </div>
+      <div class="order-header">
+        <div>
+          <h3>Comanda #{{ order.id }}</h3>
+          <p class="date">
+            Plasată pe: {{ order.createdAt | date:'dd MMM yyyy, HH:mm' }}
+          </p>
+          <p class="date">
+            Adresă: {{ order.address }}, {{ order.city }}, {{ order.county }}, {{ order.country }}
+          </p>
         </div>
-    </div>
-</div>
 
+        <div class="status" [ngClass]="order.status">
+          {{ order.status }}
+        </div>
+      </div>
+
+      <div class="order-products">
+        <div class="product" *ngFor="let p of order.products">
+          <div class="info">
+            <a [routerLink]="'/details/' + p.product.id" class="name">
+              {{ p.product.name }}
+            </a>
+            <p class="qty">Cantitate: {{ p.quantity }}</p>
+          </div>
+
+          <p class="price">{{ p.product.price }} RON</p>
+
+          <button class="review-btn" (click)="openReviw(p.product.id)">
+            Scrie o recenzie
+          </button>
+        </div>
+      </div>
+
+      <div class="order-footer">
+        <p class="total">
+          Total: <strong>{{ order.totalPrice }} RON</strong>
+        </p>
+      </div>
+
+    </div>
+  </div>
+</div>

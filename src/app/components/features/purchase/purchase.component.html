@@ -45,12 +45,12 @@
           </label>
         </div>
 
-        <label class="checkbox policy-field"
-      >
-          <input type="checkbox" name="isCompanyInvoice" [(ngModel)]="isCompanyInvoice" #isCompanyInvoiceRef="ngModel" />
+        <label class="checkbox policy-field">
+          <input type="checkbox" name="isCompanyInvoice" [(ngModel)]="isCompanyInvoice"
+            #isCompanyInvoiceRef="ngModel" />
           <span>Doresc factură pe firmă</span>
         </label>
-    
+
 
       </div>
 
@@ -114,14 +114,16 @@
       <div class="card">
         <h3>Metodă de livrare</h3>
         <label class="radio">
-          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" (click)="setShipping('curier')"  value="curier" checked />
+          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" (click)="setShipping('curier')"
+            value="curier" checked />
           <div class="radio-line">
             <span>Curier standard</span>
             <strong>RON 24.99</strong>
           </div>
         </label>
         <label class="radio">
-          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" (click)="setShipping('pickup')"  value="pickup" />
+          <input type="radio" name="shippingMethod" [(ngModel)]="shippingMethod" (click)="setShipping('pickup')"
+            value="pickup" />
           <div class="radio-line">
             <span>Ridicare personală</span>
             <strong>RON 0.00</strong>
@@ -135,9 +137,9 @@
         <div class="tabs" role="tablist">
           <button type="button" class="tab" role="tab" [class.active]="tab==='card'" [attr.aria-selected]="tab==='card'"
             (click)="setTab('card')">Card</button>
-          <button type="button" class="tab" role="tab" [class.active]="tab==='ramburs'" [attr.aria-selected]="tab==='ramburs'"
-            (click)="setTab('ramburs')">Ramburs</button>
-         
+          <button type="button" class="tab" role="tab" [class.active]="tab==='ramburs'"
+            [attr.aria-selected]="tab==='ramburs'" (click)="setTab('ramburs')">Ramburs</button>
+
         </div>
 
         <div class="pay-card" *ngIf="tab==='card'">
@@ -153,8 +155,42 @@
           </ul>
         </div>
 
-       
+
       </div>
+      <!-- REZUMAT COMANDĂ - DOAR MOBIL -->
+      <div class="card mobile-summary" *ngIf="items.length > 0">
+        <h3>Rezumat comandă</h3>
+
+        <div class="summary-items">
+          <div class="s-item" *ngFor="let item of items">
+            <img [src]="item.imageUrl || 'https://placehold.co/60x60'" />
+            <div class="meta">
+              <div class="name">{{ item.name }}</div>
+              <div class="muted">Cantitate: {{ item.quantity }}</div>
+            </div>
+            <div class="price">
+              {{ item.lineTotal | number:'1.2-2' }} RON
+            </div>
+          </div>
+        </div>
+
+        <div class="line">
+          <span>Subtotal</span>
+          <span>{{ totalPrice$ | async | number:'1.2-2'}} RON</span>
+        </div>
+
+        <div class="line">
+          <span>Transport</span>
+          <span *ngIf="shippingMethod === 'curier'">24.99 RON</span>
+          <span *ngIf="shippingMethod === 'pickup'">0 RON</span>
+        </div>
+
+        <div class="total">
+          <span>Total</span>
+          <strong>{{ totalPriceOrder$ | async | number:'1.2-2' }} RON</strong>
+        </div>
+      </div>
+
 
       <div class="card" *ngIf="items.length > 0">
         <div class="coupon">

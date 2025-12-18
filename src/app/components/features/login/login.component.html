@@ -12,7 +12,7 @@
   </section>
 
   <section class="side right">
- 
+
     <div class="card">
 
 
@@ -27,10 +27,16 @@
           <mat-icon class="icon">lock</mat-icon>
           <input #passwordInput1 [type]="showPassword1 ? 'text' : 'password'" placeholder="Parolă"
             (input)="resetMessages()" />
+
           <button type="button" class="toggle-password" (click)="showPassword1 = !showPassword1" tabindex="-1">
             <mat-icon>{{ showPassword1 ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
         </div>
+        <label class="checkbox terms">
+          <input #termsCheckbox type="checkbox" />
+          <span>Sunt de acord cu termenii și condițiile</span>
+        </label>
+
         <!-- <p class="hint">sau folosește adresa ta de e-mail pentru înregistrare:</p>
 
         <div class="socials">
@@ -40,7 +46,8 @@
         </div> -->
 
         <button type="button" class="btn primary"
-          (click)="register(usernameInput1.value , passwordInput1.value , emailInput1.value)">Creează cont</button>
+          (click)="register(usernameInput1.value , passwordInput1.value , emailInput1.value, termsCheckbox.checked)">Creează
+          cont</button>
         <p class="switch">
           Ai deja un cont?
           <button type="button" class="link" (click)="signup = false; resetMessages()">Autentifică-te aici</button>

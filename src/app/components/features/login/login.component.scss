@@ -36,6 +36,10 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
     position: relative;
   }
 
+  .terms {
+    margin: 8px 0 10px;
+  }
+
   /* LEFT PANEL */
   .left {
     padding: var(--pad);
@@ -218,9 +222,9 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
           background: #fafcfc;
           height: auto;
           box-sizing: border-box;
-            position: relative;
+          position: relative;
 
-        
+
 
           .icon {
             opacity: 0.75;
@@ -239,17 +243,18 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
             width: 100%;
           }
         }
-          .toggle-password {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            color: #666;
-          }
+
+        .toggle-password {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          color: #666;
+        }
 
         .btn.primary {
           margin-top: 6px;
@@ -365,8 +370,8 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
 @media (max-width: 768px) {
   .auth {
     padding-top: 20px;
-    grid-template-columns: 1fr;       
-    width: 100vw;                   
+    grid-template-columns: 1fr;
+    width: 100vw;
     min-height: 100vh;
     margin: 0;
     border-radius: 0;
@@ -374,7 +379,7 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
   }
 
   .auth .left {
-    display: none !important;        
+    display: none !important;
   }
 
   .auth .right {
@@ -386,7 +391,8 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
 
   .auth .right .card {
     width: 100%;
-    max-width: 420px;                 /* Arată bine pe toate telefoanele */
+    max-width: 420px;
+    /* Arată bine pe toate telefoanele */
     min-height: auto;
     padding: 1.5rem 1rem;
     border-radius: 0;

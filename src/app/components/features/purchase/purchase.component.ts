@@ -43,7 +43,7 @@ export class PurchaseComponent {
   address = '';
   userId: number | null = null;
   user: User | null = null;
-  termsAccepted: any;
+  termsAccepted: boolean= false;
 
   tab: 'card' | 'ramburs' | 'bank' = 'card';
 
@@ -125,12 +125,16 @@ export class PurchaseComponent {
           address: this.address,
           deliveryMethod: this.shippingMethod$.value,
           paymentMethod: this.tab,
+          termsAccepted:this.termsAccepted,
           products,
           user: orderUser,
           totalPrice: totalFinal,
           status: null,
           createdAt: null
         };
+
+        console.log(this.termsAccepted);
+
 
         this.store.dispatch(OrderActions.addOrder({ order }));
       });

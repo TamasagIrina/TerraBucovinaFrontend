@@ -339,6 +339,10 @@
   }
 }
 
+.mobile-summary {
+  display: none;
+}
+
 /* =========================
    ORDER SUMMARY
 ========================= */
@@ -350,7 +354,9 @@
   display: grid;
   gap: 16px;
 
+
   @media (max-width: 900px) {
+    
     margin-top: 20px;
     padding-top: 0;
     position: static; /* Nu mai e sticky pe mobil */
@@ -442,5 +448,15 @@
 
   strong {
     font-size: 1.3rem;
+  }
+}
+@media (max-width: 900px) {
+  .mobile-summary {
+    display: block;
+  }
+
+  /* ascundem aside-ul mare */
+  .order-summary {
+    display: none;
   }
 }
