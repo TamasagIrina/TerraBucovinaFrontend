@@ -141,7 +141,7 @@ export class LoginComponent {
         }, 1000);
       },
       error: (err) => {
-        console.error('Eroare login', err);
+
 
         if (err.status === 401 || err.status === 403) {
           this.store.dispatch(
@@ -157,6 +157,21 @@ export class LoginComponent {
 
           return;
         }
+        if (err.status === 500) {
+          this.store.dispatch(
+            NotificationActions.showNotification({
+              message: 'Nu există acest cont, mergeți la „Creează cont”.',
+              notificationType: 'error',
+            })
+          );
+
+          setTimeout(() => {
+            this.store.dispatch(NotificationActions.hideNotification());
+          }, 3000);
+
+          return;
+        }
+        
 
         this.store.dispatch(
           NotificationActions.showNotification({
