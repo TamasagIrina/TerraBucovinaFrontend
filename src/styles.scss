@@ -35,8 +35,37 @@ html {
   box-sizing: border-box;
 }
 
-input, button, select, textarea {
-  -webkit-appearance: none;
-  appearance: none;
-  font: inherit;
+input, 
+button, 
+textarea, 
+select {
+  -webkit-appearance: none; /* Chrome, Safari, Opera */
+  -moz-appearance: none;    /* Firefox */
+  appearance: none;         /* Standard */
+  border-radius: 0;         /* Safari pune default border-radius */
+  font-family: inherit;     /* Păstrează fontul aplicației */
+}
+
+/* 5) Elimină culoarea gri/albastră la tap pe iOS */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* 6) 🔥 FIX PENTRU CLICK PE IOS (Categorii)
+   Pe iOS, elementele non-interactive (div, span) care au evenimente (click)
+   NU funcționează uneori dacă nu au cursor: pointer. */
+[role="button"],
+button,
+a,
+.clickable,
+mat-expansion-panel-header { /* Specific pentru acordeonul Material */
+  cursor: pointer;
+}
+
+/* 7) Suport pentru Notch (iPhone X și mai noi) 
+   Asigură că footer-ul nu e acoperit de bara de jos a telefonului */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
