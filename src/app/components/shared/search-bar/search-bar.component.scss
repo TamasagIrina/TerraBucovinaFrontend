@@ -1,29 +1,46 @@
    .search-dropdown {
-  position: absolute;
-  top: 100%;
-  left: -10%;
+       position: absolute;
+       top: 100%;
+       left: -10%;
 
-  width: 20rem;
-  background: #ffffff;           
-  border: 1px solid #ddd;         
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-top: 0.4rem;
-  z-index: 99999;
-  max-height: 350px;              
-  overflow-y: auto;              
-  backdrop-filter: blur(6px);     
-}
+       width: 20rem;
+       background: #ffffff;
+       border: 1px solid #ddd;
+       border-radius: 10px;
+       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+       margin-top: 0.4rem;
+       z-index: 99999;
+       max-height: 350px;
+       overflow-y: auto;
+       backdrop-filter: blur(6px);
 
-.search-dropdown::-webkit-scrollbar {
-  width: 6px;
-}
+       @media (max-width: 768px) {
+           .search-dropdown {
+               top: calc(100% + 12px); 
+               left: -20px; 
+               width: 90vw; 
+               max-width: 360px; 
+           }
+       }
 
-.search-dropdown::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 10px;
-}
-   
+       @media (max-width: 480px) {
+           .search-dropdown {
+               left: -30px;
+               width: 92vw;
+           }
+       }
+
+   }
+
+   .search-dropdown::-webkit-scrollbar {
+       width: 6px;
+   }
+
+   .search-dropdown::-webkit-scrollbar-thumb {
+       background-color: #ccc;
+       border-radius: 10px;
+   }
+
    .search-box {
        background-color: var(--search-bg);
        border-radius: 20px;
@@ -136,20 +153,20 @@
 
 
    :host {
-  position: relative;
-  z-index: 99999; // <— ensures the entire component sits above everything
-}
+       position: relative;
+       z-index: 99999; // <— ensures the entire component sits above everything
+   }
 
-.absolute {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 99999 !important; // force on top
-}
+   .absolute {
+       position: absolute;
+       top: 100%;
+       left: 0;
+       z-index: 99999 !important; // force on top
+   }
 
-.navbar,
-.navbar__right,
-.navbar__left {
-  position: relative;
-  z-index: auto; // prevents them from trapping higher elements
-}
+   .navbar,
+   .navbar__right,
+   .navbar__left {
+       position: relative;
+       z-index: auto; // prevents them from trapping higher elements
+   }

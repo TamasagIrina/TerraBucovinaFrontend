@@ -142,6 +142,22 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error('Eroare login', err);
+
+        if (err.status === 401 || err.status === 403) {
+          this.store.dispatch(
+            NotificationActions.showNotification({
+              message: 'Parola sau email incorect!',
+              notificationType: 'error',
+            })
+          );
+
+          setTimeout(() => {
+            this.store.dispatch(NotificationActions.hideNotification());
+          }, 3000);
+
+          return;
+        }
+
         this.store.dispatch(
           NotificationActions.showNotification({
             message: 'A apărut o eroare de rețea sau server.',
@@ -153,7 +169,7 @@ export class LoginComponent {
   }
 
 
- 
+
 
 
 }
