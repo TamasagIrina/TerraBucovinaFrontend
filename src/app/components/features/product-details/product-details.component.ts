@@ -144,7 +144,6 @@ export class ProductDetailsComponent {
 
   canUserReview(idProduct: number) {
     this.authService.getUserId().subscribe(userId => {
-      console.log(userId);
       if (userId != 0) {
         this.apiService.canUserReview(userId as number, idProduct)
           .subscribe(canReview => {
@@ -173,7 +172,6 @@ export class ProductDetailsComponent {
             }
           });
       } else {
-        console.log("aici");
         this.store.dispatch(
           NotificationActions.showNotification({
             message: "Pentru a lăsa o recenzie, trebuie să vă logați în contul dumneavoastră.",

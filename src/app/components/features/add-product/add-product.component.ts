@@ -138,12 +138,12 @@ export class AddProductComponent {
 
   onSubmit(): void {
     this.store.dispatch(ProductsActions.addProduct({ product: this.product }));
-    console.log(this.product);
+
   }
 
   uploadImages(productId: number) {
     this.previewImages.forEach((img, index) => {
-      console.log('intraaa', img, index)
+
       this.store.dispatch(
         ImagesActions.uploadImage({
           productId: productId,

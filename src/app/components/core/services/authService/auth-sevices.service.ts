@@ -81,8 +81,6 @@ export class AuthService {
 
   getUserId(): Observable<number> {
     if (this.isLoggedIn()) {
-      console.log(this.getName());
-
       return this.http.get<number>(`${this.baseUrl}/userId/${this.getName()}`);
     }
     return of(0);

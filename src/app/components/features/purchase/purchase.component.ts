@@ -59,10 +59,8 @@ export class PurchaseComponent {
     this.totalPrice$ = this.store.select(CartSelectors.selectCartTotalPrice);
     this.authService.getUserId().subscribe(userId => {
       this.userId = userId as number;
-      console.log(userId);
       this.authService.getUserById(this.userId).subscribe(user => {
         this.user = user;
-        console.log(user);
       });
     });
 
@@ -132,10 +130,6 @@ export class PurchaseComponent {
           status: null,
           createdAt: null
         };
-
-        console.log(this.termsAccepted);
-
-
         this.store.dispatch(OrderActions.addOrder({ order }));
       });
     });

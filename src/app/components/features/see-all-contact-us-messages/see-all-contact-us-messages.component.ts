@@ -60,7 +60,6 @@ export class SeeAllContactUsMessagesComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         // Call your email sending service here
-        console.log("Sending email to:", result);
       }
     });
   }

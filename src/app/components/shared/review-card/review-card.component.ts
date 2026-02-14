@@ -23,7 +23,6 @@ export class ReviewCardComponent {
     this.isTextLong = this.review.body.length > 160;
     this.apiAuth.getUserById(this.review.userId).subscribe(user =>{
       this.user=user;
-      console.log(user);
     })
   }
 
