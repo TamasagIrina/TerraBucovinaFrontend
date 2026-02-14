@@ -89,7 +89,7 @@
   <div class="tabs-content">
     <div class="card" id="descriere">
       <h3>Descriere</h3>
-      <p>
+      <p class="text-line-display">
         {{product.longDesc}}
       </p>
       <ul class="bullets">
@@ -102,7 +102,7 @@
 
     <div class="card" *ngIf="product.ingredients">
       <h3>Ingrediente</h3>
-      <p>{{ product.ingredients }}</p>
+      <p class="text-line-display">{{ product.ingredients }}</p>
     </div>
 
 
@@ -110,7 +110,7 @@
 
     <div class="card" *ngIf="product.scientificStudies">
       <h3>Știai că?</h3>
-      <p>{{ product.scientificStudies }}</p>
+      <p class="text-line-display">{{ product.scientificStudies }}</p>
     </div>
 
 
@@ -149,7 +149,7 @@
 
     <div class="card" *ngIf="product.notification">
       <h3>Notificare</h3>
-      <p>{{ product.notification }}</p>
+      <p class="text-line-display">{{ product.notification }}</p>
     </div>
 
   </div>
@@ -157,7 +157,7 @@
 
 
 <div class="related" *ngIf="relatedProducts$ | async as related">
-  <h3>Produse similare</h3>
+  <h3>Produse complementare</h3>
 
   <div class="rel-grid">
     <div *ngFor="let p of related" class="grid-item">

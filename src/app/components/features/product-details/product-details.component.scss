@@ -467,9 +467,11 @@
 
 
   }
+ 
 
-
-
+  .text-line-display {
+    white-space: pre-wrap;
+  }
   .review-btn {
     background-color: #16a34a;
     color: #ffffff;

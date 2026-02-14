@@ -21,13 +21,12 @@
 
     <div class="category-item" *ngFor="let cat of categories">
       <div class="category-header" (click)="toggleCategory(cat.id)">
-        <span>{{ cat.name }}</span>
+        <span class="header-text">{{ cat.name }}</span>
         <mat-icon class="arrow" [class.open]="openedCategories.includes(cat.id)">expand_more</mat-icon>
       </div>
 
       <ul class="subcategory-list" *ngIf="openedCategories.includes(cat.id)">
-        <li *ngFor="let p of productsByCategory(cat.id) | async"
-            (click)="goToProduct(p.id)">
+        <li *ngFor="let p of productsByCategory(cat.id) | async" (click)="goToProduct(p.id)">
           {{ p.name }}
         </li>
       </ul>
