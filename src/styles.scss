@@ -21,13 +21,10 @@ html {
     ));
 }
 
-
 html, body {
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  -webkit-appearance: none; 
-  -moz-appearance: none;  
 }
 
 .page, .app, body {
@@ -35,7 +32,6 @@ html, body {
   min-height: -webkit-fill-available;
 }
 
-/* Flexbox shrink fix (iOS) */
 .flex-parent, .mat-drawer-content, .mat-sidenav-content {
   min-height: 0;
 }
@@ -44,12 +40,13 @@ html, body {
   box-sizing: border-box;
 }
 
+
 .mat-icon,
 mat-icon {
-  font-family: 'Material Icons' !important;
-  font-feature-settings: 'liga';
-  line-height: 1 !important;
+  font-family: 'Material Symbols Outlined' !important;
+  font-variation-settings: 'opsz' 24, 'wght' 400, 'FILL' 0, 'GRAD' 0;
 
+  line-height: 1 !important;
   display: inline-flex;
   align-items: center;
   justify-content: center;
