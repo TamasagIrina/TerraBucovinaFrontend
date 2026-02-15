@@ -30,7 +30,8 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/assets"
+              "src/assets",
+              "src/sitemap.xml"
             ],
             "styles": [
               "src/styles.scss"
