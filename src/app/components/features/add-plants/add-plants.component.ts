@@ -5,15 +5,17 @@ import { ProductsActions } from '../../core/store/products/products.actions'
 import { Product } from '../../core/interfaces/product.interface';
 import { FormsModule } from '@angular/forms';
 import { Plant } from '../../core/interfaces/plant.interfece';
-
+import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
 import * as PlantsActions from '../../core/store/plants/plants.actions';
 import { selectAllProducts } from '../../core/store/products/products.selectors';
 import { selectAddPlantSuccess } from '../../core/store/plants/plants.selectors';
 
 @Component({
   selector: 'app-add-plants',
+  standalone: true,
   imports: [CommonModule,
-    FormsModule
+    FormsModule,
+    DebounceButtonDirective
   ],
   templateUrl: './add-plants.component.html',
   styleUrl: './add-plants.component.scss'

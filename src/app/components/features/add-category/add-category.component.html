@@ -1,5 +1,5 @@
 <div class="add-category-container">
-    <form (ngSubmit)="onSubmit()" #categoryForm="ngForm">
+    <form  #categoryForm="ngForm">
 
         <h2>Adaugă Categorie Nouă</h2>
 
@@ -13,7 +13,7 @@
             <textarea name="description" [(ngModel)]="category.description" required></textarea>
         </div>
 
-        <button type="submit">Adaugă Categorie</button>
+        <button type="button" appDebounceButton (debounceClick)="onSubmit()">Adaugă Categorie</button>
 
     </form>
 </div>

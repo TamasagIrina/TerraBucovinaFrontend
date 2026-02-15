@@ -17,12 +17,16 @@ import { tick } from '@angular/core/testing';
 import { User } from '../../core/interfaces/user.interface';
 import { U } from '@angular/cdk/keycodes';
 import { OrderEffects } from '../../core/store/order/order.effects';
+import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
 
 @Component({
   selector: 'app-purchase',
+  standalone: true,
   imports: [RouterModule,
     CommonModule,
-    FormsModule],
+    FormsModule,
+    DebounceButtonDirective],
+    
   templateUrl: './purchase.component.html',
   styleUrl: './purchase.component.scss'
 })
@@ -85,6 +89,10 @@ export class PurchaseComponent {
 
     if (form.invalid) {
       form.form.markAllAsTouched();
+      const firstError = document.querySelector('.ng-invalid');
+        if (firstError) {
+             firstError.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
       return;
     }
 

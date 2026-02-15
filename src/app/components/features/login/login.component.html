@@ -45,8 +45,8 @@
           <button aria-label="Înregistrare cu LinkedIn">in</button>
         </div> -->
 
-        <button type="button" class="btn primary"
-          (click)="register(usernameInput1.value , passwordInput1.value , emailInput1.value, termsCheckbox.checked)">Creează
+        <button type="button" class="btn primary" appDebounceButton
+          (debounceClick)="register(usernameInput1.value , passwordInput1.value , emailInput1.value, termsCheckbox.checked)">Creează
           cont</button>
         <p class="switch">
           Ai deja un cont?
