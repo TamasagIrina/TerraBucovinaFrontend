@@ -24,18 +24,44 @@ html {
 
 html, body {
   font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-}
-
-html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
   -webkit-appearance: none; 
   -moz-appearance: none;  
 }
 
+.page, .app, body {
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+/* Flexbox shrink fix (iOS) */
+.flex-parent, .mat-drawer-content, .mat-sidenav-content {
+  min-height: 0;
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
+
+.mat-icon,
+mat-icon {
+  font-family: 'Material Icons' !important;
+  font-feature-settings: 'liga';
+  line-height: 1 !important;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 1em;
+  width: 1em;
+  overflow: visible;
+
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
 
 // input, 
 // button, 
