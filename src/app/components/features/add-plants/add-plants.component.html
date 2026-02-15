@@ -1,5 +1,5 @@
 <div class="add-plant-container">
-    <form (ngSubmit)="onSubmit()" #plantForm="ngForm">
+    <form  #plantForm="ngForm">
 
         <h2>Adaugă Plantă Nouă</h2>
 
@@ -39,7 +39,7 @@
             </select>
         </div>
 
-        <button type="submit">Trimite</button>
+        <button type="button" appDebounceButton (debounceClick)="onSubmit()" >Trimite</button>
 
     </form>
 </div>

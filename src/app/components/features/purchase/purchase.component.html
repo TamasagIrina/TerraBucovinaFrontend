@@ -1,6 +1,6 @@
 <section class="checkout-page" *ngIf="cartItems$ | async as items">
 
-  <form #checkoutForm="ngForm" (ngSubmit)="submitOrder(checkoutForm, items)" novalidate>
+  <form #checkoutForm="ngForm"  novalidate>
 
     <div class="checkout-form">
       <header class="section-header">
@@ -207,7 +207,7 @@
             Trebuie să accepți termenii și condițiile.
           </div>
         </div>
-        <button class="btn primary wfull" type="submit">Plăteşte acum</button>
+        <button class="btn primary wfull" type="button" appDebounceButton (debounceClick)="submitOrder(checkoutForm, items)">Plăteşte acum</button>
       </div>
     </div>
 

@@ -5,10 +5,11 @@ import { CategoriesActions } from '../../core/store/categoris/category.actions';
 import { Store } from '@ngrx/store';
 import { Category } from '../../core/interfaces/category.interface';
 import { selectCategoryAddSuccess } from '../../core/store/categoris/category.selectors';
-
+import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
 @Component({
   selector: 'app-add-category',
-  imports: [CommonModule, FormsModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule, DebounceButtonDirective],
   templateUrl: './add-category.component.html',
   styleUrl: './add-category.component.scss'
 })

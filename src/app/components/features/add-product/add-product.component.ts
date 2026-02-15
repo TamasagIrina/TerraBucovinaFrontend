@@ -12,12 +12,15 @@ import { Subscription } from 'rxjs';
 import { Category } from '../../core/interfaces/category.interface';
 import { CategoriesActions } from '../../core/store/categoris/category.actions';
 import { selectAllCategories } from '../../core/store/categoris/category.selectors';
+import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
 
 @Component({
   selector: 'app-add-product',
+  standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    DebounceButtonDirective
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss'
@@ -95,7 +98,7 @@ export class AddProductComponent {
       }
     };
 
-    const fileInput = document.querySelector("#fileInput") as HTMLInputElement;
+    const fileInput = document.querySelector("#images") as HTMLInputElement;
     if (fileInput) fileInput.value = "";
   }
 

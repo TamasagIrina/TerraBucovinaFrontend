@@ -6,9 +6,11 @@ import { AuthService } from '../../core/services/authService/auth-sevices.servic
 import { Store } from '@ngrx/store';
 import * as NotificationActions from '../../core/store/notification/notification.actions';
 import { Router } from '@angular/router';
+import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, MatIcon],
+  standalone: true,
+  imports: [CommonModule, MatIcon, DebounceButtonDirective],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
@@ -82,6 +84,11 @@ export class LoginComponent {
           this.signup = false;
           this.store.dispatch(NotificationActions.hideNotification());
         }, 2000);
+
+        username = '';
+        password = '';
+        email = '';
+        termsAccepted = false;
       },
       error: () => {
         this.store.dispatch(
