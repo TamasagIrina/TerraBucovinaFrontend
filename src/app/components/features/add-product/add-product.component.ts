@@ -121,7 +121,6 @@ export class AddProductComponent {
 
   selectMainImage(index: number): void {
     this.selectedMainImageIndex = index;
-    this.product.mainImageUrl = this.previewImages[index].url;
   }
 
   removeImage(index: number): void {
@@ -140,8 +139,8 @@ export class AddProductComponent {
   }
 
   onSubmit(): void {
-    console.log(this.product);
-    this.store.dispatch(ProductsActions.addProduct({ product: this.product }));
+    const productToSend = { ...this.product, mainImageUrl: null };
+    this.store.dispatch(ProductsActions.addProduct({ product: productToSend }));
 
   }
 
