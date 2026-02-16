@@ -98,7 +98,7 @@ export class AddProductComponent {
       }
     };
 
-    const fileInput = document.querySelector("#images") as HTMLInputElement;
+    const fileInput = document.querySelector("#fileInput") as HTMLInputElement;
     if (fileInput) fileInput.value = "";
   }
 
