@@ -140,6 +140,7 @@ export class AddProductComponent {
   }
 
   onSubmit(): void {
+    console.log(this.product);
     this.store.dispatch(ProductsActions.addProduct({ product: this.product }));
 
   }
