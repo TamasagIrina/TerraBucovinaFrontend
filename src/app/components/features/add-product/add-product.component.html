@@ -1,5 +1,5 @@
 <div class="add-product-container">
-  <form  #productForm="ngForm">
+  <form  #productForm="ngForm" (ngSubmit)="onSubmit()">
     <h2>Adaugă Produs Nou</h2>
 
    
@@ -88,6 +88,6 @@
       </div>
     </div>
 
-    <button type="button" [disabled]="!productForm.form.valid" appDebounceButton  (debounceClick)="onSubmit()">Trimite</button>
+    <button type="submit" [disabled]="!productForm.form.valid" >Trimite</button>
   </form>
 </div>
