@@ -173,16 +173,15 @@
             </div>
           </div>
         </div>
-
-        
-        <div class="line muted">
-          <span>TVA (19%)</span>
-          <span>{{ ((totalPrice$ | async)! * 0.19) | number:'1.2-2'}} RON</span>
-        </div>
         
         <div class="line">
           <span>Subtotal</span>
           <span>{{ totalPrice$ | async | number:'1.2-2'}} RON</span>
+        </div>
+
+          <div class="line muted">
+          <span>TVA (19%)</span>
+          <span>{{ ((totalPrice$ | async)! * 0.19) | number:'1.2-2'}} RON</span>
         </div>
 
         <div class="line">
