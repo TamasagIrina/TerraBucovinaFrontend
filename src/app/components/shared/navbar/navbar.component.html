@@ -12,13 +12,14 @@
   <!-- Links menu -->
   <ul class="navbar__links" [class.open]="menuOpen" *ngIf="!isLoggedIn">
     <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
-    <li><a routerLink="about-plants">Remediile Florale</a></li>
+    <li><a routerLink="about-plants">Plantele Medicinale</a></li>
     <li><a routerLink="shop">Magazin</a></li>
     <li><a routerLink="contact">Contact</a></li>
   </ul>
 
   <ul class="navbar__links" [class.open]="menuOpen" *ngIf="isAdmin">
     <li><a href="#">Magazin</a></li>
+    <li><a routerLink="about-plants">Plantele Medicinale</a></li>
     <li><a routerLink="admin/add-category">Adaugă categorie</a></li>
     <li><a routerLink="admin/add-product">Adaugă produs</a></li>
     <li><a routerLink="admin/add-plant">Adaugă plantă</a></li>
@@ -29,7 +30,7 @@
   <ul class="navbar__links" [class.open]="menuOpen" *ngIf="isUser && !isAdmin">
     <li><a routerLink="user/see-orders">Vezi comenzi</a></li>
     <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
-    <li><a routerLink="about-plants">Remediile Florale</a></li>
+    <li><a routerLink="about-plants">Plantele Medicinale</a></li>
     <li><a routerLink="shop">Magazin</a></li>
     <li><a routerLink="contact">Contact</a></li>
   </ul>
