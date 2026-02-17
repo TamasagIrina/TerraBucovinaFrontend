@@ -84,8 +84,11 @@
     display: block;
 
     .brand-card {
-      background: rgba(248, 249, 250, 0.95); 
-      color: #2c3e50;
+      background: rgba(255, 255, 255, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      border: 1px solid rgba(255, 255, 255, 0.4);
       margin: 0 auto;
       grid-template-columns: 60px 1fr;
       max-width: 360px;       
@@ -103,8 +106,11 @@
 @media (max-width: 600px) {
 
   .brand-card {
-    background: rgba(248, 249, 250, 0.95); 
-    color: #2c3e50;
+     background: rgba(255, 255, 255, 0.45);
+     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border: 1px solid rgba(255, 255, 255, 0.4);
     width: 85%;             
     max-width: 360px;       
     margin-left: auto;      
