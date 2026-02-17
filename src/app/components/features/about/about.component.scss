@@ -15,7 +15,7 @@
 
   &__text {
     h1 {
-      margin: 0 0 .5rem;
+      margin: 1 0 .5rem;
       font-size: clamp(1.6rem, 3vw, 2.4rem);
       color: #1D548F;
 
@@ -36,7 +36,7 @@
     border: 1px solid #e9ecef;
     border-radius: 16px;
     box-shadow: 0 10px 24px rgba(0,0,0,.06);
-    padding: 1rem 1.25rem;
+    padding: 1rem 1rem;
     display: grid;
     grid-template-columns: 72px 1fr;
     gap: 1rem;
@@ -46,7 +46,12 @@
       width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
     }
     .card-copy {
-      h3 { margin: 0; color:  #1D548F; }
+      h3 
+      {
+        margin: 0 0 .4rem;
+        color:  #1D548F;
+        font-size: 2rem;
+      }
       p  { margin: .25rem 0 0; color: #6b7c8c; }
     }
   }
