@@ -1,7 +1,6 @@
 .shop-hero {
   padding-top: 150px;
   padding-bottom: 2rem;
-  grid-template-columns: 60px auto;
   position: relative;
   width: 100%;
   display: flex;
@@ -28,7 +27,7 @@
     z-index: 1;
     width: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;   // pe desktop cardul stă în dreapta
     align-items: center;
     padding: 0 1rem;
   }
@@ -36,20 +35,19 @@
   .brand-card {
     background: rgba(255, 255, 255, 0.95);
     color: #2c3e50;
-    width: 360px;
-    max-width: 100%;
-    padding: 1.2rem 1.5rem;
-    border-radius: 12px;
+    width: min(420px, 92vw);
+    padding: 1.2rem 1.4rem;
+    border-radius: 14px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+
     display: grid;
     grid-template-columns: 60px 1fr;
-    gap: 0rem;
+    column-gap: 0.9rem;
     align-items: center;
-    margin-right: 2rem;
 
     .logo {
-      width: 50px;
-      height: 50px;
+      width: 56px;
+      height: 56px;
       object-fit: contain;
       border-radius: 50%;
       background: #f8f9fa;
@@ -58,80 +56,66 @@
     .text-content {
       display: flex;
       flex-direction: column;
-      gap: 0;
+      gap: 0.25rem;
+      min-width: 0;
     }
 
     h1 {
       margin: 0;
       font-weight: 700;
-      font-size: 0.1rem;
-      line-height: 0.2;
+      font-size: 1.25rem;     // aici controlezi titlul
+      line-height: 1.15;
       color: #1f2937;
     }
 
     .motto {
       margin: 0;
       color: #5a6b7b;
-      font-size: 0.1rem;
+      font-size: 0.9rem;      // aici controlezi motto
+      line-height: 1.35;
       font-weight: 500;
     }
   }
 }
 
+/* TABLET */
 @media (max-width: 900px) {
   .shop-hero {
     padding-top: 120px;
-    min-height: auto;
-    display: block;
+    min-height: 320px;
+
+    .hero-content {
+      justify-content: center;  // pe tablet îl centrezi
+    }
 
     .brand-card {
-      background: #ffffff;
-      color: #2c3e50;
-      padding-top: 0.5rem;
-      padding-bottom: 0.5rem;
-      align-items: flex-end;
-      justify-content: flex-end;
-      padding-bottom: 0.8rem;
+      width: min(420px, 94vw);
+      padding: 1rem 1.1rem;
 
-      h1 {
-        font-size: 1.2rem;
-        margin-bottom: 0px;
-      }
+      h1 { font-size: 1.15rem; }
+      .motto { font-size: 0.85rem; }
     }
   }
 }
 
+/* MOBILE */
 @media (max-width: 600px) {
   .shop-hero {
-    padding-top: 120px; 
-  }
-  .brand-card {
-    background: #ffffff;
-    color: #2c3e50;
-    align-items: center;
-    justify-content: flex-end;
-    padding-bottom: 0.3rem;
-     width: 100px;     
+    padding-top: 110px;
+    min-height: 280px;
 
-    .logo {
-      grid-row: span 2;
-      width: 40px;          
-      height: 40px;
-      margin-right: 10px;   
-    }
+    .brand-card {
+      grid-template-columns: 48px 1fr;
+      column-gap: 0.75rem;
+      padding: 0.85rem 0.95rem;
 
-    h1 {
-      margin-bottom: 0;
-      font-size: 1rem; 
-      font-weight: 700;
-      line-height: 1.2;
-    }
+      .logo {
+        width: 44px;
+        height: 44px;
+      }
 
-    .motto {
-      margin: 0;
-      font-size: 0.85rem;
-      color: #5a6b7b;
-      line-height: 1.2;
+      h1 { font-size: 1.05rem; }
+      .motto { font-size: 0.78rem; }
     }
   }
 }
