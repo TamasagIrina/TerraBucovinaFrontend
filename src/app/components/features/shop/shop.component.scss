@@ -58,6 +58,7 @@
     .text-content {
       display: flex;
       flex-direction: column;
+      gap: 0;
     }
 
     h1 {
@@ -69,7 +70,7 @@
     }
 
     .motto {
-      margin: 0.2rem 0 0;
+      margin: 0;
       color: #5a6b7b;
       font-size: 0.9rem;
       font-weight: 500;
