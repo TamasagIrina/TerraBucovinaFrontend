@@ -94,7 +94,7 @@
 
       h1 {
         font-size: 1.2rem;
-        margin-bottom: 2px;
+        margin-bottom: 0px;
       }
     }
   }
@@ -110,18 +110,10 @@
     align-items: center;
     justify-content: flex-end;
     padding-bottom: 0.3rem;
-    
-
-    .logo {
-      grid-row: span 2;
-      width: 45px;
-      height: 45px;
-      object-fit: contain;
-      border-radius: 50%;
-    }
+  
 
     h1 {
-      margin: 0;
+      margin-bottom: 0;
       font-size: 1rem; 
       font-weight: 700;
       line-height: 1.2;
