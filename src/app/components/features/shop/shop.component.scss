@@ -86,12 +86,15 @@
     .brand-card {
       background: #ffffff;
       color: #2c3e50;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
       align-items: flex-end;
       justify-content: flex-end;
       padding-bottom: 0.8rem;
 
       h1 {
         font-size: 1.2rem;
+        margin-bottom: 2px;
       }
     }
   }
@@ -104,9 +107,10 @@
   .brand-card {
     background: #ffffff;
     color: #2c3e50;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-end;
-     padding-bottom: 0.5rem;
+    padding-bottom: 0.3rem;
+    
 
     .logo {
       grid-row: span 2;
@@ -120,14 +124,14 @@
       margin: 0;
       font-size: 1rem; 
       font-weight: 700;
-      letter-spacing: 0.5px;
+      line-height: 1.2;
     }
 
     .motto {
-      margin: 0.1rem 0 0;
-      font-size: 0.98rem;
+      margin: 0;
+      font-size: 0.85rem;
       color: #5a6b7b;
-      line-height: 1.4;
+      line-height: 1.2;
     }
   }
 }
