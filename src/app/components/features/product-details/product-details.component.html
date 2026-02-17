@@ -157,7 +157,7 @@
 
 
 <div class="related" *ngIf="relatedProducts$ | async as related">
-  <h3>Produse complementare</h3>
+  <h3 *ngIf="related.length > 0" >Remedii sinergice</h3>
 
   <div class="rel-grid">
     <div *ngFor="let p of related" class="grid-item">
