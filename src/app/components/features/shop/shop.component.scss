@@ -93,35 +93,39 @@
 
     .brand-card {
       background: rgba(255, 255, 255, 0.8);
-
       width: 90%;
       max-width: 420px;
-
       border-radius: 16px;
       padding: 1rem 1.2rem;
-
       display: flex;
       align-items: center;
       gap: 1rem;
-
       box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-    }
 
-    .brand-card h1 {
-      font-size: 1.2rem;
+      .logo {
+        width: 55px;
+        height: 55px;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      .motto {
+        font-size: 0.85rem;
+      }
     }
   }
 }
 
 @media (max-width: 600px) {
-
   .shop-hero {
     padding-top: 110px;
     min-height: 420px;
 
     .hero-content {
       position: absolute;
-      bottom: 20px;        
+      bottom: 20px;
       left: 0;
       right: 0;
       justify-content: center;
@@ -130,36 +134,27 @@
 
     .brand-card {
       background: rgba(255, 255, 255, 0.75);
-
       width: 90%;
       max-width: 360px;
-
       border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-
       padding: 1rem 1.2rem;
-
       display: flex;
       align-items: center;
       gap: 1rem;
-    }
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
 
-    .brand-card .logo {
-      width: 55px;
-      height: 55px;
-    }
+      .logo {
+        width: 52px;
+        height: 52px;
+      }
 
-    .brand-card .text-content {
-      display: flex;
-      flex-direction: column;
-    }
+      h1 {
+        font-size: 1.1rem;
+      }
 
-    .brand-card h1 {
-      font-size: 1.1rem;
-    }
-
-    .brand-card .motto {
-      font-size: 0.85rem;
+      .motto {
+        font-size: 0.85rem;
+      }
     }
   }
 }
