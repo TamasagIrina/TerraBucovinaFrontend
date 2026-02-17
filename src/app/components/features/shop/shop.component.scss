@@ -65,6 +65,7 @@
       margin: 0;
       font-weight: 700;
       font-size: 0.1rem;
+      line-height: 0.2;
       color: #1f2937;
     }
 
@@ -398,54 +399,54 @@
   overflow-x: hidden;
 }
 
-@media (min-width: 901px) {
-  .shop-hero {
-    padding-top: 150px;
-    padding-bottom: 2rem;
+// @media (min-width: 901px) {
+//   .shop-hero {
+//     padding-top: 150px;
+//     padding-bottom: 2rem;
 
-    .hero-content {
-      justify-content: flex-end;
-      padding-right: 0;
-      width: 100%;
-      max-width: 100%;
-    }
+//     .hero-content {
+//       justify-content: flex-end;
+//       padding-right: 0;
+//       width: 100%;
+//       max-width: 100%;
+//     }
 
-    .brand-card {
-      background: #f8f9fa;
-      color: #2c3e50;
-      width: min(480px, 90vw);
-      padding: 1.5rem 1.75rem;
-      border-radius: 18px 0 0 18px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
-      display: grid;
-      grid-template-columns: 7rem 1fr;
-      grid-template-rows: auto auto;
-      column-gap: 0rem;
-      margin-right: 0;
+//     .brand-card {
+//       background: #f8f9fa;
+//       color: #2c3e50;
+//       width: min(480px, 90vw);
+//       padding: 1.5rem 1.75rem;
+//       border-radius: 18px 0 0 18px;
+//       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+//       display: grid;
+//       grid-template-columns: 7rem 1fr;
+//       grid-template-rows: auto auto;
+//       column-gap: 0rem;
+//       margin-right: 0;
 
-      .logo {
-        grid-row: span 2;
-        width: 72px;
-        height: 72px;
-        object-fit: contain;
-        border-radius: 50%;
-      }
+//       .logo {
+//         grid-row: span 2;
+//         width: 72px;
+//         height: 72px;
+//         object-fit: contain;
+//         border-radius: 50%;
+//       }
 
-      h1 {
-        margin: 0;
-        font-size: clamp(1.25rem, 2.2vw, 1.8rem);
-        font-weight: 700;
-        letter-spacing: 0.5px;
-      }
+//       h1 {
+//         margin: 0;
+//         font-size: clamp(1.25rem, 2.2vw, 1.8rem);
+//         font-weight: 700;
+//         letter-spacing: 0.5px;
+//       }
 
-      .motto {
-        margin: 0.25rem 0 0;
-        font-size: 0.98rem;
-        color: #5a6b7b;
-        line-height: 1.4;
-      }
-    }
-  }
+//       .motto {
+//         margin: 0.25rem 0 0;
+//         font-size: 0.98rem;
+//         color: #5a6b7b;
+//         line-height: 1.4;
+//       }
+//     }
+//   }
 
   .products-grid .grid-wrapper .grid-item {
     max-width: 320px;
