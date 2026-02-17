@@ -85,9 +85,6 @@
 
     .brand-card {
       background: rgba(255, 255, 255, 0.45);
-      backdrop-filter: blur(12px);
-      
-
       border: 1px solid rgba(255, 255, 255, 0.4);
       margin: 0 auto;
       grid-template-columns: 60px 1fr;
@@ -106,10 +103,7 @@
 @media (max-width: 600px) {
 
   .brand-card {
-     background: rgba(255, 255, 255, 0.45);
-     backdrop-filter: blur(12px);
-  
-
+    background: rgba(255, 255, 255, 0.45);
     border: 1px solid rgba(255, 255, 255, 0.4);
     width: 85%;             
     max-width: 360px;       
