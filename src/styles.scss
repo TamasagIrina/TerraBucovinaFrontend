@@ -49,33 +49,14 @@ html, body {
   line-height: 1;
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
 
-
-// input, 
-// button, 
-// textarea, 
-// select {
-//   -webkit-appearance: none; /* Chrome, Safari, Opera */
-//   -moz-appearance: none;    /* Firefox */
-//   appearance: none;         /* Standard */
-//   border-radius: 0;         /* Safari pune default border-radius */
-//   font-family: inherit;     /* Păstrează fontul aplicației */
-// }
-
-
-// * {
-//   -webkit-tap-highlight-color: transparent;
-// }
-
-
-// [role="button"],
-// button,
-// a,
-// .clickable,
-// mat-expansion-panel-header { /* Specific pentru acordeonul Material */
-//   cursor: pointer;
-// }
-
+svg {
+  fill: currentColor;
+  stroke: currentColor;
+}
 
 body {
   padding-bottom: env(safe-area-inset-bottom);
