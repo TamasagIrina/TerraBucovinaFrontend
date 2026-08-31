@@ -1,5 +1,6 @@
 <div class="product-card">
   <div class="image-wrapper">
+    <span class="inactive-badge" *ngIf="!product.active">Inactiv</span>
     <img (click)="goToDetail()" [src]="product.mainImageUrl" [alt]="product.name" />
   </div>
 
@@ -12,7 +13,7 @@
       {{ product.price + " RON" }}
     </div>
 
-    <div class="buttons">
+    <div class="buttons" *ngIf="product.active">
       <button class="favBtn" (click)="toggleFavorite(product.id)" [class.active]="(isFavorite$ | async)"  >
         <mat-icon >favorite</mat-icon>
       </button>
@@ -20,6 +21,21 @@
       <button class="addBtn" (click)="addToCart()">
           <mat-icon >shopping_cart</mat-icon>
         Adaugă în coș
+      </button>
+    </div>
+
+    <div class="admin-buttons" *ngIf="isAdmin">
+      <button class="editBtn" (click)="onEdit()">
+        <mat-icon>edit</mat-icon>
+        Editează
+      </button>
+      <button class="deleteBtn" *ngIf="product.active" (click)="onDelete()">
+        <mat-icon>delete</mat-icon>
+        Șterge
+      </button>
+      <button class="reactivateBtn" *ngIf="!product.active" (click)="onReactivate()">
+        <mat-icon>restore</mat-icon>
+        Reactivează
       </button>
     </div>
   </div>

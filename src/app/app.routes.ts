@@ -17,15 +17,22 @@ import { AddPlantsComponent } from './components/features/add-plants/add-plants.
 import { AboutPlantsComponent } from './components/features/about-plants/about-plants.component';
 import { PlantDetailsComponent } from './components/features/plant-details/plant-details.component';
 import { AddCategoryComponent } from './components/features/add-category/add-category.component';
+import { AdminDashboardComponent } from './components/features/admin-dashboard/admin-dashboard.component';
+import { OrderDetailsComponent } from './components/features/order-details/order-details.component';
+import { TermsComponent } from './components/features/terms/terms.component';
 
 export const routes: Routes = [
     { path: 'shop', component: ShopComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'about', component: AboutComponent },
+    { path: 'terms', component: TermsComponent },
     { path: 'about-plants', component: AboutPlantsComponent },
     { path: 'login', component: LoginComponent },
+    { path: 'admin/dashboard', component: AdminDashboardComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/add-product', component: AddProductComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
+    { path: 'admin/edit-product/:id', component: AddProductComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-orders', component: SeeAllOredersComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
+    { path: 'admin/order-details/:id', component: OrderDetailsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/add-plant', component: AddPlantsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/add-category', component: AddCategoryComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-contact-us-mesages', component: SeeAllContactUsMessagesComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },

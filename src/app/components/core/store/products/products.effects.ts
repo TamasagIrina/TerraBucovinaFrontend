@@ -13,8 +13,8 @@ export class ProductsEffects {
   load$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.loadProducts),
-      mergeMap(() =>
-        this.apiService.getProducts().pipe(
+      mergeMap(({ includeInactive }) =>
+        this.apiService.getProducts(includeInactive ?? false).pipe(
           map(products => ProductsActions.loadProductsSuccess({ products })),
           catchError(error => of(ProductsActions.loadProductsFailure({ error })))
         )
@@ -37,8 +37,8 @@ export class ProductsEffects {
   update$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ProductsActions.updateProduct),
-      mergeMap(({ product }) =>
-        this.apiService.updateProducts(product.id, product).pipe(
+      mergeMap(({ id, product }) =>
+        this.apiService.updateProducts(id, product).pipe(
           map(updated => ProductsActions.updateProductSuccess({ product: updated })),
           catchError(error => of(ProductsActions.updateProductFailure({ error })))
         )
@@ -53,6 +53,18 @@ export class ProductsEffects {
         this.apiService.deleteProducts(productId).pipe(
           map(() => ProductsActions.deleteProductSuccess({ productId })),
           catchError(error => of(ProductsActions.deleteProductFailure({ error })))
+        )
+      )
+    )
+  );
+
+  reactivate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.reactivateProduct),
+      mergeMap(({ productId }) =>
+        this.apiService.reactivateProduct(productId).pipe(
+          map(product => ProductsActions.reactivateProductSuccess({ product })),
+          catchError(error => of(ProductsActions.reactivateProductFailure({ error })))
         )
       )
     )

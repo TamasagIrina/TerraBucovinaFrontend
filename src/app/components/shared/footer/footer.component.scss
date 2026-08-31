@@ -34,7 +34,7 @@
                 transition: color 0.2s ease;
 
                 &:hover {
-                    color: #7cbf8a;
+                    color: var(--color-primary);
                 }
             }
         }
@@ -52,7 +52,7 @@
                 font-size: 22px;
 
                 &:hover {
-                    color: #7cbf8a;
+                    color: var(--color-primary);
                 }
             }
         }

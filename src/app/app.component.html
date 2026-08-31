@@ -1,10 +1,14 @@
 
 
 <app-navbar></app-navbar>
-<router-outlet></router-outlet>
+<main class="app-content">
+  <router-outlet></router-outlet>
+</main>
  <app-notification
    [message]="(notification$ | async)?.message"
   [type]="(notification$ | async)?.notificationType"
   [show]="(notification$ | async)?.show">
   </app-notification>
 <app-footer></app-footer>
+<app-cookie-consent></app-cookie-consent>
+<app-chatbot></app-chatbot>

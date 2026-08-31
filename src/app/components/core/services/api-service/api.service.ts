@@ -2,15 +2,18 @@ import { HttpClient, HttpContext, HttpContextToken, HttpParams } from '@angular/
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { Product } from '../../interfaces/product.interface';
+import { ProductRequest, ProductResponse } from '../../interfaces/product.interface';
 import { Image } from '../../interfaces/image.interface';
 import { Plant } from '../../interfaces/plant.interfece';
-import { Order } from '../../interfaces/order.interface';
-import { Review } from '../../interfaces/review.inerface';
-import { User } from '../../interfaces/user.interface';
+import { Order, OrderResponse } from '../../interfaces/order.interface';
+import { Review, ReviewRequest } from '../../interfaces/review.inerface';
+import { User, UserSelfUpdateRequest, PasswordChangeRequest } from '../../interfaces/user.interface';
 import { ContactUsMessage } from '../../interfaces/contact-us-message.model';
 import { MessageStatus } from '../../interfaces/message-status.enum';
 import { Category } from '../../interfaces/category.interface';
+import { ChartDataResponse, DashboardKpiResponse } from '../../interfaces/dashboard.interface';
+import { PageResponse } from '../../interfaces/page.interface';
+import { ChatResponse } from '../../interfaces/chat.interface';
 export const REQUIRES_AUTH = new HttpContextToken<boolean>(() => false);
 
 @Injectable({
@@ -25,26 +28,33 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/products/get/all`);
+  getProducts(includeInactive = false): Observable<ProductResponse[]> {
+    const params = new HttpParams().set('includeInactive', includeInactive);
+    return this.http.get<ProductResponse[]>(`${this.baseUrl}/products/get/all`, { params });
   }
 
-  createProducts(product: Omit<Product, 'id'>): Observable<Product> {
+  createProducts(product: ProductRequest): Observable<ProductResponse> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
-    return this.http.post<Product>(`${this.baseUrl}/products/admin/add`, product, { context });
+    return this.http.post<ProductResponse>(`${this.baseUrl}/products/admin/add`, product, { context });
   }
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}/products/get/byId/${id}`);
+  getProductById(id: number): Observable<ProductResponse> {
+    return this.http.get<ProductResponse>(`${this.baseUrl}/products/get/byId/${id}`);
   }
 
-
-  updateProducts(id: number, product: Product): Observable<Product> {
-    return this.http.put<Product>(`${this.baseUrl}/products/admin/update/${id}`, product);
+  updateProducts(id: number, product: ProductRequest): Observable<ProductResponse> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<ProductResponse>(`${this.baseUrl}/products/admin/update/${id}`, product, { context });
   }
 
   deleteProducts(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}products/admin/delete/${id}`);
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.delete<void>(`${this.baseUrl}/products/admin/delete/${id}`, { context });
+  }
+
+  reactivateProduct(id: number): Observable<ProductResponse> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<ProductResponse>(`${this.baseUrl}/products/admin/reactivate/${id}`, null, { context });
   }
   getCategories(): Observable<Category[]> {
     return this.http.get<Category[]>(`${this.baseUrl}/categories/get/all`);
@@ -121,18 +131,50 @@ export class ApiService {
     return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 
-  addOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(`${this.baseUrl}/orders/add`, order);
+  addOrder(order: Order): Observable<any> {
+    // Map the frontend order to the backend OrderRequestDTO shape:
+    // nested product -> productId, nested user -> userId.
+    const payload = {
+      fullName: order.fullName,
+      email: order.email,
+      phone: order.phone,
+      isCompanyInvoice: order.isCompanyInvoice,
+      cui: order.cui,
+      country: order.country,
+      county: order.county,
+      city: order.city,
+      postalCode: order.postalCode,
+      paymentMethod: order.paymentMethod,
+      deliveryMethod: order.deliveryMethod,
+      termsAccepted: order.termsAccepted,
+      address: order.address,
+      totalPrice: order.totalPrice,
+      userId: order.user ? order.user.id : null,
+      products: (order.products ?? []).map(p => ({
+        productId: p.product.id,
+        quantity: p.quantity
+      }))
+    };
+    return this.http.post<OrderResponse>(`${this.baseUrl}/orders/add`, payload);
   }
 
-  getAllOrders() {
+  getAllOrders(): Observable<OrderResponse[]> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
-    return this.http.get<Order[]>(`${this.baseUrl}/orders/get/all`, { context });
+    return this.http.get<OrderResponse[]>(`${this.baseUrl}/orders/get/all`, { context });
   }
 
-  getOrderByUserId(id: number) {
+  getAllOrdersPaged(page: number, size: number, status?: string): Observable<PageResponse<OrderResponse>> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
-    return this.http.get<Order[]>(`${this.baseUrl}/orders/get/byUserId/${id}`, { context });
+    let params = new HttpParams().set('page', page).set('size', size);
+    if (status) {
+      params = params.set('status', status);
+    }
+    return this.http.get<PageResponse<OrderResponse>>(`${this.baseUrl}/orders/get/all/paged`, { params, context });
+  }
+
+  getOrderByUserId(id: number): Observable<OrderResponse[]> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<OrderResponse[]>(`${this.baseUrl}/orders/get/byUserId/${id}`, { context });
   }
 
   updateOrderStatus(orderId: number, status: string) {
@@ -149,9 +191,25 @@ export class ApiService {
     return this.http.get<Review[]>(`${this.baseUrl}/products/reviews/get/allByProductId/${productId}`);
   }
 
+  getReviewsByProductIdPaged(productId: number, page: number, size: number): Observable<PageResponse<Review>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+    return this.http.get<PageResponse<Review>>(
+      `${this.baseUrl}/products/reviews/get/allByProductId/${productId}/paged`, { params });
+  }
+
   addReview(review: Review): Observable<Review> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
     return this.http.post<Review>(`${this.baseUrl}/products/reviews/add`, review, { context });
+  }
+
+  updateReview(id: number, review: ReviewRequest): Observable<Review> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<Review>(`${this.baseUrl}/products/reviews/update/${id}`, review, { context });
+  }
+
+  deleteReview(id: number): Observable<void> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.delete<void>(`${this.baseUrl}/products/reviews/delete/${id}`, { context });
   }
 
   canUserReview(userId: number, productId: number): Observable<Boolean> {
@@ -174,6 +232,41 @@ export class ApiService {
       .set('status', status)
       .set('message', responseMessage!);
     return this.http.patch<ContactUsMessage>(`${this.baseUrl}/contact/us/admin/update/status`, params, { context });
+  }
+
+  // ---- Admin dashboard analytics (admin-only endpoints) ----
+
+  chat(message: string): Observable<ChatResponse> {
+    return this.http.post<ChatResponse>(`${this.baseUrl}/chat`, { message });
+  }
+
+  // ---- Self-service account (authenticated user editing their own profile) ----
+
+  getCurrentUser(): Observable<User> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<User>(`${this.baseUrl}/user/me`, { context });
+  }
+
+  updateCurrentUser(payload: UserSelfUpdateRequest): Observable<User> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<User>(`${this.baseUrl}/user/me`, payload, { context });
+  }
+
+  requestPasswordChange(payload: PasswordChangeRequest): Observable<string> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.post<string>(`${this.baseUrl}/user/me/password/change-request`, payload,
+      { context, responseType: 'text' as 'json' });
+  }
+
+  getDashboardKpis(): Observable<DashboardKpiResponse> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.get<DashboardKpiResponse>(`${this.baseUrl}/admin/dashboard/kpis`, { context });
+  }
+
+  getPopularProducts(limit: number = 5): Observable<ChartDataResponse> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    const params = new HttpParams().set('limit', limit);
+    return this.http.get<ChartDataResponse>(`${this.baseUrl}/admin/dashboard/popular-products`, { params, context });
   }
 
 }

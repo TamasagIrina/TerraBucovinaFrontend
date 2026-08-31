@@ -9,16 +9,16 @@ import { MatIconModule } from '@angular/material/icon';  // for star icons maybe
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Review } from '../../core/interfaces/review.inerface';
-import { Product } from '../../core/interfaces/product.interface';
 import { Store } from '@ngrx/store';
-import { selectProductById } from '../../core/store/products/products.selectors';
-import { combineLatest, forkJoin, take } from 'rxjs';
 import { AuthService } from '../../core/services/authService/auth-sevices.service';
-import { addReview } from '../../core/store/review/review.actions';
-import { User } from '../../core/interfaces/user.interface';
+import { addReview, updateReview } from '../../core/store/review/review.actions';
 export interface AddReviewDialogData {
   productId: number;
   userId: number;
+  /** When set, the dialog edits this existing review instead of creating a new one. */
+  reviewId?: number;
+  initialRating?: number;
+  initialComment?: string;
 
 }
 
@@ -53,9 +53,13 @@ export class AddReviewDialogComponent {
     private authApi: AuthService
   ) {
     this.form = this.fb.group({
-      rating: [null, [Validators.required]],
-      comment: ['', [Validators.required, Validators.minLength(5)]]
+      rating: [data.initialRating ?? null, [Validators.required]],
+      comment: [data.initialComment ?? '', [Validators.required, Validators.minLength(5)]]
     });
+  }
+
+  get isEditMode(): boolean {
+    return this.data.reviewId != null;
   }
 
   onStarClick(star: number) {
@@ -64,49 +68,8 @@ export class AddReviewDialogComponent {
 
   submit() {
     if (this.form.valid) {
-      var review: Review;
-      // combineLatest([
-      //   this.authApi.getUserById(this.data.userId),
-      //   this.store.select(selectProductById(this.data.productId)).pipe(take(1))
-      // ]).subscribe(([user, product]) => {
-      //     review = {
-      //     id: 0,
-      //     product: product!,
-      //     user: user!,
-      //     body: this.form.value.comment,
-      //     stars: this.form.value.rating as number
-      //   };
-
-      //   console.log(review);
-      //   this.store.dispatch(addReview({ review }));
-      // });
-      var product: {
-        id: 0,
-        name: '',
-        price: 0,
-        shortDesc: '',
-        longDesc: '',
-        notification: '',
-        ingredients: '',
-        scientificStudies: '',
-        stockQty: 0,
-        mainImageUrl: null,
-        createdAt: '',
-        updatedAt: '',
-        categories: null
-      }
-
-      var user: User = {
-        id: this.data.userId,
-        username: '',
-        email: '',
-        password: null,
-        roles: null,
-        enabled: null,
-        orders: null
-      }
-      review = {
-        id: 0,
+      const review: Review = {
+        id: this.data.reviewId ?? 0,
         productId: this.data.productId,
         userId: this.data.userId,
         body: this.form.value.comment,
@@ -114,8 +77,11 @@ export class AddReviewDialogComponent {
         createdAt: null
       };
 
-
-      this.store.dispatch(addReview({ review }));
+      if (this.isEditMode) {
+        this.store.dispatch(updateReview({ id: this.data.reviewId!, review }));
+      } else {
+        this.store.dispatch(addReview({ review }));
+      }
 
       const result: AddReviewDialogResult = {
         rating: this.form.value.rating,

@@ -48,6 +48,8 @@ export class NavbarComponent {
   totalFavoriteItems$: Observable<number> | undefined;
   isLoggedIn = false;
   menuOpen: boolean = false;
+  isAddMenuOpen = false;
+  isUserMenuOpen = false;
 
   constructor(private store: Store, private authService: AuthService, private router: Router) {
     this.totalCartItems$ = this.store.select(CartSelectors.selectCartTotalItems);
@@ -75,8 +77,36 @@ export class NavbarComponent {
 
   }
 
+  toggleAddMenu(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isAddMenuOpen = !this.isAddMenuOpen;
+  }
+
+  closeAddMenu() {
+    this.isAddMenuOpen = false;
+  }
+
+  toggleUserMenu(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.isUserMenuOpen = !this.isUserMenuOpen;
+  }
+
+  closeUserMenu() {
+    this.isUserMenuOpen = false;
+  }
+
+  onLogoutClick(event: Event) {
+    event.preventDefault();
+    this.closeUserMenu();
+    this.logOut();
+  }
+
   toggleCart() {
     this.menuOpen = false;
+    this.isAddMenuOpen = false;
+    this.isUserMenuOpen = false;
     this.isCartOpen = !this.isCartOpen;
     this.closeFavorite();
 
@@ -84,6 +114,7 @@ export class NavbarComponent {
 
   toggleFavorite() {
     this.menuOpen = false;
+    this.isUserMenuOpen = false;
     this.isFavoriteOpen = !this.isFavoriteOpen;
 
     this.closeCart();

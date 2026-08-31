@@ -49,5 +49,34 @@ export const reviewReducer = createReducer(
     ...state,
     loading: false,
     error
+  })),
+
+  // Update (the effect reloads the full list on success, this just tracks loading)
+  on(ReviewActions.updateReview, state => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(ReviewActions.updateReviewFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
+  // Delete
+  on(ReviewActions.deleteReview, state => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(ReviewActions.deleteReviewSuccess, (state, { id }) => ({
+    ...state,
+    reviews: state.reviews.filter(r => r.id !== id),
+    loading: false
+  })),
+  on(ReviewActions.deleteReviewFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
   }))
 );

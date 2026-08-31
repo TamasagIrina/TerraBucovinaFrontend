@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Product } from '../../core/interfaces/product.interface';
+import { ProductResponse } from '../../core/interfaces/product.interface';
 import { debounceTime, distinctUntilChanged, Subject, Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectAllProductsWithPrimaryImage } from '../../core/store/products/products.selectors';
@@ -18,8 +18,8 @@ import { Router, RouterModule } from '@angular/router';
 })
 export class SearchBarComponent {
   query = '';
-  allProducts: Product[] = [];
-  filteredProducts: Product[] = [];
+  allProducts: ProductResponse[] = [];
+  filteredProducts: ProductResponse[] = [];
 
   private searchInput$ = new Subject<string>();
   private subscription = new Subscription();
@@ -62,7 +62,7 @@ export class SearchBarComponent {
     this.searchInput$.next(this.query);
   }
 
-  selectProduct(product: Product) {
+  selectProduct(product: ProductResponse) {
 
     this.router.navigateByUrl(`/details/${product.id}`);
 

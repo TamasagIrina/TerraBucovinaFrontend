@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import * as OrderActions from './order.actions';
-import { Order } from '../../interfaces/order.interface';
+import { OrderResponse } from '../../interfaces/order.interface';
 
 export const orderFeatureKey = 'orders';
 
 export interface OrderState {
-  orders: Order[];
+  orders: OrderResponse[];
   message: string | null;
   error: any;
   loading: boolean;

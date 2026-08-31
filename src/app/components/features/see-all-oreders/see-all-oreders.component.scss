@@ -37,6 +37,47 @@
     color: #777;
   }
 
+  .pagination {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-top: 20px;
+    flex-wrap: wrap;
+
+    button {
+      min-width: 38px;
+      padding: 6px 12px;
+      border: 1px solid #d1d5db;
+      background: #fff;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.2s ease;
+
+      &.active {
+        background: #0e7632;
+        color: #fff;
+        border-color: #0e7632;
+      }
+
+      &:hover:not(:disabled):not(.active) {
+        background: #eef4ef;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .page-info {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-top: 8px;
+  }
+
   .order-card {
     border: 1px solid #ddd;
     background-color: #fff;
@@ -71,16 +112,31 @@
       }
 
       button {
-        padding: 6px 12px;
-        background-color: #1976d2;
+        padding: 6px 14px;
         color: white;
         border: none;
-        border-radius: 4px;
+        border-radius: 6px;
+        font-weight: 600;
         cursor: pointer;
+        margin-right: 8px;
+        transition: all 0.2s ease;
 
-        &:hover {
-          background-color: #1565c0;
+        &:disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
         }
+      }
+
+      .save-status {
+        background-color: #16a34a;
+
+        &:hover:not(:disabled) { background-color: #0e7632; }
+      }
+
+      .cancel-status {
+        background-color: #9ca3af;
+
+        &:hover:not(:disabled) { background-color: #6b7280; }
       }
 
       .total {
@@ -90,9 +146,56 @@
 
     }
 
+    .order-products {
+      margin-top: 12px;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 10px;
+
+      .product-line {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        gap: 12px;
+        padding: 4px 0;
+        font-size: 14px;
+        color: #333;
+
+        .pqty { color: #777; }
+        .pprice { font-weight: 600; color: #1f311a; }
+      }
+    }
+
     .order-status-label {
       margin-top: 12px;
       font-weight: bold;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+
+      .total {
+        font-size: 18px;
+        color: #1f311a;
+        margin: 0;
+      }
+
+      .details-btn {
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #0e7632, #16a34a);
+        color: #fff;
+        border: none;
+        border-radius: 20px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background: linear-gradient(135deg, #0b5f28, #0e7632);
+          transform: translateY(-1px);
+        }
+      }
     }
 
     // Status color coding
@@ -110,6 +213,39 @@
 
     & .status-CANCELLED {
       color: #f44336;
+    }
+  }
+}
+/* Mobile (phones / iPhone) */
+@media (max-width: 640px) {
+  .admin-orders {
+    padding: 16px;
+
+    .status-tabs {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 4px;
+
+      button { white-space: nowrap; }
+    }
+
+    .order-card {
+      .order-header { flex-direction: column; gap: 4px; }
+
+      .order-status {
+        flex-wrap: wrap;
+        gap: 8px;
+
+        select { flex: 1 1 auto; }
+      }
+
+      .footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+
+        .details-btn { width: 100%; }
+      }
     }
   }
 }

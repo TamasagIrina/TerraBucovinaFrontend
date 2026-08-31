@@ -1,17 +1,19 @@
 <div class="admin-orders">
     <h2>Toate comenzile</h2>
+
     <div class="status-tabs">
-        <button *ngFor="let s of statusOptions" [class.active]="currentStatusTab === s" (click)="setCurrentTab(s)">
+        <button *ngFor="let s of statusOptions" [class.active]="currentStatusTab() === s" (click)="setCurrentTab(s)">
             {{ s }}
         </button>
     </div>
-    
-    <div *ngIf="(filteredOrders$ | async)?.length === 0" class="empty-message">
+
+    <div *ngIf="loading()" class="empty-message">Se încarcă...</div>
+
+    <div *ngIf="!loading() && orders().length === 0" class="empty-message">
         Nu există comenzi de afișat.
     </div>
 
-    <div class="order-card" *ngFor="let order of (filteredOrders$ | async)">
-        <!-- header with full details -->
+    <div class="order-card" *ngFor="let order of orders()">
         <div class="order-header">
             <div><strong>ID:</strong> {{ order.id }}</div>
             <div><strong>Nume:</strong> {{ order.fullName }}</div>
@@ -20,28 +22,47 @@
             <div><strong>Data:</strong> {{ order.createdAt | date:'short' }}</div>
         </div>
 
-        <!-- status dropdown -->
+        <!-- status dropdown + save/cancel -->
         <div class="order-status">
             <label>Status:</label>
-            <select [ngModel]="order.status" (ngModelChange)="onStatusChange(order, $event)">
+            <select [ngModel]="currentSelection(order)" (ngModelChange)="onSelect(order, $event)">
                 <option *ngFor="let status of statusOptions" [value]="status">{{ status }}</option>
             </select>
+            <span class="status-actions" *ngIf="hasChange(order)">
+                <button class="save-status" (click)="saveStatus(order)">Salvează</button>
+                <button class="cancel-status" (click)="cancelStatus(order)">Anulează</button>
+            </span>
         </div>
 
         <!-- products -->
-        <div *ngFor="let product of order.products">
-            {{ product.product.name }} — de {{ product.quantity }} ori
+        <div class="order-products">
+            <div class="product-line" *ngFor="let product of order.products">
+                <span class="pname">{{ product.productName }}</span>
+                <span class="pqty">× {{ product.quantity }}</span>
+                <span class="pprice">{{ product.productPrice }} RON</span>
+            </div>
         </div>
 
-        <!-- status label -->
         <div class="order-status-label" [ngClass]="'status-'+order.status">
             {{ order.status }}
         </div>
 
-       
-            <div class="footer">
-                <p class="total">Total: <strong> {{order.totalPrice}} RON</strong></p>
-            </div>
+        <div class="footer">
+            <p class="total">Total: <strong> {{order.totalPrice}} RON</strong></p>
+            <button class="details-btn" (click)="viewDetails(order.id)">Vezi detalii</button>
+        </div>
     </div>
 
+    <!-- pagination -->
+    <div class="pagination" *ngIf="totalPages() > 1">
+        <button (click)="prevPage()" [disabled]="page() === 0">‹ Anterior</button>
+        <button *ngFor="let p of pageNumbers()" [class.active]="p === page()" (click)="goToPage(p)">
+            {{ p + 1 }}
+        </button>
+        <button (click)="nextPage()" [disabled]="page() + 1 >= totalPages()">Următor ›</button>
+    </div>
+
+    <p class="page-info" *ngIf="totalElements() > 0">
+        {{ totalElements() }} comenzi · pagina {{ page() + 1 }} din {{ totalPages() }}
+    </p>
 </div>

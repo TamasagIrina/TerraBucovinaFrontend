@@ -7,7 +7,7 @@ $muted: #5a6b7b;
 $white: #fff;
 $border: #eef0f2;
 $accent: var(--btn-accent);
-$accent-hover: #92c6a7;
+$accent-hover: var(--color-primary-dark);
 $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
 
 .auth {

@@ -1,6 +1,6 @@
-import { Component, inject, Input, numberAttribute } from '@angular/core';
+import { Component, inject, Input, numberAttribute, signal } from '@angular/core';
 
-import { Product } from '../../core/interfaces/product.interface';
+import { ProductResponse } from '../../core/interfaces/product.interface';
 
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLinkWithHref } from '@angular/router';
@@ -11,7 +11,6 @@ import { map, Observable, of, switchMap, take } from 'rxjs';
 import { Image } from '../../core/interfaces/image.interface';
 import { ImagesActions } from '../../core/store/images/images.actions';
 import { selectImagesByProduct } from '../../core/store/images/images.selectors';
-import { environment } from '../../../../environments/environment';
 import * as CartActions from "../../core/store/cart/cart.actions";
 import * as FavoriteActions from "../../core/store/favorite/favorite.actions";
 import * as FavoriteSelectors from '../../core/store/favorite/favorite.selectors';
@@ -35,21 +34,27 @@ import { ProductCardComponent } from "../../shared/product-card/product-card.com
   styleUrl: './product-details.component.scss'
 })
 export class ProductDetailsComponent {
-  product$!: Observable<Product | undefined>;
+  product$!: Observable<ProductResponse | undefined>;
 
   images$!: Observable<Image[]>;
-
-  public environment = environment.apiUrl;
 
   constructor(protected store: Store, private apiService: ApiService, private authService: AuthService, private dialog: MatDialog) { }
 
   readonly router = inject(ActivatedRoute);
+  private readonly navRouter = inject(Router);
   id: number | undefined;
   isFavorite$!: Observable<boolean>;
   reviews$!: Observable<Review[]>;
   count$!: Observable<number>;
   avgStars$!: Observable<number>;
-  relatedProducts$!: Observable<Product[]>;
+
+  // --- paginated reviews (server-side) ---
+  readonly reviewsPaged = signal<Review[]>([]);
+  readonly reviewPage = signal<number>(0);
+  readonly reviewTotalPages = signal<number>(0);
+  readonly reviewTotalElements = signal<number>(0);
+  readonly reviewSize = 3;
+  relatedProducts$!: Observable<ProductResponse[]>;
   selectedImage: Image | null = null;
   lightboxOpen = false;
 
@@ -59,6 +64,21 @@ export class ProductDetailsComponent {
       this.id = idFromRoute ? parseInt(idFromRoute, 10) : 0;
 
       this.product$ = this.store.select(selectProductById(this.id));
+
+      // Inactive products aren't browsable — bounce back to the shop instead
+      // of rendering a "buy this" page for something no longer available.
+      this.product$.subscribe(product => {
+        if (product && !product.active) {
+          this.store.dispatch(
+            NotificationActions.showNotification({
+              message: 'Acest produs nu mai este disponibil.',
+              notificationType: 'warning',
+            })
+          );
+          setTimeout(() => this.store.dispatch(NotificationActions.hideNotification()), 3000);
+          this.navRouter.navigateByUrl('/shop');
+        }
+      });
 
       this.store.dispatch(ImagesActions.loadImagesByProduct({ productId: this.id }));
 
@@ -77,12 +97,15 @@ export class ProductDetailsComponent {
 
       this.reviews$ = this.store.select(selectByProductId(this.id));
 
+      this.reviewPage.set(0);
+      this.loadReviewsPage();
+
       this.count$ = this.store.select(selectByProductIdCOUNT(this.id));
       this.avgStars$ = this.store.select(selectByProductIdMediaOfStars(this.id));
 
     this.relatedProducts$ = this.product$.pipe(
       switchMap(product =>
-        this.store.select(selectProductsByCategory(product?.categories?.id || -1)).pipe(
+        this.store.select(selectProductsByCategory(product?.categoryId || -1)).pipe(
           switchMap(relatedList => {
             if (relatedList.length > 1) {
               return of(relatedList.filter(p => p.id !== product?.id));
@@ -128,6 +151,37 @@ export class ProductDetailsComponent {
     this.selectedImage = img;
   }
 
+  loadReviewsPage(): void {
+    if (this.id == null) {
+      return;
+    }
+    this.apiService.getReviewsByProductIdPaged(this.id, this.reviewPage(), this.reviewSize).subscribe({
+      next: (res) => {
+        this.reviewsPaged.set(res.content ?? []);
+        this.reviewTotalPages.set(res.totalPages);
+        this.reviewTotalElements.set(res.totalElements);
+      },
+      error: () => {
+        this.reviewsPaged.set([]);
+        this.reviewTotalPages.set(0);
+      }
+    });
+  }
+
+  prevReviewPage(): void {
+    if (this.reviewPage() > 0) {
+      this.reviewPage.update(p => p - 1);
+      this.loadReviewsPage();
+    }
+  }
+
+  nextReviewPage(): void {
+    if (this.reviewPage() + 1 < this.reviewTotalPages()) {
+      this.reviewPage.update(p => p + 1);
+      this.loadReviewsPage();
+    }
+  }
+
 
   toggleFavorite(productId: number) {
     this.isFavorite$.pipe(take(1)).subscribe(isFav => {
@@ -158,6 +212,8 @@ export class ProductDetailsComponent {
                   }
                 }
               );
+              // Refresh the paginated reviews after a (possible) new review is added.
+              dialogRef.afterClosed().subscribe(() => this.loadReviewsPage());
             } else {
               const dialogRef = this.dialog.open<AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult>(
                 AddReviewDialogComponent,

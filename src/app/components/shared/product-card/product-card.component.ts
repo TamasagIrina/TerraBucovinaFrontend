@@ -1,10 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from "@angular/material/icon";
-import { Product } from '../../core/interfaces/product.interface';
+import { ProductResponse } from '../../core/interfaces/product.interface';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, take } from 'rxjs';
-import { environment } from '../../../../environments/environment';
 import { ImagesActions } from '../../core/store/images/images.actions';
 import { selectAllImages, selectImagesByProduct, selectPrimaryImageByProduct } from '../../core/store/images/images.selectors';
 import { Image } from '../../core/interfaces/image.interface';
@@ -14,6 +13,8 @@ import * as FavoriteActions from "../../core/store/favorite/favorite.actions"
 import { tick } from '@angular/core/testing';
 import * as FavoriteSelectors from '../../core/store/favorite/favorite.selectors';
 import { CartEffects } from '../../core/store/cart/cart.effects';
+import { ProductsActions } from '../../core/store/products/products.actions';
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
 @Component({
   selector: 'app-product-card',
   imports: [MatIconModule,
@@ -24,12 +25,31 @@ import { CartEffects } from '../../core/store/cart/cart.effects';
 })
 export class ProductCardComponent {
 
-  @Input() product!: Product;
+  @Input() product!: ProductResponse;
   images$!: Observable<Image | undefined>;
   isFavorite$!: Observable<boolean>;
-  public environment = environment.apiUrl;
 
-  constructor(private router: Router, public store: Store) {
+  constructor(private router: Router, public store: Store, private authService: AuthService) {
+  }
+
+  get isAdmin(): boolean {
+    return this.authService.isLoggedIn() && this.authService.hasRole('ROLE_ADMIN');
+  }
+
+  onEdit(): void {
+    this.router.navigate(['admin/edit-product', this.product.id]);
+  }
+
+  onDelete(): void {
+    if (confirm(`Sigur doriți să dezactivați produsul „${this.product.name}"? Va dispărea din magazin, dar rămâne în istoricul comenzilor.`)) {
+      // Marked inactive by the deleteProductSuccess reducer (soft delete), so
+      // it stays visible here — just badged and swapped to a reactivate button.
+      this.store.dispatch(ProductsActions.deleteProduct({ productId: this.product.id }));
+    }
+  }
+
+  onReactivate(): void {
+    this.store.dispatch(ProductsActions.reactivateProduct({ productId: this.product.id }));
   }
 
   ngOnInit() {
@@ -61,6 +81,7 @@ toggleFavorite(productId: number) {
   
 }
   goToDetail() {
+    if (!this.product.active) return;
     this.router.navigateByUrl("details/" + this.product.id)
   }
 }

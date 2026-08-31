@@ -30,3 +30,6 @@ export const selectOrderMessage = createSelector(
   selectOrderState,
   (state) => state?.message
 );
+
+export const selectOrderById = (id: number) =>
+  createSelector(selectAllOrders, (orders) => orders.find((o) => o.id === id));

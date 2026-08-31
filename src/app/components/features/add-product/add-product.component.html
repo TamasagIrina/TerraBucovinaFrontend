@@ -1,6 +1,6 @@
 <div class="add-product-container">
-  <form  #productForm="ngForm">
-    <h2>Adaugă Produs Nou</h2>
+  <form  #productForm="ngForm" (ngSubmit)="onSubmit()">
+    <h2>{{ editMode ? 'Editează Produs' : 'Adaugă Produs Nou' }}</h2>
 
    
     <div class="form-group">
@@ -47,7 +47,7 @@
     <div class="form-group">
       <label for="category">Categorie</label>
 
-      <select id="category" name="category" [(ngModel)]="product.categories!.id" required>
+      <select id="category" name="category" [(ngModel)]="product.categoryId" required>
 
         <option *ngFor="let c of categories" [ngValue]="c.id">
           {{ c.name }}
@@ -88,6 +88,6 @@
       </div>
     </div>
 
-    <button type="button" [disabled]="!productForm.form.valid" appDebounceButton  (debounceClick)="onSubmit()">Trimite</button>
+    <button type="submit" [disabled]="!productForm.form.valid" >{{ editMode ? 'Salvează' : 'Trimite' }}</button>
   </form>
 </div>

@@ -18,6 +18,12 @@ export const selectError = createSelector(
   (state) => state.error
 );
 
+export const selectByUserId = (userId: number) =>
+  createSelector(
+    selectAllReviews,
+    (reviews) => reviews.filter(r => r.userId === userId)
+  );
+
 export const selectByProductId = (productId: number) =>
   createSelector(
     selectAllReviews,

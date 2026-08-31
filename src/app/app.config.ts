@@ -26,6 +26,7 @@ import * as fromCategoris from './components/core/store/categoris/category.reduc
 import * as fromContactUs from './components/core/store/contact-us/contact-us.reducer';
 import { ContactUsEffects } from './components/core/store/contact-us/contact-us.effects';
 import { CategoriesEffects } from './components/core/store/categoris/category.effects';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 const keysToSync = [
   fromCart.cartFeatureKey,
@@ -49,6 +50,7 @@ export const appConfig: ApplicationConfig = {
   provideRouter(routes),
   provideStore(),
   provideHttpClient(withInterceptors([tokenInterceptor])),
+  provideCharts(withDefaultRegisterables()),
   provideStore({ products: productsReducer }, { metaReducers }),
   // provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   provideEffects([

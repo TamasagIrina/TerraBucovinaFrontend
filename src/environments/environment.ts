@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://terrabucovinabackend-production.up.railway.app' 
+  apiUrl: 'http://localhost:3307'
 };

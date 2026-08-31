@@ -1,0 +1,81 @@
+<div class="dashboard">
+  <h1 class="dashboard-title">Dashboard Admin</h1>
+
+  <p *ngIf="loading()" class="state-msg">Se încarcă datele...</p>
+  <p *ngIf="error()" class="state-msg error">
+    {{ error() }}
+    <button class="retry-btn" (click)="loadDashboard()">Reîncearcă</button>
+  </p>
+
+  <ng-container *ngIf="!loading() && !error()">
+
+    <!-- KPI summary cards -->
+    <section class="kpi-grid" *ngIf="kpis() as k">
+      <div class="kpi-card">
+        <span class="kpi-label">Produse</span>
+        <span class="kpi-value">{{ k.totalProducts }}</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Utilizatori</span>
+        <span class="kpi-value">{{ k.totalUsers }}</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Comenzi</span>
+        <span class="kpi-value">{{ k.totalOrders }}</span>
+      </div>
+      <div class="kpi-card accent-amber">
+        <span class="kpi-label">Comenzi în așteptare</span>
+        <span class="kpi-value">{{ k.pendingOrders }}</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Recenzii</span>
+        <span class="kpi-value">{{ k.totalReviews }}</span>
+      </div>
+      <div class="kpi-card accent-green">
+        <span class="kpi-label">Venit total</span>
+        <span class="kpi-value">{{ k.totalRevenue | number:'1.2-2' }} RON</span>
+      </div>
+    </section>
+
+    <!-- Charts + top-products list -->
+    <section class="analytics-row">
+      <div class="panel chart-panel">
+        <h2 class="panel-title">Cele mai populare produse</h2>
+        <div class="chart-wrapper" *ngIf="(popularProducts()?.labels?.length ?? 0) > 0; else noData">
+          <canvas baseChart
+                  [data]="barChartData()"
+                  [type]="'bar'"
+                  [options]="barChartOptions">
+          </canvas>
+        </div>
+        <ng-template #noData>
+          <p class="state-msg">Nu există încă date de vânzări.</p>
+        </ng-template>
+      </div>
+
+      <div class="panel list-panel" *ngIf="popularProducts() as pp">
+        <h2 class="panel-title">Top produse</h2>
+        <table class="top-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Produs</th>
+              <th class="num">Unități</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let label of pp.labels; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ label }}</td>
+              <td class="num">{{ pp.values[i] }}</td>
+            </tr>
+            <tr *ngIf="pp.labels.length === 0">
+              <td colspan="3" class="empty">Fără date</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </ng-container>
+</div>

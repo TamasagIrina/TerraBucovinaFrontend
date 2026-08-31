@@ -1,0 +1,15 @@
+<div class="cookie-banner" *ngIf="visible()" role="dialog" aria-live="polite" aria-label="Consimțământ cookie-uri">
+  <div class="cookie-text">
+    <h4>🍪 Acest site folosește cookie-uri</h4>
+    <p>
+      Folosim cookie-uri strict necesare pentru funcționarea site-ului (de ex. autentificarea).
+      Cu acordul tău, folosim și cookie-uri opționale pentru a îmbunătăți experiența.
+      Poți alege ce accepți.
+    </p>
+  </div>
+
+  <div class="cookie-actions">
+    <button class="btn-secondary" (click)="acceptNecessary()">Doar necesare</button>
+    <button class="btn-primary" (click)="acceptAll()">Acceptă toate</button>
+  </div>
+</div>

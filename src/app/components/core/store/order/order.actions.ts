@@ -1,11 +1,11 @@
 import { createAction, props } from '@ngrx/store';
-import { Order } from '../../interfaces/order.interface';
+import { Order, OrderResponse } from '../../interfaces/order.interface';
 
 export const loadOrders = createAction('[Order] Load Orders');
 
 export const loadOrdersSuccess = createAction(
   '[Order] Load Orders Success',
-  props<{ orders: Order[] }>()
+  props<{ orders: OrderResponse[] }>()
 );
 
 export const loadOrdersFailure = createAction(
@@ -20,7 +20,7 @@ export const loadOrdersByCustomer = createAction(
 
 export const loadOrdersByCustomerSuccess = createAction(
   '[Order] Load Orders By Customer Success',
-  props<{ orders: Order[] }>()
+  props<{ orders: OrderResponse[] }>()
 );
 
 export const loadOrdersByCustomerFailure = createAction(
@@ -51,7 +51,7 @@ export const addOrder = createAction(
 
 export const addOrderSuccess = createAction(
   '[Order] Add Order Success',
-  props<{ order: Order }>()
+  props<{ order: OrderResponse }>()
 );
 
 export const addOrderFailure = createAction(

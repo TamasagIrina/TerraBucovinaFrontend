@@ -1,6 +1,6 @@
-import { Product } from "./product.interface";
+import { ProductResponse } from "./product.interface";
 
 export interface OrderProduct {
-  product: Product;
+  product: ProductResponse;
   quantity: number;
 }

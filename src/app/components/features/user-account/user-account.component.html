@@ -12,19 +12,32 @@
       <h3>Informații cont</h3>
 
       <label class="field">
-        <span>Nume</span>
+        <span>Username</span>
         <input type="text" name="username" [(ngModel)]="user.username" required />
       </label>
 
       <label class="field">
+        <span>Nume complet</span>
+        <input type="text" name="fullName" [(ngModel)]="user.fullName" />
+      </label>
+
+      <label class="field">
+        <span>Adresă</span>
+        <input type="text" name="address" [(ngModel)]="user.address" />
+      </label>
+
+      <label class="field">
         <span>Email</span>
-        <input type="email" name="email" [(ngModel)]="user.email" required />
+        <input type="email" name="email" [ngModel]="user.email" disabled />
       </label>
     </div>
 
     <!-- CARD: Password -->
     <div class="card">
       <h3>Schimbă parola</h3>
+      <p class="subtitle">
+        Din motive de siguranță, noua parolă devine activă doar după ce confirmi printr-un link trimis pe email.
+      </p>
 
       <label class="field">
         <span>Parola actuală</span>
@@ -34,7 +47,7 @@
       <div class="grid-2">
         <label class="field">
           <span>Parolă nouă</span>
-          <input type="password" name="newPassword" [(ngModel)]="passwords.newPass" />
+          <input type="password" name="newPassword" [(ngModel)]="passwords.newPass" minlength="6" />
         </label>
 
         <label class="field">
@@ -50,5 +63,25 @@
     </div>
 
   </form>
+
+  <!-- CARD: My reviews -->
+  <div class="card reviews-card">
+    <h3>Recenziile mele</h3>
+
+    <div class="review-row" *ngFor="let review of (myReviews$ | async)">
+      <div class="review-row-info">
+        <div class="rating">
+          <span *ngFor="let s of [1,2,3,4,5]" [class.filled]="s <= review.stars">★</span>
+        </div>
+        <p class="review-body">{{ review.body }}</p>
+      </div>
+      <div class="review-row-actions">
+        <button class="btn" type="button" (click)="editReview(review)">Editează</button>
+        <button class="btn danger" type="button" (click)="deleteReview(review.id)">Șterge</button>
+      </div>
+    </div>
+
+    <p *ngIf="(myReviews$ | async)?.length === 0" class="subtitle">Nu ai scris încă nicio recenzie.</p>
+  </div>
 </section>
 

@@ -85,4 +85,63 @@
       }
     }
   }
+
+  .card .subtitle {
+    font-size: 13px;
+    color: #666;
+    margin: -8px 0 15px;
+  }
+
+  .review-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid #eee;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    .review-row-info {
+      flex: 1;
+
+      .rating {
+        color: #d1d5db;
+        font-size: 14px;
+        margin-bottom: 4px;
+
+        .filled {
+          color: #f59e0b;
+        }
+      }
+
+      .review-body {
+        font-size: 14px;
+        color: #333;
+        margin: 0;
+      }
+    }
+
+    .review-row-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+
+      .btn {
+        padding: 6px 12px;
+        font-size: 13px;
+        border-radius: 6px;
+        cursor: pointer;
+        border: 1px solid #ccc;
+        background: #fff;
+
+        &.danger {
+          color: #dc2626;
+          border-color: #dc2626;
+        }
+      }
+    }
+  }
 }

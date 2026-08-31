@@ -1,64 +1,115 @@
-import { Component } from '@angular/core';
-import { map, Observable } from 'rxjs';
-import { Order } from '../../core/interfaces/order.interface';
-import { Store } from '@ngrx/store';
-import * as OrderActions from "../../core/store/order/order.actions"
-import * as OrderSelectors from "../../core/store/order/order.selectors"
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Product } from '../../core/interfaces/product.interface';
-
-import * as  SelectProducts from '../../core/store/products/products.selectors';
+import { Router } from '@angular/router';
+import { ApiService } from '../../core/services/api-service/api.service';
+import { OrderResponse } from '../../core/interfaces/order.interface';
 
 @Component({
   selector: 'app-see-all-oreders',
-  imports: [CommonModule,
-    FormsModule
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './see-all-oreders.component.html',
   styleUrl: './see-all-oreders.component.scss'
 })
 export class SeeAllOredersComponent {
-  orders$!: Observable<Order[]>;
-  products$!: Observable<Product[]>;
-  loading$!: Observable<boolean>;
+  private api = inject(ApiService);
+  private router = inject(Router);
+
   statusOptions = ['PLASATA', 'CONFIRMATA', 'LIVRATA', 'ANULATA'];
-  currentStatusTab = 'PLASATA';
 
-  filteredOrders$: Observable<Order[]> | undefined;
+  // --- Signal state (server-side pagination) ---
+  readonly orders = signal<OrderResponse[]>([]);
+  readonly currentStatusTab = signal<string>('PLASATA');
+  readonly page = signal<number>(0);
+  readonly totalPages = signal<number>(0);
+  readonly totalElements = signal<number>(0);
+  readonly loading = signal<boolean>(false);
+  readonly size = 5;
 
-  constructor(private store: Store) {
-
-  }
+  /** Per-order pending status selection, applied only on Save. */
+  pending: Record<number, string> = {};
 
   ngOnInit(): void {
-    this.store.dispatch(OrderActions.loadOrders());
-    this.orders$ = this.store.select(OrderSelectors.selectAllOrders);
-    this.products$ = this.store.select(SelectProducts.selectAllProductsWithPrimaryImage);
-    this.loading$ = this.store.select(OrderSelectors.selectOrderLoading);
-    this.updateFilteredOrders();
+    this.load();
   }
 
-  setCurrentTab(status: string) {
-    this.currentStatusTab = status;
-    this.updateFilteredOrders();
+  load(): void {
+    this.loading.set(true);
+    this.api.getAllOrdersPaged(this.page(), this.size, this.currentStatusTab()).subscribe({
+      next: (res) => {
+        this.orders.set(res.content);
+        this.totalPages.set(res.totalPages);
+        this.totalElements.set(res.totalElements);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.orders.set([]);
+        this.loading.set(false);
+      }
+    });
   }
 
-  updateFilteredOrders() {
-    this.filteredOrders$ = this.orders$.pipe(
-      map(orders =>
-        orders.filter(order => order.status === this.currentStatusTab)
-      )
-    );
+  setCurrentTab(status: string): void {
+    this.currentStatusTab.set(status);
+    this.page.set(0);
+    this.pending = {};
+    this.load();
   }
 
-  onStatusChange(order: Order, newStatus: string) {
-    this.store.dispatch(
-      OrderActions.updateOrderStatus({
-        orderId: order.id,
-        status: newStatus
-      })
-    );
+  // --- pagination controls ---
+  nextPage(): void {
+    if (this.page() + 1 < this.totalPages()) {
+      this.page.update(p => p + 1);
+      this.load();
+    }
   }
 
+  prevPage(): void {
+    if (this.page() > 0) {
+      this.page.update(p => p - 1);
+      this.load();
+    }
+  }
+
+  goToPage(p: number): void {
+    if (p !== this.page() && p >= 0 && p < this.totalPages()) {
+      this.page.set(p);
+      this.load();
+    }
+  }
+
+  pageNumbers(): number[] {
+    return Array.from({ length: this.totalPages() }, (_, i) => i);
+  }
+
+  viewDetails(orderId: number): void {
+    this.router.navigate(['admin/order-details', orderId]);
+  }
+
+  // --- status change (save / cancel) ---
+  currentSelection(order: OrderResponse): string {
+    return this.pending[order.id] ?? (order.status ?? '');
+  }
+
+  onSelect(order: OrderResponse, value: string): void {
+    this.pending[order.id] = value;
+  }
+
+  hasChange(order: OrderResponse): boolean {
+    return order.id in this.pending && this.pending[order.id] !== order.status;
+  }
+
+  saveStatus(order: OrderResponse): void {
+    if (!this.hasChange(order)) {
+      return;
+    }
+    this.api.updateOrderStatus(order.id, this.pending[order.id]).subscribe(() => {
+      delete this.pending[order.id];
+      this.load(); // refresh the current page (the order may leave the current status tab)
+    });
+  }
+
+  cancelStatus(order: OrderResponse): void {
+    delete this.pending[order.id];
+  }
 }

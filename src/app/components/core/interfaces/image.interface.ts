@@ -6,3 +6,16 @@ export interface Image{
     sortOrder: number;
     productId:number;
 }
+
+/**
+ * Read model returned by the backend (`ImageResponseDTO`). Owning product is
+ * referenced by id only.
+ */
+export interface ImageResponse {
+    id: number;
+    productId: number | null;
+    imageUrl: string;
+    altText: string | null;
+    sortOrder: number | null;
+    isPrimary: boolean | null;
+}

@@ -1,11 +1,11 @@
 import { createReducer, on } from '@ngrx/store';
 import * as ProductsActions from './products.actions';
-import { Product } from '../../interfaces/product.interface';
+import { ProductResponse } from '../../interfaces/product.interface';
 
 export const productFeatureKey = 'products';
 
 export interface ProductsState {
-  products: Product[];
+  products: ProductResponse[];
   loading: boolean;
   error: any;
 }
@@ -82,9 +82,33 @@ export const productsReducer = createReducer(
   on(ProductsActions.deleteProductSuccess, (state, { productId }) => ({
     ...state,
     loading: false,
-    products: state.products.filter(p => p.id !== productId)
+    // Soft delete: the backend deactivates rather than removes the row, so we
+    // keep it in the store (marked inactive) instead of filtering it out —
+    // otherwise an admin would have no way to reactivate it without a reload.
+    products: state.products.map(p =>
+      p.id === productId ? { ...p, active: false } : p
+    )
   })),
   on(ProductsActions.deleteProductFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
+  // REACTIVATE
+  on(ProductsActions.reactivateProduct, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(ProductsActions.reactivateProductSuccess, (state, { product }) => ({
+    ...state,
+    loading: false,
+    products: state.products.map(p =>
+      p.id === product.id ? { ...p, ...product } : p
+    )
+  })),
+  on(ProductsActions.reactivateProductFailure, (state, { error }) => ({
     ...state,
     loading: false,
     error

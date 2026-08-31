@@ -1,0 +1,16 @@
+/*
+ * The navbar is position: fixed (min-height 70px), so it sits on top of the page.
+ * Offset the routed content by the navbar height so page titles/content are not
+ * hidden underneath it. On narrow screens the navbar wraps to two rows and gets
+ * taller, so we increase the offset accordingly.
+ */
+.app-content {
+  display: block;
+  padding-top: 70px;
+}
+
+@media (max-width: 970px) {
+  .app-content {
+    padding-top: 130px;
+  }
+}

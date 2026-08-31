@@ -6,15 +6,18 @@ import { Store } from '@ngrx/store';
 import { ProductsActions } from './components/core/store/products/products.actions';
 import { ImagesActions } from './components/core/store/images/images.actions';
 import { NotificationComponent } from "./components/shared/notification/notification.component";
+import { CookieConsentComponent } from "./components/shared/cookie-consent/cookie-consent.component";
+import { ChatbotComponent } from "./components/shared/chatbot/chatbot.component";
 import { filter, map, Observable } from 'rxjs';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { selectNotification } from './components/core/store/notification/notification.selectors';
 import { loadReviews } from './components/core/store/review/review.actions';
 import { loadCategories } from './components/core/store/categoris/category.actions';
+import { AuthService } from './components/core/services/authService/auth-sevices.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, NavbarComponent, FooterComponent, NotificationComponent, CommonModule, AsyncPipe],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent, NotificationComponent, CommonModule, AsyncPipe, CookieConsentComponent, ChatbotComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
@@ -23,13 +26,14 @@ export class AppComponent {
 
   notification$!: Observable<any>;
 
-  constructor(public store: Store) {
+  constructor(public store: Store, private authService: AuthService) {
 
   }
 
 
   ngOnInit() {
-    this.store.dispatch(ProductsActions.loadProducts());
+    const includeInactive = this.authService.isLoggedIn() && this.authService.hasRole('ROLE_ADMIN');
+    this.store.dispatch(ProductsActions.loadProducts({ includeInactive }));
     this.store.dispatch(ImagesActions.loadAllImages());
     this.store.dispatch(loadReviews());
     this.store.dispatch(loadCategories());

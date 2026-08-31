@@ -1,0 +1,65 @@
+<div class="order-details">
+  <button class="back-btn" (click)="goBack()">← Înapoi la comenzi</button>
+
+  <ng-container *ngIf="order$ | async as order; else notFound">
+    <div class="header">
+      <h1>Comanda #{{ order.id }}</h1>
+      <span class="status" [ngClass]="'status-' + order.status">{{ order.status }}</span>
+    </div>
+    <p class="date" *ngIf="order.createdAt">Plasată pe: {{ order.createdAt | date:'dd MMM yyyy, HH:mm' }}</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <h3>Client</h3>
+        <p><strong>Nume:</strong> {{ order.fullName }}</p>
+        <p><strong>Email:</strong> {{ order.email }}</p>
+        <p><strong>Telefon:</strong> {{ order.phone }}</p>
+        <p *ngIf="order.isCompanyInvoice"><strong>CUI:</strong> {{ order.cui }}</p>
+      </div>
+
+      <div class="info-card">
+        <h3>Livrare</h3>
+        <p><strong>Adresă:</strong> {{ order.address }}</p>
+        <p>{{ order.city }}, {{ order.county }}, {{ order.country }} {{ order.postalCode }}</p>
+        <p><strong>Metodă livrare:</strong> {{ order.deliveryMethod }}</p>
+        <p><strong>Metodă plată:</strong> {{ order.paymentMethod }}</p>
+      </div>
+    </div>
+
+    <h3 class="products-title">Produse comandate</h3>
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Produs</th>
+          <th class="num">Preț</th>
+          <th class="num">Cantitate</th>
+          <th class="num">Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of order.products">
+          <td>
+            <a [routerLink]="'/details/' + p.productId">{{ p.productName }}</a>
+          </td>
+          <td class="num">{{ p.productPrice }} RON</td>
+          <td class="num">{{ p.quantity }}</td>
+          <td class="num">{{ lineTotal(p.productPrice, p.quantity) }} RON</td>
+        </tr>
+        <tr *ngIf="order.products.length === 0">
+          <td colspan="4" class="empty">Această comandă nu conține produse.</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3" class="num total-label">Total</td>
+          <td class="num total-value">{{ order.totalPrice }} RON</td>
+        </tr>
+      </tfoot>
+    </table>
+  </ng-container>
+
+  <ng-template #notFound>
+    <p class="state-msg" *ngIf="!(loading$ | async)">Comanda nu a fost găsită.</p>
+    <p class="state-msg" *ngIf="loading$ | async">Se încarcă...</p>
+  </ng-template>
+</div>

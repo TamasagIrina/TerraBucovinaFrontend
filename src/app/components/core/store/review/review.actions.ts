@@ -39,3 +39,31 @@ export const addReviewFailure = createAction(
     '[Review] Add Failure',
     props<{ error: any }>()
 );
+
+
+export const updateReview = createAction(
+    '[Review] Update',
+    props<{ id: number; review: Review }>()
+);
+export const updateReviewSuccess = createAction(
+    '[Review] Update Success',
+    props<{ review: Review }>()
+);
+export const updateReviewFailure = createAction(
+    '[Review] Update Failure',
+    props<{ error: any }>()
+);
+
+
+export const deleteReview = createAction(
+    '[Review] Delete',
+    props<{ id: number }>()
+);
+export const deleteReviewSuccess = createAction(
+    '[Review] Delete Success',
+    props<{ id: number }>()
+);
+export const deleteReviewFailure = createAction(
+    '[Review] Delete Failure',
+    props<{ error: any }>()
+);

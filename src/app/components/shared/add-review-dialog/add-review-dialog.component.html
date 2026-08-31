@@ -1,4 +1,4 @@
-<h2 mat-dialog-title *ngIf="data.userId!=0">Adaugă o recenzie</h2>
+<h2 mat-dialog-title *ngIf="data.userId!=0">{{ isEditMode ? 'Editează recenzia' : 'Adaugă o recenzie' }}</h2>
 
 <h2 mat-dialog-title *ngIf="data.userId==0">NU ati cumparat acest produs</h2>
 
@@ -34,6 +34,6 @@
 
 <mat-dialog-actions align="end">
   <button mat-button (click)="cancel()">Anulează</button>
-  <button mat-button color="primary" (click)="submit()" [disabled]="!form.valid">Trimite</button>
+  <button mat-button color="primary" (click)="submit()" [disabled]="!form.valid">{{ isEditMode ? 'Salvează' : 'Trimite' }}</button>
 </mat-dialog-actions>
 

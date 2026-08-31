@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ProductsActions } from '../../core/store/products/products.actions'
-import { Product } from '../../core/interfaces/product.interface';
+import { ProductResponse } from '../../core/interfaces/product.interface';
 import { FormsModule } from '@angular/forms';
 import { Plant } from '../../core/interfaces/plant.interfece';
 import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
@@ -47,12 +47,14 @@ export class AddPlantsComponent {
 
   selectedFile: File | null = null;
   previewUrl: string | null = null;
-  products!: Product[];
+  products!: ProductResponse[];
 
   constructor(private store: Store) { }
 
   ngOnInit() {
-    this.store.dispatch(ProductsActions.loadProducts());
+    // Admin-only route (guarded) — always include inactive products so a
+    // plant can still be attached to one that's temporarily deactivated.
+    this.store.dispatch(ProductsActions.loadProducts({ includeInactive: true }));
 
     this.store.select(selectAllProducts)
       .subscribe(products => {

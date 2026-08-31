@@ -1,0 +1,133 @@
+.order-details {
+  padding: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+
+  .back-btn {
+    background: none;
+    border: none;
+    color: #16a34a;
+    cursor: pointer;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      color: #1f2937;
+    }
+
+    .status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: #e5e7eb;
+      color: #374151;
+      text-transform: uppercase;
+    }
+  }
+
+  .date {
+    color: #6b7280;
+    margin: 0.25rem 0 1.25rem;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .info-card {
+      background: #fff;
+      border: 1px solid #eef2f7;
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+
+      h3 {
+        margin: 0 0 0.6rem;
+        font-size: 1rem;
+        color: #16a34a;
+      }
+
+      p {
+        margin: 0.2rem 0;
+        color: #374151;
+        font-size: 0.92rem;
+      }
+    }
+  }
+
+  .products-title {
+    margin: 0 0 0.75rem;
+    color: #1f2937;
+  }
+
+  .products-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #eef2f7;
+    border-radius: 12px;
+    overflow: hidden;
+
+    th, td {
+      padding: 0.7rem 0.9rem;
+      text-align: left;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #6b7280;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    .num { text-align: right; }
+    .empty { text-align: center; color: #9ca3af; }
+
+    a {
+      color: var(--color-primary-dark);
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+
+    tfoot td {
+      border-bottom: none;
+      font-weight: 700;
+      color: #111827;
+    }
+    .total-label { color: #6b7280; }
+    .total-value { color: #16a34a; }
+  }
+
+  .state-msg {
+    color: #6b7280;
+    margin-top: 1rem;
+  }
+}
+
+/* Mobile (phones / iPhone) */
+@media (max-width: 640px) {
+  .order-details {
+    padding: 1rem;
+
+    .header { flex-wrap: wrap; }
+
+    .products-table {
+      font-size: 0.85rem;
+
+      th, td { padding: 0.5rem 0.4rem; }
+    }
+  }
+}

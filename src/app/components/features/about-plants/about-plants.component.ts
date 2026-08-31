@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { selectAllPlants } from '../../core/store/plants/plants.selectors';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-about-plants',
@@ -31,9 +30,7 @@ export class AboutPlantsComponent {
   }
 
   getImageUrl(plant: Plant) {
-    const base = environment.apiUrl.replace(/\/$/, '');
-    const path = plant.imageUrl.startsWith('/') ? plant.imageUrl : '/' + plant.imageUrl;
-    return base + path;
+    return plant.imageUrl || 'https://placehold.co/60x40/cccccc/ffffff?text=Img';
   }
 
   goToPlantDetails(id: number) {

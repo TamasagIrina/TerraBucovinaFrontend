@@ -6,7 +6,6 @@ import { Store } from '@ngrx/store';
 import { selectPlantById } from '../../core/store/plants/plants.selectors';
 import { CommonModule } from '@angular/common';
 import { ReviewCardComponent } from '../../shared/review-card/review-card.component';
-import { environment } from '../../../../environments/environment';
 import * as PlantsActions from '../../core/store/plants/plants.actions';
 
 @Component({
@@ -43,8 +42,6 @@ export class PlantDetailsComponent {
       if(!plant || !plant.imageUrl){
         return  'https://placehold.co/60x40/cccccc/ffffff?text=Img';
       }
-      const base = environment.apiUrl.replace(/\/$/, '');
-      const path = plant.imageUrl.startsWith('/') ? plant.imageUrl : '/' + plant.imageUrl;
-      return base + path;
+      return plant.imageUrl;
     }
 }

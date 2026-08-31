@@ -32,9 +32,18 @@
             <mat-icon>{{ showPassword1 ? 'visibility' : 'visibility_off' }}</mat-icon>
           </button>
         </div>
+        <div class="field">
+          <mat-icon class="icon">lock</mat-icon>
+          <input #confirmPasswordInput1 [type]="showPassword3 ? 'text' : 'password'" placeholder="Confirmă parola"
+            (input)="resetMessages()" />
+
+          <button type="button" class="toggle-password" (click)="showPassword3 = !showPassword3" tabindex="-1">
+            <mat-icon>{{ showPassword3 ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+        </div>
         <label class="checkbox terms">
           <input #termsCheckbox type="checkbox" />
-          <span>Sunt de acord cu termenii și condițiile</span>
+          <span>Sunt de acord cu <a href="/terms" target="_blank" rel="noopener">termenii și condițiile</a></span>
         </label>
 
         <!-- <p class="hint">sau folosește adresa ta de e-mail pentru înregistrare:</p>
@@ -46,7 +55,7 @@
         </div> -->
 
         <button type="button" class="btn primary" appDebounceButton
-          (debounceClick)="register(usernameInput1.value , passwordInput1.value , emailInput1.value, termsCheckbox.checked)">Creează
+          (debounceClick)="register(usernameInput1.value , passwordInput1.value , confirmPasswordInput1.value , emailInput1.value, termsCheckbox.checked)">Creează
           cont</button>
         <p class="switch">
           Ai deja un cont?

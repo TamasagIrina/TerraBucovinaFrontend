@@ -5,7 +5,7 @@ import { MatIcon } from '@angular/material/icon';
 import { AuthService } from '../../core/services/authService/auth-sevices.service';
 import { Store } from '@ngrx/store';
 import * as NotificationActions from '../../core/store/notification/notification.actions';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
 @Component({
   selector: 'app-login',
@@ -18,6 +18,7 @@ export class LoginComponent {
   signup = false;
   showPassword1 = false;
   showPassword2 = false;
+  showPassword3 = false;
 
   signupForm: FormGroup;
   signinForm: FormGroup;
@@ -25,7 +26,8 @@ export class LoginComponent {
   loginSuccess = false;
   missingFields = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private store: Store, private router: Router) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private store: Store, private router: Router,
+              private route: ActivatedRoute) {
     // initializezi ambele formulare
     this.signupForm = this.fb.group({
       fullName: ['', Validators.required],
@@ -39,12 +41,45 @@ export class LoginComponent {
     });
   }
 
-  register(username: string, password: string, email: string, termsAccepted: boolean) {
+  ngOnInit(): void {
+    // Feedback after clicking the email-confirmation link (/login?confirmed=true|false).
+    const confirmed = this.route.snapshot.queryParamMap.get('confirmed');
+    if (confirmed === 'true') {
+      this.signup = false;
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Adresa de email a fost confirmată! Te poți autentifica acum.',
+          notificationType: 'success',
+        })
+      );
+      setTimeout(() => this.store.dispatch(NotificationActions.hideNotification()), 5000);
+    } else if (confirmed === 'false') {
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Link de confirmare invalid sau deja folosit.',
+          notificationType: 'error',
+        })
+      );
+      setTimeout(() => this.store.dispatch(NotificationActions.hideNotification()), 5000);
+    }
+  }
 
-    if (!username || !password || !email) {
+  register(username: string, password: string, confirmPassword: string, email: string, termsAccepted: boolean) {
+
+    if (!username || !password || !confirmPassword || !email) {
       this.store.dispatch(
         NotificationActions.showNotification({
           message: 'Te rugăm să completezi toate câmpurile.',
+          notificationType: 'error',
+        })
+      );
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Parolele nu se potrivesc.',
           notificationType: 'error',
         })
       );
@@ -75,7 +110,7 @@ export class LoginComponent {
 
         this.store.dispatch(
           NotificationActions.showNotification({
-            message: 'Contul a fost creat cu succes!',
+            message: 'Contul a fost creat! Verifică-ți email-ul pentru a confirma adresa.',
             notificationType: 'success',
           })
         );

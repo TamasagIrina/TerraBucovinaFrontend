@@ -44,4 +44,28 @@ export class ReviewEffects {
       )
     )
   );
+
+  updateReview$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReviewActions.updateReview),
+      mergeMap(action =>
+        this.apiService.updateReview(action.id, action.review).pipe(
+          map(() => ReviewActions.loadReviews()),
+          catchError(error => of(ReviewActions.updateReviewFailure({ error })))
+        )
+      )
+    )
+  );
+
+  deleteReview$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ReviewActions.deleteReview),
+      mergeMap(action =>
+        this.apiService.deleteReview(action.id).pipe(
+          map(() => ReviewActions.deleteReviewSuccess({ id: action.id })),
+          catchError(error => of(ReviewActions.deleteReviewFailure({ error })))
+        )
+      )
+    )
+  );
 }

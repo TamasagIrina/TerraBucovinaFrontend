@@ -1,0 +1,119 @@
+.dashboard {
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  .dashboard-title {
+    margin: 0 0 1.5rem;
+    font-size: 1.6rem;
+    color: #1f2937;
+  }
+
+  .state-msg {
+    color: #6b7280;
+
+    &.error {
+      color: #b91c1c;
+    }
+
+    .retry-btn {
+      margin-left: 0.75rem;
+      padding: 0.3rem 0.8rem;
+      border: none;
+      border-radius: 8px;
+      background: #16a34a;
+      color: #fff;
+      cursor: pointer;
+    }
+  }
+
+  /* KPI cards */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    .kpi-card {
+      background: #fff;
+      border: 1px solid #eef2f7;
+      border-radius: 14px;
+      padding: 1.1rem 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid #cbd5e1;
+
+      .kpi-label {
+        font-size: 0.85rem;
+        color: #6b7280;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+      }
+
+      .kpi-value {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: #111827;
+      }
+
+      &.accent-green { border-left-color: #16a34a; }
+      &.accent-amber { border-left-color: #f59e0b; }
+    }
+  }
+
+  /* Charts + list row */
+  .analytics-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1rem;
+
+    .panel {
+      background: #fff;
+      border: 1px solid #eef2f7;
+      border-radius: 14px;
+      padding: 1.25rem;
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+
+      .panel-title {
+        margin: 0 0 1rem;
+        font-size: 1.1rem;
+        color: #1f2937;
+      }
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 340px;   /* fixed height so the responsive canvas can fill it */
+      width: 100%;
+    }
+
+    .top-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.92rem;
+
+      th, td {
+        text-align: left;
+        padding: 0.55rem 0.5rem;
+        border-bottom: 1px solid #f1f5f9;
+      }
+
+      th {
+        color: #6b7280;
+        font-weight: 600;
+      }
+
+      .num { text-align: right; }
+      .empty { text-align: center; color: #9ca3af; }
+    }
+  }
+
+  /* Responsive: stack the chart and list on smaller screens */
+  @media (max-width: 900px) {
+    .analytics-row {
+      grid-template-columns: 1fr;
+    }
+  }
+}

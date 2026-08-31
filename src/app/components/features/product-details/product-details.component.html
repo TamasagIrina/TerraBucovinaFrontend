@@ -6,14 +6,14 @@
 
       <!-- IMAGINE PRINCIPALĂ -->
       <div class="main-image" *ngIf="images.length">
-        <img [src]="environment + (selectedImage?.imageUrl || images[0].imageUrl)" [alt]="product.name" />
+        <img [src]="selectedImage?.imageUrl || images[0].imageUrl" [alt]="product.name" />
       </div>
 
       <!-- THUMBNAILS -->
       <div class="thumbs">
         <button class="thumb" *ngFor="let img of images" (click)="onThumbClick(img)"
           [class.is-active]="selectedImage?.id === img.id || (!selectedImage && img.isPrimary)">
-          <img [src]="environment + img.imageUrl" [alt]="product.name" />
+          <img [src]="img.imageUrl" [alt]="product.name" />
         </button>
       </div>
 
@@ -118,18 +118,20 @@
       <h3>Recenzii</h3>
 
 
-      <ng-container *ngIf="reviews$ | async as reviews">
+      <div class="reviews-grid" *ngIf="reviewsPaged().length > 0; else noReviews">
+        <app-review-card *ngFor="let rev of reviewsPaged()" [review]="rev" class="review-item">
+        </app-review-card>
+      </div>
 
-        <div class="reviews-grid" *ngIf="reviews.length > 0; else noReviews">
-          <app-review-card *ngFor="let rev of reviews" [review]="rev" class="review-item">
-          </app-review-card>
-        </div>
+      <ng-template #noReviews>
+        <p>Nu există recenzii pentru acest produs încă.</p>
+      </ng-template>
 
-        <ng-template #noReviews>
-          <p>Nu există recenzii pentru acest produs încă.</p>
-        </ng-template>
-
-      </ng-container>
+      <div class="reviews-pagination" *ngIf="reviewTotalPages() > 1">
+        <button (click)="prevReviewPage()" [disabled]="reviewPage() === 0">‹</button>
+        <span>Pagina {{ reviewPage() + 1 }} din {{ reviewTotalPages() }}</span>
+        <button (click)="nextReviewPage()" [disabled]="reviewPage() + 1 >= reviewTotalPages()">›</button>
+      </div>
 
 
       <button class="review-btn" (click)="canUserReview(product.id)">

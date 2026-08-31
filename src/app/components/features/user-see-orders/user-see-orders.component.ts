@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Order } from '../../core/interfaces/order.interface';
+import { OrderResponse } from '../../core/interfaces/order.interface';
 import { Store } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -21,12 +21,12 @@ import { U } from '@angular/cdk/keycodes';
 })
 export class UserSeeOrdersComponent {
 
-  orders$!: Observable<Order[]>;
+  orders$!: Observable<OrderResponse[]>;
   userId: number | undefined;
   statusOptions = ['PLASATA', 'CONFIRMATA', 'LIVRATA', 'ANULATA'];
   currentStatusTab = 'PLASATA';
 
-  filteredOrders$: Observable<Order[]> | undefined;
+  filteredOrders$: Observable<OrderResponse[]> | undefined;
 
   constructor(private store: Store, private authService: AuthService, private dialog: MatDialog) { }
 

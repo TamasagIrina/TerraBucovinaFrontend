@@ -75,7 +75,7 @@ updateOrderStatus$ = createEffect(() =>
         this.apiService.addOrder(order).pipe(
           map((response) =>
             OrderActions.addOrderSuccess({
-              order
+              order: response
             })
           ),
           catchError((error) =>

@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ProductsActions } from '../../core/store/products/products.actions'
 
 import { ImagesActions } from '../../core/store/images/images.actions'
-import { Product } from '../../core/interfaces/product.interface';
+import { ProductRequest } from '../../core/interfaces/product.interface';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -12,23 +12,21 @@ import { Subscription } from 'rxjs';
 import { Category } from '../../core/interfaces/category.interface';
 import { CategoriesActions } from '../../core/store/categoris/category.actions';
 import { selectAllCategories } from '../../core/store/categoris/category.selectors';
-import {DebounceButtonDirective} from '../../core/directives/debounce-button.directive';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../../core/services/api-service/api.service';
 
 @Component({
   selector: 'app-add-product',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule,
-    DebounceButtonDirective
+    FormsModule
   ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.scss'
 })
 export class AddProductComponent {
-  product: Product = {
-
-    id: 0,
+  product: ProductRequest = {
     name: '',
     price: 0,
     shortDesc: '',
@@ -38,32 +36,45 @@ export class AddProductComponent {
     scientificStudies: '',
     stockQty: 0,
     mainImageUrl: null,
-    createdAt: '',
-    updatedAt: '',
-    categories: {
-      id: 0,
-      name: '',
-      description: ''
-    }
-
+    categoryId: 0
   };
   categories: Category[] = [];
 
   previewImages: { file: File; url: string }[] = [];
   selectedMainImageIndex = 0;
+
+  editMode = false;
+  productId: number | null = null;
+
   private actionsSubscription: Subscription;
 
-  constructor(private store: Store, private actions$: Actions) {
-    // ascultă acțiunea de succes
+  constructor(
+    private store: Store,
+    private actions$: Actions,
+    private route: ActivatedRoute,
+    private router: Router,
+    private apiService: ApiService
+  ) {
+    // CREATE: after the product is created, upload its images, then reset.
     this.actionsSubscription = this.actions$
       .pipe(ofType(ProductsActions.addProductSuccess))
       .subscribe(({ product }) => {
         if (product.id) {
           this.uploadImages(product.id);
         }
-
-        
       });
+
+    // EDIT: after a successful update, upload any newly added images and leave.
+    this.actionsSubscription.add(
+      this.actions$
+        .pipe(ofType(ProductsActions.updateProductSuccess))
+        .subscribe(({ product }) => {
+          if (this.previewImages.length > 0 && product.id) {
+            this.uploadImages(product.id);
+          }
+          this.router.navigate(['/shop']);
+        })
+    );
   }
 
   ngOnInit() {
@@ -74,12 +85,35 @@ export class AddProductComponent {
       this.categories = c;
     });
 
+    // Edit mode when the route carries an :id — fetch the product and patch the form.
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.editMode = true;
+      this.productId = Number(idParam);
 
+      this.apiService.getProductById(this.productId).subscribe(res => {
+        this.product = {
+          name: res.name,
+          price: res.price,
+          shortDesc: res.shortDesc ?? '',
+          longDesc: res.longDesc ?? '',
+          notification: res.notification ?? '',
+          ingredients: res.ingredients ?? '',
+          scientificStudies: res.scientificStudies ?? '',
+          stockQty: res.stockQty ?? 0,
+          mainImageUrl: res.mainImageUrl,
+          categoryId: res.categoryId ?? 0
+        };
+      });
+    }
+  }
+
+  ngOnDestroy() {
+    this.actionsSubscription?.unsubscribe();
   }
 
   resetFormFields() {
     this.product = {
-      id: 0,
       name: '',
       price: 0,
       shortDesc: '',
@@ -89,16 +123,10 @@ export class AddProductComponent {
       scientificStudies: '',
       stockQty: 0,
       mainImageUrl: null,
-      createdAt: '',
-      updatedAt: '',
-      categories: {
-        id: 0,
-        name: '',
-        description: ''
-      }
+      categoryId: 0
     };
 
-    const fileInput = document.querySelector("#images") as HTMLInputElement;
+    const fileInput = document.querySelector("#fileInput") as HTMLInputElement;
     if (fileInput) fileInput.value = "";
   }
 
@@ -140,9 +168,15 @@ export class AddProductComponent {
   }
 
   onSubmit(): void {
-    const productToSend = { ...this.product, mainImageUrl: null };
-    this.store.dispatch(ProductsActions.addProduct({ product: productToSend }));
-
+    if (this.editMode && this.productId != null) {
+      // Preserve the existing mainImageUrl on update (don't wipe it).
+      const productToSend: ProductRequest = { ...this.product };
+      this.store.dispatch(ProductsActions.updateProduct({ id: this.productId, product: productToSend }));
+    } else {
+      // On create the primary image URL is set later, after image upload.
+      const productToSend: ProductRequest = { ...this.product, mainImageUrl: null };
+      this.store.dispatch(ProductsActions.addProduct({ product: productToSend }));
+    }
   }
 
   uploadImages(productId: number) {

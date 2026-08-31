@@ -4,7 +4,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { MatIconModule } from '@angular/material/icon';
 import { ProductCardComponent } from "../../shared/product-card/product-card.component";
-import { Product } from '../../core/interfaces/product.interface';
+import { ProductResponse } from '../../core/interfaces/product.interface';
 import { decodeJwt, getExpDate, isExpired, timeLeftMs } from '../../core/services/authService/jwt.utils';
 import { Store } from '@ngrx/store';
 
@@ -16,6 +16,7 @@ import { ImagesActions } from '../../core/store/images/images.actions';
 import { Category } from '../../core/interfaces/category.interface';
 import { selectAllCategories } from '../../core/store/categoris/category.selectors';
 import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
 
 
 @Component({
@@ -31,11 +32,11 @@ import { Router } from '@angular/router';
 })
 export class ShopComponent {  
   categories$!: Observable<Category[]>;
-  products$!: Observable<Product[]>;
+  products$!: Observable<ProductResponse[]>;
   loading$: any;
   error$: any;
 
-  constructor(public store: Store, private router: Router) {
+  constructor(public store: Store, private router: Router, private authService: AuthService) {
 
   }
 
@@ -43,6 +44,13 @@ export class ShopComponent {
 
     this.products$ = this.store.select(selectAllProductsWithPrimaryImage);
     this.categories$ = this.store.select(selectAllCategories);
+
+    // Re-fetch including inactive products for admins who logged in without a
+    // full page reload (app.component.ts's bootstrap fetch only knows the
+    // auth state at initial load).
+    if (this.authService.isLoggedIn() && this.authService.hasRole('ROLE_ADMIN')) {
+      this.store.dispatch(ProductsActions.loadProducts({ includeInactive: true }));
+    }
 
   }
 
@@ -56,7 +64,7 @@ toggleCategory(catId: number) {
   }
 }
 
-productsByCategory(catId: number): Observable<Product[]> {
+productsByCategory(catId: number): Observable<ProductResponse[]> {
   return this.store.select(selectProductsByCategory(catId));
 }
 

@@ -1,6 +1,6 @@
 <section class="checkout-page" *ngIf="cartItems$ | async as items">
 
-  <form #checkoutForm="ngForm"  novalidate>
+  <form #checkoutForm="ngForm" novalidate>
 
     <div class="checkout-form">
       <header class="section-header">
@@ -185,6 +185,11 @@
           <span *ngIf="shippingMethod === 'pickup'">0 RON</span>
         </div>
 
+        <div class="line muted">
+          <span>TVA (19%)</span>
+          <span>{{ ((totalPrice$ | async)! * 0.19) | number:'1.2-2'}} RON</span>
+        </div>
+
         <div class="total">
           <span>Total</span>
           <strong>{{ totalPriceOrder$ | async | number:'1.2-2' }} RON</strong>
@@ -201,13 +206,14 @@
           <label class="checkbox terms"
             [class.invalid]="termsRef.invalid && (termsRef.touched || checkoutForm.submitted)">
             <input type="checkbox" name="terms" [(ngModel)]="termsAccepted" #termsRef="ngModel" required />
-            <span>Sunt de acord cu termenii și condițiile</span>
+            <span>Sunt de acord cu <a href="/terms" target="_blank" rel="noopener">termenii și condițiile</a></span>
           </label>
           <div class="error-message" *ngIf="termsRef.invalid && (termsRef.touched || checkoutForm.submitted)">
             Trebuie să accepți termenii și condițiile.
           </div>
         </div>
-        <button class="btn primary wfull" type="button" appDebounceButton (debounceClick)="submitOrder(checkoutForm, items)">Plăteşte acum</button>
+        <button class="btn primary wfull" type="button" appDebounceButton
+          (debounceClick)="submitOrder(checkoutForm, items)">Plăteşte acum</button>
       </div>
     </div>
 

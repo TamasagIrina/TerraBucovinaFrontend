@@ -18,20 +18,40 @@
   </ul>
 
   <ul class="navbar__links" [class.open]="menuOpen" *ngIf="isAdmin">
-    <li><a href="#">Magazin</a></li>
-    <li><a routerLink="admin/add-category">Adaugă categorie</a></li>
-    <li><a routerLink="admin/add-product">Adaugă produs</a></li>
-    <li><a routerLink="admin/add-plant">Adaugă plantă</a></li>
+    <li><a routerLink="admin/dashboard">Dashboard</a></li>
+    <li><a routerLink="shop">Magazin</a></li>
+
+    <li class="dropdown" [class.open]="isAddMenuOpen">
+      <a href="#" class="dropdown-toggle" (click)="toggleAddMenu($event)">
+        Adaugă <span class="caret">▾</span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a routerLink="admin/add-category" (click)="closeAddMenu()">Adaugă categorie</a></li>
+        <li><a routerLink="admin/add-product" (click)="closeAddMenu()">Adaugă produs</a></li>
+        <li><a routerLink="admin/add-plant" (click)="closeAddMenu()">Adaugă plantă</a></li>
+      </ul>
+    </li>
+
     <li><a routerLink="admin/see-all-orders">Comenzi</a></li>
     <li><a routerLink="admin/see-all-contact-us-mesages">Mesaje</a></li>
   </ul>
 
   <ul class="navbar__links" [class.open]="menuOpen" *ngIf="isUser && !isAdmin">
-    <li><a routerLink="user/see-orders">Vezi comenzi</a></li>
     <li><a routerLink="about">Despre Terapia Florala Bucovina</a></li>
     <li><a routerLink="about-plants">Remediile Florale</a></li>
     <li><a routerLink="shop">Magazin</a></li>
     <li><a routerLink="contact">Contact</a></li>
+
+    <li class="dropdown" [class.open]="isUserMenuOpen">
+      <a href="#" class="dropdown-toggle" (click)="toggleUserMenu($event)">
+        <mat-icon class="icon user-icon">account_circle</mat-icon> Contul meu <span class="caret">▾</span>
+      </a>
+      <ul class="dropdown-menu">
+        <li><a routerLink="user/account" (click)="closeUserMenu()">Setări cont</a></li>
+        <li><a routerLink="user/see-orders" (click)="closeUserMenu()">Comenzile mele</a></li>
+        <li><a href="#" (click)="onLogoutClick($event)">Delogare</a></li>
+      </ul>
+    </li>
   </ul>
 
   <div class="navbar__right">

@@ -53,6 +53,62 @@
                 color: var(--navbar-hover, #92c6a7);
             }
         }
+
+        .dropdown {
+            position: relative;
+
+            .dropdown-toggle {
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 0.25rem;
+
+                .caret {
+                    font-size: 0.7rem;
+                    transition: transform 0.2s ease;
+                }
+
+                .user-icon {
+                    font-size: 1.2rem;
+                    height: 1.2rem;
+                    width: 1.2rem;
+                }
+            }
+
+            &.open .dropdown-toggle .caret {
+                transform: rotate(180deg);
+            }
+
+            .dropdown-menu {
+                display: none;
+                position: absolute;
+                top: calc(100% + 10px);
+                left: 0;
+                min-width: 190px;
+                list-style: none;
+                margin: 0;
+                padding: 0.4rem 0;
+                background-color: var(--navbar-bg, #fff);
+                border-radius: 10px;
+                box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+                z-index: 1000002;
+
+                li a {
+                    display: block;
+                    padding: 0.55rem 1rem;
+                    white-space: nowrap;
+
+                    &:hover {
+                        background-color: #f3f7f4;
+                        color: var(--navbar-hover, #92c6a7);
+                    }
+                }
+            }
+
+            &.open .dropdown-menu {
+                display: block;
+            }
+        }
     }
 
     &__right {
@@ -105,9 +161,9 @@
         transition: all 0.2s;
 
         &:hover {
-            background-color: #92c6a7;
+            background-color: var(--color-primary, #16a34a);
             color: white;
-            border-color: #92c6a7;
+            border-color: var(--color-primary, #16a34a);
         }
     }
 
@@ -158,6 +214,14 @@
             background-color: var(--navbar-bg, #fff);
             padding: 1rem;
             z-index: 1000001;
+        }
+
+        /* On mobile the dropdown flows inline (indented) instead of floating. */
+        .dropdown .dropdown-menu {
+            position: static;
+            box-shadow: none;
+            padding: 0.25rem 0 0.25rem 0.75rem;
+            min-width: auto;
         }
     }
 
