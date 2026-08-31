@@ -3,21 +3,24 @@
  background-size: cover;
   background-attachment: fixed;
   background-position: center;
+  
 
 }
 
 .about-hero {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
-  gap: 1.5rem;
+  gap: 2.5rem;
   align-items: center;
   padding: 2rem 1rem 1rem;
 
   &__text {
+    text-aling: justify;
     h1 {
       margin: 0 0 .5rem;
+      padding: 1rem 2rem;
       font-size: clamp(1.6rem, 3vw, 2.4rem);
-      color: var(--icon-color);
+      color: #1D548F;
 
       span {
         color: var(--navbar-bg);
@@ -25,7 +28,7 @@
     }
     p {
       margin: 0;
-      color: var(--navbar-bg);
+      color: #fafafa;
       line-height: 1.6;
       max-width: 56ch;
     }
@@ -36,18 +39,23 @@
     border: 1px solid #e9ecef;
     border-radius: 16px;
     box-shadow: 0 10px 24px rgba(0,0,0,.06);
-    padding: 1rem 1.25rem;
+    padding: 1rem 1rem;
     display: grid;
     grid-template-columns: 72px 1fr;
     gap: 1rem;
     align-items: center;
-
+    max-width: 520px;
     img {
       width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
     }
     .card-copy {
-      h3 { margin: 0; color: var(--icon-color); }
-      p  { margin: .25rem 0 0; color: #6b7c8c; }
+      h3 
+      {
+        margin: 0 0 .4rem;
+        color:  #1D548F;
+        font-size: 1.8rem;
+      }
+      p  { margin: .25rem 0 0; color: #6b7c8c;  text-aling: justify}
     }
   }
 
@@ -70,14 +78,14 @@
     h2 {
       margin: 0 0 .4rem;
       font-size: 1.25rem;
-      color: var(--icon-color);
+      color: #1D548F;
     }
-    p { margin: 0; color: #5a6b7b; line-height: 1.7; }
+    p { margin: 0; color: #5a6b7b; line-height: 1.7; text-aling: justify;}
 
     .checklist {
       margin: .25rem 0 0;
       padding-left: 1.1rem;
-      color: #5a6b7b;
+      color: #1D548F;
 
       li { margin: .25rem 0; }
     }
@@ -99,7 +107,7 @@
       .num {
         font-weight: 700;
         font-size: 1.25rem;
-        color: var(--icon-color);
+        color: #1D548F;
       }
       .label {
         color: #6b7c8c;
@@ -124,7 +132,7 @@
 
   .values {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: .75rem;
 
     .value {
@@ -134,8 +142,8 @@
       padding: 1rem;
       box-shadow: 0 8px 20px rgba(0,0,0,.04);
 
-      h4 { margin: 0 0 .25rem; color: var(--icon-color); }
-      p  { margin: 0; color: #5a6b7b; }
+      h4 { margin: 0 0 .25rem; color: #1D548F; }
+      p  { margin: 0; color: #5a6b7b; text-aling: justify; }
     }
 
     @media (max-width: 720px) {
@@ -155,8 +163,8 @@
     text-align: center;
     box-shadow: 0 12px 28px rgba(0,0,0,.06);
 
-    h3 { margin: 0 0 .25rem; color: var(--icon-color); }
-    p  { margin: 0 0 .75rem; color: #5a6b7b; }
+    h3 { margin: 0 0 .25rem; color: #1D548F; }
+    p  { margin: 0 0 .75rem; color: #5a6b7b;  }
 
     .btn {
       display: inline-block;

@@ -73,7 +73,7 @@ export class PurchaseComponent {
       this.shippingMethod$
     ]).pipe(
       map(([total, shippingMethod]) => {
-        const tva = total * 0.19;
+        const tva = total * 0.11;
         const shippingCost = shippingMethod === 'curier' ? 24 : 0;
         return total + tva + shippingCost;
       })
