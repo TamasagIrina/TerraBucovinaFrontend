@@ -5,8 +5,8 @@
     </span>
 
     <!-- 🔥 Buton login pentru mobil -->
-    <button class="login-button mobile-login" *ngIf="!isLoggedIn" [routerLink]="'/login'">Log In</button>
-    <button class="login-button mobile-login" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
+    <button class="login-button mobile-login" *ngIf="!isLoggedIn" [routerLink]="'/login'">Logare</button>
+    <button class="login-button mobile-login" *ngIf="isLoggedIn" (click)="logOut()">Delogare</button>
   </div>
 
   <!-- Links menu -->
@@ -73,8 +73,8 @@
     <app-cart-dropdown *ngIf="isCartOpen"></app-cart-dropdown>
 
     <!-- 🔥 Buton login pentru desktop -->
-    <button class="login-button desktop-login" *ngIf="!isLoggedIn" [routerLink]="'/login'">Log In</button>
-    <button class="login-button desktop-login" *ngIf="isLoggedIn" (click)="logOut()">Log Out</button>
+    <button class="login-button desktop-login" *ngIf="!isLoggedIn" [routerLink]="'/login'">Logare</button>
+    <button class="login-button desktop-login" *ngIf="isLoggedIn" (click)="logOut()">Delogare</button>
 
     <div class="burger" (click)="toggleMenu()">☰</div>
   </div>

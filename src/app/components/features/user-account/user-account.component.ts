@@ -26,12 +26,6 @@ export class UserAccountComponent {
   user: User | null = null;
   myReviews$: Observable<Review[]> = of([]);
 
-  passwords = {
-    current: '',
-    newPass: '',
-    confirm: ''
-  };
-
   constructor(
     private authService: AuthService,
     private apiService: ApiService,
@@ -93,34 +87,6 @@ export class UserAccountComponent {
         this.notify(message, 'error');
       }
     });
-
-    if (this.passwords.newPass || this.passwords.confirm) {
-      if (!this.passwords.current) {
-        this.notify('Introdu parola actuală pentru a o putea schimba.', 'error');
-        return;
-      }
-
-      if (this.passwords.newPass !== this.passwords.confirm) {
-        this.notify('Parolele nu coincid!', 'error');
-        return;
-      }
-
-      this.apiService.requestPasswordChange({
-        currentPassword: this.passwords.current,
-        newPassword: this.passwords.newPass
-      }).subscribe({
-        next: () => {
-          this.notify('Verifică-ți email-ul pentru a confirma noua parolă.', 'success');
-          this.passwords = { current: '', newPass: '', confirm: '' };
-        },
-        error: (err) => {
-          const message = err?.status === 400
-            ? 'Parola actuală este incorectă.'
-            : 'Eroare la schimbarea parolei.';
-          this.notify(message, 'error');
-        }
-      });
-    }
   }
 
   editReview(review: Review) {

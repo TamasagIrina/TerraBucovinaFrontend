@@ -2,7 +2,7 @@
 
   <header class="page-header">
     <h2>Setări cont</h2>
-    <p class="subtitle">Modifică informațiile tale de bază sau schimbă parola.</p>
+    <p class="subtitle">Modifică informațiile tale de bază.</p>
   </header>
 
   <form #settingsForm="ngForm" (ngSubmit)="updateUser(settingsForm)">
@@ -34,27 +34,10 @@
 
     <!-- CARD: Password -->
     <div class="card">
-      <h3>Schimbă parola</h3>
+      <h3>Parolă</h3>
       <p class="subtitle">
-        Din motive de siguranță, noua parolă devine activă doar după ce confirmi printr-un link trimis pe email.
+        Parola se poate schimba doar din pagina de autentificare, folosind linkul „Ai uitat parola?".
       </p>
-
-      <label class="field">
-        <span>Parola actuală</span>
-        <input type="password" name="currentPassword" [(ngModel)]="passwords.current" />
-      </label>
-
-      <div class="grid-2">
-        <label class="field">
-          <span>Parolă nouă</span>
-          <input type="password" name="newPassword" [(ngModel)]="passwords.newPass" minlength="6" />
-        </label>
-
-        <label class="field">
-          <span>Confirmă parola</span>
-          <input type="password" name="confirmPassword" [(ngModel)]="passwords.confirm" />
-        </label>
-      </div>
     </div>
 
     <!-- Actions -->

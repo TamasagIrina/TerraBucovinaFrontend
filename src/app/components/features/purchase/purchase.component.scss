@@ -19,7 +19,6 @@
   /* Responsive Main Layout */
   @media (max-width: 900px) {
     grid-template-columns: 1fr;
-    margin-top: 50px;
   }
 }
 
@@ -58,7 +57,6 @@
    HEADERS & LINKS
 ========================= */
 .section-header {
-  padding-top: 70px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -347,7 +345,6 @@
    ORDER SUMMARY
 ========================= */
 .order-summary {
-  padding-top: 70px;
   position: sticky;
   top: 24px;
   height: fit-content;
@@ -356,9 +353,8 @@
 
 
   @media (max-width: 900px) {
-    
+
     margin-top: 20px;
-    padding-top: 0;
     position: static; /* Nu mai e sticky pe mobil */
     
     .card {
