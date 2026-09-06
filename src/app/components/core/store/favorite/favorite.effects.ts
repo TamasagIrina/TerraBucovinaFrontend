@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { tap } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import * as FavoriteActions from './favorite.actions';
+import { ProductsActions } from '../products/products.actions';
 import * as NotificationActions from '../notification/notification.actions';
 
 @Injectable()
@@ -53,5 +54,16 @@ export class FavoriteEffects {
     { dispatch: false }
   );
 
+  // Self-heals localStorage favorites left over from before a product was
+  // deleted (or from an older device/session): once we know which products
+  // actually still exist, drop any favorite entries that no longer match one.
+  pruneInvalidItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.loadProductsSuccess),
+      map(({ products }) =>
+        FavoriteActions.pruneInvalidItems({ validProductIds: products.map(p => p.id) })
+      )
+    )
+  );
 
 }

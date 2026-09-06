@@ -37,4 +37,11 @@ export const clearCart = createAction(
   '[cart Page] remove all Items'
 );
 
+/** Drops any cart items whose product no longer exists (e.g. leftover ids
+ * from an older localStorage snapshot, after the product was deleted). */
+export const pruneInvalidItems = createAction(
+  '[cart Page] prune invalid items',
+  props<{ validProductIds: number[] }>()
+);
+
 

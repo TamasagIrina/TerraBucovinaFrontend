@@ -43,5 +43,11 @@ export const favoriteReducer = createReducer<FavoriteState>(
   on(FavoriteAction.removeFromFavoriteSuccess, (state, { productId }) => ({
     ...state,
     items: state.items.filter(item => item.productId !== productId)
-  }))
+  })),
+
+  on(FavoriteAction.pruneInvalidItems, (state, { validProductIds }) => {
+    const validIds = new Set(validProductIds);
+    const items = state.items.filter(item => validIds.has(item.productId));
+    return items.length === state.items.length ? state : { ...state, items };
+  })
 );

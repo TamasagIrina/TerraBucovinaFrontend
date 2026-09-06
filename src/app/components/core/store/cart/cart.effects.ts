@@ -1,7 +1,8 @@
 import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import * as CartActions from './cart.actions';
-import { tap } from "rxjs";
+import { ProductsActions } from '../products/products.actions';
+import { map, tap } from "rxjs";
 import { Store } from "@ngrx/store";
 import * as NotificationActions from '../notification/notification.actions';
 
@@ -50,8 +51,18 @@ export class CartEffects {
     { dispatch: false }
   );
 
+  // Self-heals localStorage carts left over from before a product was
+  // deleted (or from an older device/session): once we know which products
+  // actually still exist, drop any cart entries that no longer match one.
+  pruneInvalidItems$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductsActions.loadProductsSuccess),
+      map(({ products }) =>
+        CartActions.pruneInvalidItems({ validProductIds: products.map(p => p.id) })
+      )
+    )
+  );
 
-  
 }
 
 

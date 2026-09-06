@@ -20,6 +20,13 @@ export const removeFromFavoriteSuccess = createAction(
   props<{productId : number}>()
 );
 
+/** Drops any favorite items whose product no longer exists (e.g. leftover
+ * ids from an older localStorage snapshot, after the product was deleted). */
+export const pruneInvalidItems = createAction(
+  '[favorite Page] prune invalid items',
+  props<{ validProductIds: number[] }>()
+);
+
 
 
 

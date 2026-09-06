@@ -101,6 +101,12 @@ export const cartReducer = createReducer(
     items : []
   })),
 
+  on(CartActions.pruneInvalidItems, (state, { validProductIds }) => {
+    const validIds = new Set(validProductIds);
+    const items = state.items.filter(item => validIds.has(item.productId));
+    return items.length === state.items.length ? state : { ...state, items };
+  }),
+
  
 
 
