@@ -199,34 +199,20 @@ export class ProductDetailsComponent {
   canUserReview(idProduct: number) {
     this.authService.getUserId().subscribe(userId => {
       if (userId != 0) {
-        this.apiService.canUserReview(userId as number, idProduct)
-          .subscribe(canReview => {
-            if (canReview) {
-              const dialogRef = this.dialog.open<AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult>(
-                AddReviewDialogComponent,
-                {
-                  width: '400px',
-                  data: {
-                    productId: idProduct,
-                    userId: userId as number
-                  }
-                }
-              );
-              // Refresh the paginated reviews after a (possible) new review is added.
-              dialogRef.afterClosed().subscribe(() => this.loadReviewsPage());
-            } else {
-              const dialogRef = this.dialog.open<AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult>(
-                AddReviewDialogComponent,
-                {
-                  width: '400px',
-                  data: {
-                    productId: idProduct,
-                    userId: 0
-                  }
-                }
-              );
+        // Orice utilizator autentificat poate lăsa o recenzie, indiferent
+        // dacă a cumpărat produsul sau nu.
+        const dialogRef = this.dialog.open<AddReviewDialogComponent, AddReviewDialogData, AddReviewDialogResult>(
+          AddReviewDialogComponent,
+          {
+            width: '400px',
+            data: {
+              productId: idProduct,
+              userId: userId as number
             }
-          });
+          }
+        );
+        // Refresh the paginated reviews after a (possible) new review is added.
+        dialogRef.afterClosed().subscribe(() => this.loadReviewsPage());
       } else {
         this.store.dispatch(
           NotificationActions.showNotification({

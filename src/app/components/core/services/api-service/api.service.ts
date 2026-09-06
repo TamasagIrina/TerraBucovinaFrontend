@@ -247,10 +247,6 @@ export class ApiService {
     return this.http.delete<void>(`${this.baseUrl}/products/reviews/delete/${id}`, { context });
   }
 
-  canUserReview(userId: number, productId: number): Observable<Boolean> {
-    return this.http.get<Boolean>(`${this.baseUrl}/orders/can-review/${userId}/${productId}`);
-  }
-
   getAllContactUsMessages(): Observable<ContactUsMessage[]> {
     const context = new HttpContext().set(REQUIRES_AUTH, true);
     return this.http.get<ContactUsMessage[]>(`${this.baseUrl}/contact/us/admin/get/all`, { context });

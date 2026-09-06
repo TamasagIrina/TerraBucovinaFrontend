@@ -1,14 +1,6 @@
-<h2 mat-dialog-title *ngIf="data.userId!=0">{{ isEditMode ? 'Editează recenzia' : 'Adaugă o recenzie' }}</h2>
+<h2 mat-dialog-title>{{ isEditMode ? 'Editează recenzia' : 'Adaugă o recenzie' }}</h2>
 
-<h2 mat-dialog-title *ngIf="data.userId==0">NU ati cumparat acest produs</h2>
-
-<mat-dialog-actions *ngIf="data.userId==0">
-    <div>
-       Pentru a face o recenzie trebuie sa fi cumparat acest produs!
-    </div>
-</mat-dialog-actions>
-
-<mat-dialog-content [formGroup]="form" *ngIf="data.userId!=0">
+<mat-dialog-content [formGroup]="form">
   <div class="star-rating">
     <ng-container *ngFor="let s of stars">
       <mat-icon
