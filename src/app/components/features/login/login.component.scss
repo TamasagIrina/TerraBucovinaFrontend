@@ -386,7 +386,7 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
     padding-top: 20px;
     grid-template-columns: 1fr;
     width: 100vw;
-    min-height: 100vh;
+    min-height: auto;
     margin: 0;
     border-radius: 0;
     overflow: hidden;
@@ -411,27 +411,58 @@ $shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
     padding: 1.5rem 1rem;
     border-radius: 0;
     box-shadow: none;
+    overflow: visible;
   }
 
-  .auth .right .signup-form,
-  .auth .right .signin-form,
-  .auth .right .forgot-password-form {
+  /* Pe mobil renunțăm la crossfade-ul absolute-positioned (are nevoie de o
+     înălțime fixă pe card ca să funcționeze) — comutăm normal, în flux,
+     ca fiecare formular să-și dea propria înălțime și cardul să nu rămână
+     gol/supradimensionat. */
+  .auth .right .card .signup-form,
+  .auth .right .card .signin-form {
+    position: static;
+    inset: auto;
+    transform: none;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: auto;
+    display: none;
+  }
+
+  .auth.signup-mode .right .card .signup-form {
+    display: grid;
+  }
+
+  .auth:not(.signup-mode) .right .card .signin-form {
+    display: grid;
+  }
+
+  /* Selectoarele de mai jos includ .card ca să egaleze specificitatea
+     regulilor de bază (nested sub .card în modul desktop) — altfel
+     regulile de mai jos sunt ignorate silențios pe mobil. */
+  .auth .right .card .signup-form,
+  .auth .right .card .signin-form,
+  .auth .right .card .forgot-password-form {
     padding: 0;
     max-width: 100%;
     gap: 14px;
   }
 
-  .auth .right h2 {
+  .auth .right .card h2 {
     font-size: 1.4rem;
     margin-bottom: 1rem;
   }
 
-  .auth .right .field {
+  .auth .right .card .signup-form .field,
+  .auth .right .card .signin-form .field,
+  .auth .right .card .forgot-password-form .field {
     padding: 12px;
     gap: 10px;
   }
 
-  .auth .right .btn.primary {
+  .auth .right .card .signup-form .btn.primary,
+  .auth .right .card .signin-form .btn.primary,
+  .auth .right .card .forgot-password-form .btn.primary {
     height: 44px;
     font-size: 1rem;
   }
