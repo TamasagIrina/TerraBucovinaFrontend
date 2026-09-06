@@ -37,10 +37,17 @@
 
   <div class="products-grid">
 
-    <div class="filter-bar" *ngIf="categories$ | async as categories">
+    <div class="filter-bar-header">
+      <button type="button" class="filter-toggle-btn" (click)="toggleFilterPanel()">
+        Filtru
+        <span class="filter-badge" *ngIf="activeFilterCount > 0">{{ activeFilterCount }}</span>
+      </button>
+    </div>
+
+    <div class="filter-panel" *ngIf="filterPanelOpen && (categories$ | async) as categories">
       <label class="filter-field">
         <span>Categorie</span>
-        <select [(ngModel)]="filter.categoryId" (ngModelChange)="onFilterChange()">
+        <select [(ngModel)]="filter.categoryId">
           <option [ngValue]="null">Toate</option>
           <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
         </select>
@@ -48,17 +55,17 @@
 
       <label class="filter-field">
         <span>Preț min (RON)</span>
-        <input type="number" min="0" [(ngModel)]="filter.minPrice" (ngModelChange)="onFilterChange()" />
+        <input type="number" min="0" [(ngModel)]="filter.minPrice" />
       </label>
 
       <label class="filter-field">
         <span>Preț max (RON)</span>
-        <input type="number" min="0" [(ngModel)]="filter.maxPrice" (ngModelChange)="onFilterChange()" />
+        <input type="number" min="0" [(ngModel)]="filter.maxPrice" />
       </label>
 
       <label class="filter-field">
         <span>Sortare</span>
-        <select [(ngModel)]="filter.sortBy" (ngModelChange)="onFilterChange()">
+        <select [(ngModel)]="filter.sortBy">
           <option value="default">Implicit</option>
           <option value="price-asc">Preț crescător</option>
           <option value="price-desc">Preț descrescător</option>
@@ -66,7 +73,10 @@
         </select>
       </label>
 
-      <button type="button" class="filter-reset" (click)="resetFilter()">Resetează filtrele</button>
+      <div class="filter-panel-actions">
+        <button type="button" class="filter-reset" (click)="resetFilter()">Resetează filtrele</button>
+        <button type="button" class="filter-apply" (click)="applyFilters()">Vezi produse</button>
+      </div>
     </div>
 
     <div class="grid-wrapper">

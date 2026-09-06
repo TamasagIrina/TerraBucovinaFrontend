@@ -51,6 +51,8 @@ export class ShopComponent {
   readonly defaultFilter: ShopFilter = { categoryId: null, minPrice: null, maxPrice: null, sortBy: 'default' };
   private filterSubject = new BehaviorSubject<ShopFilter>({ ...this.defaultFilter });
   filter: ShopFilter = { ...this.defaultFilter };
+  filterPanelOpen = false;
+  activeFilterCount = 0;
 
   constructor(public store: Store, private router: Router, private authService: AuthService) {
 
@@ -102,13 +104,31 @@ export class ShopComponent {
     return result;
   }
 
-  onFilterChange() {
+  toggleFilterPanel() {
+    this.filterPanelOpen = !this.filterPanelOpen;
+  }
+
+  private countActiveFilters(filter: ShopFilter): number {
+    let count = 0;
+    if (filter.categoryId != null) count++;
+    if (filter.minPrice != null) count++;
+    if (filter.maxPrice != null) count++;
+    if (filter.sortBy !== 'default') count++;
+    return count;
+  }
+
+  /** Applies the filter form's current values and closes the panel back to just the "Filtru" button. */
+  applyFilters() {
+    this.activeFilterCount = this.countActiveFilters(this.filter);
     this.filterSubject.next({ ...this.filter });
+    this.filterPanelOpen = false;
   }
 
   resetFilter() {
     this.filter = { ...this.defaultFilter };
+    this.activeFilterCount = 0;
     this.filterSubject.next({ ...this.filter });
+    this.filterPanelOpen = false;
   }
 
   openedCategories: number[] = [];
