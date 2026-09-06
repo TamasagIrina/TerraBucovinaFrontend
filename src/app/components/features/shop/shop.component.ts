@@ -9,7 +9,8 @@ import { decodeJwt, getExpDate, isExpired, timeLeftMs } from '../../core/service
 import { Store } from '@ngrx/store';
 
 import { ProductsActions } from '../../core/store/products/products.actions';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { selectAllProducts, selectAllProductsWithPrimaryImage, selectProductsByCategory } from '../../core/store/products/products.selectors';
 import { selectAllImages } from '../../core/store/images/images.selectors';
 import { ImagesActions } from '../../core/store/images/images.actions';
@@ -17,7 +18,16 @@ import { Category } from '../../core/interfaces/category.interface';
 import { selectAllCategories } from '../../core/store/categoris/category.selectors';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/authService/auth-sevices.service';
+import { FormsModule } from '@angular/forms';
 
+export type ProductSortOption = 'default' | 'price-asc' | 'price-desc' | 'popularity';
+
+export interface ShopFilter {
+  categoryId: number | null;
+  minPrice: number | null;
+  maxPrice: number | null;
+  sortBy: ProductSortOption;
+}
 
 @Component({
   selector: 'app-shop',
@@ -25,16 +35,22 @@ import { AuthService } from '../../core/services/authService/auth-sevices.servic
     MatIconModule,
     CommonModule,
     ProductCardComponent,
-    AsyncPipe
+    AsyncPipe,
+    FormsModule
   ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
 })
-export class ShopComponent {  
+export class ShopComponent {
   categories$!: Observable<Category[]>;
   products$!: Observable<ProductResponse[]>;
+  filteredProducts$!: Observable<ProductResponse[]>;
   loading$: any;
   error$: any;
+
+  readonly defaultFilter: ShopFilter = { categoryId: null, minPrice: null, maxPrice: null, sortBy: 'default' };
+  private filterSubject = new BehaviorSubject<ShopFilter>({ ...this.defaultFilter });
+  filter: ShopFilter = { ...this.defaultFilter };
 
   constructor(public store: Store, private router: Router, private authService: AuthService) {
 
@@ -45,6 +61,10 @@ export class ShopComponent {
     this.products$ = this.store.select(selectAllProductsWithPrimaryImage);
     this.categories$ = this.store.select(selectAllCategories);
 
+    this.filteredProducts$ = combineLatest([this.products$, this.filterSubject]).pipe(
+      map(([products, filter]) => this.applyFilter(products, filter))
+    );
+
     // Re-fetch including inactive products for admins who logged in without a
     // full page reload (app.component.ts's bootstrap fetch only knows the
     // auth state at initial load).
@@ -52,6 +72,43 @@ export class ShopComponent {
       this.store.dispatch(ProductsActions.loadProducts({ includeInactive: true }));
     }
 
+  }
+
+  private applyFilter(products: ProductResponse[], filter: ShopFilter): ProductResponse[] {
+    let result = products;
+
+    if (filter.categoryId != null) {
+      result = result.filter(p => p.categoryId === filter.categoryId);
+    }
+    if (filter.minPrice != null) {
+      result = result.filter(p => p.price >= filter.minPrice!);
+    }
+    if (filter.maxPrice != null) {
+      result = result.filter(p => p.price <= filter.maxPrice!);
+    }
+
+    switch (filter.sortBy) {
+      case 'price-asc':
+        result = [...result].sort((a, b) => a.price - b.price);
+        break;
+      case 'price-desc':
+        result = [...result].sort((a, b) => b.price - a.price);
+        break;
+      case 'popularity':
+        result = [...result].sort((a, b) => (b.reviews?.length ?? 0) - (a.reviews?.length ?? 0));
+        break;
+    }
+
+    return result;
+  }
+
+  onFilterChange() {
+    this.filterSubject.next({ ...this.filter });
+  }
+
+  resetFilter() {
+    this.filter = { ...this.defaultFilter };
+    this.filterSubject.next({ ...this.filter });
   }
 
   openedCategories: number[] = [];

@@ -55,7 +55,7 @@ export const addPlantFailure = createAction(
 
 export const updatePlant = createAction(
   '[Plants] Update Plant',
-  props<{ plant: Plant }>()
+  props<{ plant: Plant; file?: File | null }>()
 );
 export const updatePlantSuccess = createAction(
   '[Plants] Update Plant Success',

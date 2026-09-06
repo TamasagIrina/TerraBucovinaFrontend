@@ -14,6 +14,10 @@ import { CategoriesActions } from '../../core/store/categoris/category.actions';
 import { selectAllCategories } from '../../core/store/categoris/category.selectors';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../core/services/api-service/api.service';
+import { Image } from '../../core/interfaces/image.interface';
+import { selectImagesByProduct } from '../../core/store/images/images.selectors';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-product',
@@ -45,6 +49,8 @@ export class AddProductComponent {
 
   editMode = false;
   productId: number | null = null;
+
+  existingImages$!: Observable<Image[]>;
 
   private actionsSubscription: Subscription;
 
@@ -105,7 +111,31 @@ export class AddProductComponent {
           categoryId: res.categoryId ?? 0
         };
       });
+
+      this.store.dispatch(ImagesActions.loadImagesByProduct({ productId: this.productId }));
+      this.existingImages$ = this.store.select(selectImagesByProduct(this.productId)).pipe(
+        map(images => [...images].sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0)))
+      );
     }
+  }
+
+  setPrimary(image: Image): void {
+    this.store.dispatch(ImagesActions.setPrimaryImage({ imageId: image.id }));
+  }
+
+  deleteExisting(image: Image): void {
+    if (!confirm('Sigur vrei să ștergi această imagine?')) return;
+    this.store.dispatch(ImagesActions.deleteImage({ imageId: image.id }));
+  }
+
+  moveImage(images: Image[], index: number, direction: -1 | 1): void {
+    const target = index + direction;
+    if (target < 0 || target >= images.length) return;
+
+    const reordered = [...images];
+    [reordered[index], reordered[target]] = [reordered[target], reordered[index]];
+
+    this.store.dispatch(ImagesActions.reorderImages({ orderedImageIds: reordered.map(i => i.id) }));
   }
 
   ngOnDestroy() {

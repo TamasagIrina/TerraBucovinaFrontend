@@ -68,6 +68,37 @@ export const deleteImageFailure = createAction(
   props<{ error: any }>()
 );
 
+export const setPrimaryImage = createAction(
+  '[Images] Set Primary Image',
+  props<{ imageId: number }>()
+);
+
+export const setPrimaryImageSuccess = createAction(
+  '[Images] Set Primary Image Success',
+  props<{ image: Image }>()
+);
+
+export const setPrimaryImageFailure = createAction(
+  '[Images] Set Primary Image Failure',
+  props<{ error: any }>()
+);
+
+
+export const reorderImages = createAction(
+  '[Images] Reorder Images',
+  props<{ orderedImageIds: number[] }>()
+);
+
+export const reorderImagesSuccess = createAction(
+  '[Images] Reorder Images Success',
+  props<{ orderedImageIds: number[] }>()
+);
+
+export const reorderImagesFailure = createAction(
+  '[Images] Reorder Images Failure',
+  props<{ error: any }>()
+);
+
 export const ImagesActions = {
   loadAllImages,
   loadAllImagesSuccess,
@@ -80,5 +111,11 @@ export const ImagesActions = {
   uploadImageFailure,
   deleteImage,
   deleteImageSuccess,
-  deleteImageFailure
+  deleteImageFailure,
+  setPrimaryImage,
+  setPrimaryImageSuccess,
+  setPrimaryImageFailure,
+  reorderImages,
+  reorderImagesSuccess,
+  reorderImagesFailure
 };

@@ -9,6 +9,8 @@ import {DebounceButtonDirective} from '../../core/directives/debounce-button.dir
 import * as PlantsActions from '../../core/store/plants/plants.actions';
 import { selectAllProducts } from '../../core/store/products/products.selectors';
 import { selectAddPlantSuccess } from '../../core/store/plants/plants.selectors';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../../core/services/api-service/api.service';
 
 @Component({
   selector: 'app-add-plants',
@@ -49,7 +51,15 @@ export class AddPlantsComponent {
   previewUrl: string | null = null;
   products!: ProductResponse[];
 
-  constructor(private store: Store) { }
+  editMode = false;
+  plantId: number | null = null;
+
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private router: Router,
+    private apiService: ApiService
+  ) { }
 
   ngOnInit() {
     // Admin-only route (guarded) — always include inactive products so a
@@ -62,10 +72,29 @@ export class AddPlantsComponent {
       });
 
     this.store.select(selectAddPlantSuccess).subscribe(success => {
-      if (success) {
+      if (success && !this.editMode) {
         this.resetFormFields();
       }
     });
+
+    // Edit mode when the route carries an :id — fetch the plant and patch the form.
+    const idParam = this.route.snapshot.paramMap.get('id');
+    if (idParam) {
+      this.editMode = true;
+      this.plantId = Number(idParam);
+
+      this.apiService.getPlantById(this.plantId).subscribe(res => {
+        this.plant = {
+          name: res.name,
+          imageUrl: res.imageUrl,
+          shortDescription: res.shortDescription,
+          longDescription: res.longDescription,
+          plantMessage: res.plantMessage,
+          product: { ...this.plant.product, id: (res as any).productId ?? (res as any).product?.id }
+        };
+        this.previewUrl = res.imageUrl;
+      });
+    }
   }
 
 
@@ -84,6 +113,18 @@ export class AddPlantsComponent {
   }
 
   onSubmit() {
+    if (this.editMode && this.plantId != null) {
+      // A new file is optional on edit — the backend keeps the existing image if none is sent.
+      this.store.dispatch(
+        PlantsActions.updatePlant({
+          plant: { ...this.plant, id: this.plantId },
+          file: this.selectedFile
+        })
+      );
+      this.router.navigate(['/about-plants']);
+      return;
+    }
+
     if (!this.selectedFile) return;
 
     this.store.dispatch(

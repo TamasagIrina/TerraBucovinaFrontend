@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { selectAllPlants } from '../../core/store/plants/plants.selectors';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../core/services/authService/auth-sevices.service';
 
 @Component({
   selector: 'app-about-plants',
@@ -18,8 +19,13 @@ export class AboutPlantsComponent {
 
   constructor(
     private store: Store,
-    private router: Router
+    private router: Router,
+    private authService: AuthService
   ) { }
+
+  get isAdmin(): boolean {
+    return this.authService.isLoggedIn() && this.authService.hasRole('ROLE_ADMIN');
+  }
 
   ngOnInit(): void {
 
@@ -35,6 +41,15 @@ export class AboutPlantsComponent {
 
   goToPlantDetails(id: number) {
     this.router.navigate(['details-plants', id]);
+  }
+
+  onEdit(id: number): void {
+    this.router.navigate(['admin/edit-plant', id]);
+  }
+
+  onDelete(plant: Plant): void {
+    if (!confirm(`Sigur vrei să ștergi planta „${plant.name}"?`)) return;
+    this.store.dispatch(PlantsActions.deletePlant({ id: plant.id }));
   }
 
 }

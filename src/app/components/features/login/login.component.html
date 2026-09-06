@@ -64,7 +64,7 @@
       </form>
 
       <!-- FORMULAR AUTENTIFICARE -->
-      <form class="form signin-form" autocomplete="off">
+      <form class="form signin-form" autocomplete="off" *ngIf="!forgotPasswordMode">
         <h2>Autentificare</h2>
         <div class="field"> <mat-icon class="icon">mail</mat-icon><input #emailInput type="email"
             placeholder="Adresă de e-mail" (input)="resetMessages()" /></div>
@@ -79,9 +79,46 @@
 
         <button type="button" class="btn primary"
           (click)="login(emailInput.value, passwordInput.value)">Autentifică-te</button>
+
+        <p class="switch" *ngIf="loginError">
+          <button type="button" class="link" (click)="forgotPasswordMode = true; resetMessages()">Ai uitat parola?</button>
+        </p>
+
         <p class="switch">
           Nu ai cont?
           <button type="button" class="link" (click)="signup = true; resetMessages()">Creează unul acum</button>
+        </p>
+      </form>
+
+      <!-- FORMULAR PAROLĂ UITATĂ -->
+      <form class="form forgot-password-form" autocomplete="off" *ngIf="forgotPasswordMode">
+        <h2>Parolă uitată</h2>
+        <p class="hint">Introdu adresa de email și parola nouă dorită — îți trimitem un link de confirmare.</p>
+
+        <div class="field"> <mat-icon class="icon">mail</mat-icon><input #fpEmailInput type="email"
+            placeholder="Adresă de e-mail" (input)="resetMessages()" /></div>
+        <div class="field">
+          <mat-icon class="icon">lock</mat-icon>
+          <input #fpNewPasswordInput [type]="showPassword4 ? 'text' : 'password'" placeholder="Parolă nouă"
+            (input)="resetMessages()" />
+          <button type="button" class="toggle-password" (click)="showPassword4 = !showPassword4" tabindex="-1">
+            <mat-icon>{{ showPassword4 ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+        </div>
+        <div class="field">
+          <mat-icon class="icon">lock</mat-icon>
+          <input #fpConfirmPasswordInput [type]="showPassword5 ? 'text' : 'password'" placeholder="Confirmă parola nouă"
+            (input)="resetMessages()" />
+          <button type="button" class="toggle-password" (click)="showPassword5 = !showPassword5" tabindex="-1">
+            <mat-icon>{{ showPassword5 ? 'visibility' : 'visibility_off' }}</mat-icon>
+          </button>
+        </div>
+
+        <button type="button" class="btn primary"
+          (click)="forgotPassword(fpEmailInput.value, fpNewPasswordInput.value, fpConfirmPasswordInput.value)">Trimite link de confirmare</button>
+
+        <p class="switch">
+          <button type="button" class="link" (click)="forgotPasswordMode = false; resetMessages()">Înapoi la autentificare</button>
         </p>
       </form>
     </div>

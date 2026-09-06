@@ -64,6 +64,31 @@
       <input type="number" id="stockQty" name="stockQty" [(ngModel)]="product.stockQty" required />
     </div>
 
+    <div class="form-group images-existing-section" *ngIf="editMode">
+      <ng-container *ngIf="existingImages$ | async as existingImages">
+        <label class="image-label" *ngIf="existingImages.length > 0">Imagini existente</label>
+        <div class="images-preview">
+          <div class="image-item" *ngFor="let img of existingImages; let i = index">
+            <img [src]="img.imageUrl" [alt]="'Imagine existentă ' + (i + 1)" />
+
+            <div class="radio-holder">
+              <label>
+                <input type="radio" name="existingPrimaryRadio" [checked]="img.isPrimary" (change)="setPrimary(img)" />
+                Poză principală
+              </label>
+            </div>
+
+            <div class="reorder-buttons">
+              <button type="button" (click)="moveImage(existingImages, i, -1)" [disabled]="i === 0">↑</button>
+              <button type="button" (click)="moveImage(existingImages, i, 1)" [disabled]="i === existingImages.length - 1">↓</button>
+            </div>
+
+            <button type="button" class="remove-btn" (click)="deleteExisting(img)">×</button>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
     <div class="form-group images-upload-section">
       <label class="image-label" for="images">Încarcă imagini (poţi adăuga mai multe)</label>
       <input type="file" id="images" #imageInput (change)="onImagesSelected($event)" multiple accept="image/*"

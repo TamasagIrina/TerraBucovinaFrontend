@@ -1,7 +1,7 @@
 <div class="add-plant-container">
     <form  #plantForm="ngForm">
 
-        <h2>Adaugă Plantă Nouă</h2>
+        <h2>{{ editMode ? 'Editează Planta' : 'Adaugă Plantă Nouă' }}</h2>
 
         <div class="form-group">
             <label>Nume</label>
@@ -39,7 +39,7 @@
             </select>
         </div>
 
-        <button type="button" appDebounceButton (debounceClick)="onSubmit()" >Trimite</button>
+        <button type="button" appDebounceButton (debounceClick)="onSubmit()">{{ editMode ? 'Salvează' : 'Trimite' }}</button>
 
     </form>
 </div>

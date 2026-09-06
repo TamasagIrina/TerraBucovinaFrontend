@@ -34,6 +34,7 @@ export const routes: Routes = [
     { path: 'admin/see-all-orders', component: SeeAllOredersComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/order-details/:id', component: OrderDetailsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/add-plant', component: AddPlantsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
+    { path: 'admin/edit-plant/:id', component: AddPlantsComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/add-category', component: AddCategoryComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'admin/see-all-contact-us-mesages', component: SeeAllContactUsMessagesComponent, canActivate: [authGuard], data: { roles: ['ROLE_ADMIN'] } },
     { path: 'user/see-orders', component: UserSeeOrdersComponent, canActivate: [authGuard], data: { roles: ['ROLE_USER'] } },

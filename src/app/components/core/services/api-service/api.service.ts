@@ -75,6 +75,16 @@ export class ApiService {
   deleteImage(imageId: number) {
     return this.http.delete<void>(`${this.baseUrl}/products/images/delete/${imageId}`);
   }
+
+  setPrimaryImage(imageId: number): Observable<Image> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<Image>(`${this.baseUrl}/products/images/admin/set-primary/${imageId}`, null, { context });
+  }
+
+  reorderImages(orderedImageIds: number[]): Observable<void> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.put<void>(`${this.baseUrl}/products/images/admin/reorder`, orderedImageIds, { context });
+  }
   uploadImage({ productId, file, altText, sortOrder, isPrimary }: {
     productId: number; file: File;
     altText?: string | null; sortOrder?: number | null; isPrimary?: boolean | null;
@@ -97,11 +107,11 @@ export class ApiService {
   }
 
   getPlantById(id: number): Observable<Plant> {
-    return this.http.get<Plant>(`${this.baseUrl}/getById/${id}`);
+    return this.http.get<Plant>(`${this.baseUrl}/products/plants/getById/${id}`);
   }
 
   getPlantByProductId(productId: number): Observable<Plant[]> {
-    return this.http.get<Plant[]>(`${this.baseUrl}/getByProductId/${productId}`);
+    return this.http.get<Plant[]>(`${this.baseUrl}/products/plants/getByProductId/${productId}`);
   }
 
   addPlant(plant: any, file: File): Observable<Plant> {
@@ -127,8 +137,33 @@ export class ApiService {
   }
 
 
+  updatePlant(id: number, plant: any, file: File | null): Observable<Plant> {
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    const formData = new FormData();
+
+    const dto = {
+      name: plant.name,
+      shortDescription: plant.shortDescription,
+      longDescription: plant.longDescription,
+      plantMessage: plant.plantMessage,
+      productId: plant.product.id
+    };
+
+    formData.append(
+      "plant",
+      new Blob([JSON.stringify(dto)], { type: "application/json" })
+    );
+
+    if (file) {
+      formData.append("file", file);
+    }
+
+    return this.http.put<Plant>(`${this.baseUrl}/products/plants/admin/update/${id}`, formData, { context });
+  }
+
   deletePlant(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
+    const context = new HttpContext().set(REQUIRES_AUTH, true);
+    return this.http.delete<void>(`${this.baseUrl}/products/plants/admin/delete/${id}`, { context });
   }
 
   addOrder(order: Order): Observable<any> {

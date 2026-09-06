@@ -45,6 +45,10 @@ export class AuthService {
     return this.http.post<string>(`${this.baseUrl}/api/auth/register`, { username, password, email, termsAccepted }, { responseType: 'text' as 'json' });
   }
 
+  forgotPassword(email: string, newPassword: string) {
+    return this.http.post<string>(`${this.baseUrl}/api/auth/forgot-password`, { email, newPassword }, { responseType: 'text' as 'json' });
+  }
+
   saveToken(token: string) {
     // Persist the token in a cookie whose lifetime matches the JWT's exp claim.
     this.setCookie(this.KEY, token, getExpDate(token));

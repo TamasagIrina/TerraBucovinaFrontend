@@ -62,5 +62,29 @@ export class ImagesEffects {
     )
   );
 
+  setPrimary$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ImagesActions.setPrimaryImage),
+      mergeMap(({ imageId }) =>
+        this.apiService.setPrimaryImage(imageId).pipe(
+          map(image => ImagesActions.setPrimaryImageSuccess({ image })),
+          catchError(error => of(ImagesActions.setPrimaryImageFailure({ error })))
+        )
+      )
+    )
+  );
+
+  reorder$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ImagesActions.reorderImages),
+      mergeMap(({ orderedImageIds }) =>
+        this.apiService.reorderImages(orderedImageIds).pipe(
+          map(() => ImagesActions.reorderImagesSuccess({ orderedImageIds })),
+          catchError(error => of(ImagesActions.reorderImagesFailure({ error })))
+        )
+      )
+    )
+  );
+
 
 }

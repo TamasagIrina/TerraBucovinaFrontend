@@ -16,9 +16,12 @@ import {DebounceButtonDirective} from '../../core/directives/debounce-button.dir
 })
 export class LoginComponent {
   signup = false;
+  forgotPasswordMode = false;
   showPassword1 = false;
   showPassword2 = false;
   showPassword3 = false;
+  showPassword4 = false;
+  showPassword5 = false;
 
   signupForm: FormGroup;
   signinForm: FormGroup;
@@ -142,6 +145,8 @@ export class LoginComponent {
   }
 
   login(email: string, password: string) {
+    this.loginError = false;
+
     if (!email || !password) {
       this.store.dispatch(
         NotificationActions.showNotification({
@@ -160,6 +165,7 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe({
       next: (res) => {
         if (res === "Invalid username or password") {
+          this.loginError = true;
           this.store.dispatch(
             NotificationActions.showNotification({
               message: 'Parola sau email incorect!',
@@ -186,6 +192,7 @@ export class LoginComponent {
 
 
         if (err.status === 401 || err.status === 403) {
+          this.loginError = true;
           this.store.dispatch(
             NotificationActions.showNotification({
               message: 'Parola sau email incorect!',
@@ -225,7 +232,54 @@ export class LoginComponent {
     });
   }
 
+  forgotPassword(email: string, newPassword: string, confirmPassword: string) {
+    if (!email || !newPassword || !confirmPassword) {
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Te rugăm să completezi toate câmpurile.',
+          notificationType: 'error',
+        })
+      );
+      setTimeout(() => this.store.dispatch(NotificationActions.hideNotification()), 3000);
+      return;
+    }
 
+    if (newPassword !== confirmPassword) {
+      this.store.dispatch(
+        NotificationActions.showNotification({
+          message: 'Parolele nu se potrivesc.',
+          notificationType: 'error',
+        })
+      );
+      setTimeout(() => this.store.dispatch(NotificationActions.hideNotification()), 3000);
+      return;
+    }
+
+    this.authService.forgotPassword(email, newPassword).subscribe({
+      next: () => {
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'Verifică-ți email-ul pentru a confirma noua parolă.',
+            notificationType: 'success',
+          })
+        );
+        setTimeout(() => {
+          this.forgotPasswordMode = false;
+          this.loginError = false;
+          this.store.dispatch(NotificationActions.hideNotification());
+        }, 4000);
+      },
+      error: () => {
+        this.store.dispatch(
+          NotificationActions.showNotification({
+            message: 'A apărut o eroare. Încearcă din nou.',
+            notificationType: 'error',
+          })
+        );
+        setTimeout(() => this.store.dispatch(NotificationActions.hideNotification()), 3000);
+      }
+    });
+  }
 
 
 

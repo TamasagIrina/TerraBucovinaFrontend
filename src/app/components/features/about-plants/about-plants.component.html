@@ -16,7 +16,7 @@
 
 
 
-<!-- <div class="plants-grid">
+<div class="plants-grid">
 
   <div class="plant-card" *ngFor="let plant of (plants$ | async)">
 
@@ -30,7 +30,12 @@
       </button>
     </div>
 
+    <div class="admin-buttons" *ngIf="isAdmin">
+      <button type="button" class="editBtn" (click)="onEdit(plant.id)">Editează</button>
+      <button type="button" class="deleteBtn" (click)="onDelete(plant)">Șterge</button>
+    </div>
+
   </div>
 
-</div> -->
+</div>
 

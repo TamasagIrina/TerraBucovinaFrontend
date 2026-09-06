@@ -281,6 +281,55 @@
   width: 100%;
   min-width: 0;
 
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.85rem;
+      color: #444;
+
+      select, input {
+        padding: 0.5rem 0.7rem;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 0.9rem;
+        min-width: 120px;
+
+        &:focus {
+          border-color: #16a34a;
+          outline: none;
+        }
+      }
+    }
+
+    .filter-reset {
+      padding: 0.55rem 1rem;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #444;
+
+      &:hover {
+        border-color: #16a34a;
+        color: #16a34a;
+      }
+    }
+  }
+
   .grid-wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

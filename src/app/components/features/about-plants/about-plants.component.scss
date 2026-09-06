@@ -77,6 +77,38 @@
         display: block;
     }
 
+    .admin-buttons {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 2;
+        display: flex;
+        gap: 0.5rem;
+        padding: 0.6rem;
+        background: rgba(0, 0, 0, 0.55);
+
+        button {
+            flex: 1;
+            padding: 0.4rem 0;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .editBtn {
+            background: #fff;
+            color: #16a34a;
+        }
+
+        .deleteBtn {
+            background: #e74c3c;
+            color: #fff;
+        }
+    }
+
     .overlay {
         position: absolute;
         inset: 0;

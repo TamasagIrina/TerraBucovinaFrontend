@@ -61,6 +61,18 @@ export class PlantsEffects {
 
 
 
+  update$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PlantsActions.updatePlant),
+      mergeMap(({ plant, file }) =>
+        this.service.updatePlant(plant.id, plant, file ?? null).pipe(
+          map(updated => PlantsActions.updatePlantSuccess({ plant: updated })),
+          catchError(error => of(PlantsActions.updatePlantFailure({ error })))
+        )
+      )
+    )
+  );
+
   delete$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PlantsActions.deletePlant),

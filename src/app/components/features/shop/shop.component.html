@@ -36,8 +36,41 @@
   </aside>
 
   <div class="products-grid">
+
+    <div class="filter-bar" *ngIf="categories$ | async as categories">
+      <label class="filter-field">
+        <span>Categorie</span>
+        <select [(ngModel)]="filter.categoryId" (ngModelChange)="onFilterChange()">
+          <option [ngValue]="null">Toate</option>
+          <option *ngFor="let cat of categories" [ngValue]="cat.id">{{ cat.name }}</option>
+        </select>
+      </label>
+
+      <label class="filter-field">
+        <span>Preț min (RON)</span>
+        <input type="number" min="0" [(ngModel)]="filter.minPrice" (ngModelChange)="onFilterChange()" />
+      </label>
+
+      <label class="filter-field">
+        <span>Preț max (RON)</span>
+        <input type="number" min="0" [(ngModel)]="filter.maxPrice" (ngModelChange)="onFilterChange()" />
+      </label>
+
+      <label class="filter-field">
+        <span>Sortare</span>
+        <select [(ngModel)]="filter.sortBy" (ngModelChange)="onFilterChange()">
+          <option value="default">Implicit</option>
+          <option value="price-asc">Preț crescător</option>
+          <option value="price-desc">Preț descrescător</option>
+          <option value="popularity">Popularitate</option>
+        </select>
+      </label>
+
+      <button type="button" class="filter-reset" (click)="resetFilter()">Resetează filtrele</button>
+    </div>
+
     <div class="grid-wrapper">
-      <div *ngFor="let p of products$ | async" class="grid-item">
+      <div *ngFor="let p of filteredProducts$ | async" class="grid-item">
         <app-product-card [product]="p"></app-product-card>
       </div>
     </div>

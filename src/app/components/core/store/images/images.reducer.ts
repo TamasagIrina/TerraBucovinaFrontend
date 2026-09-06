@@ -88,4 +88,43 @@ on(ImagesActions.loadAllImages, (state) => ({
     error
   })),
 
+
+  on(ImagesActions.setPrimaryImage, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(ImagesActions.setPrimaryImageSuccess, (state, { image }) => ({
+    ...state,
+    loading: false,
+    images: state.images.map(i =>
+      i.productId === image.productId ? { ...i, isPrimary: i.id === image.id } : i
+    )
+  })),
+  on(ImagesActions.setPrimaryImageFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
+
+  on(ImagesActions.reorderImages, (state) => ({
+    ...state,
+    loading: true,
+    error: null
+  })),
+  on(ImagesActions.reorderImagesSuccess, (state, { orderedImageIds }) => ({
+    ...state,
+    loading: false,
+    images: state.images.map(i => {
+      const newIndex = orderedImageIds.indexOf(i.id);
+      return newIndex === -1 ? i : { ...i, sortOrder: newIndex };
+    })
+  })),
+  on(ImagesActions.reorderImagesFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error
+  })),
+
 );
